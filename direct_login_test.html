@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Direct Login Test</title>
+</head>
+<body>
+    <h1>Direct Login Test</h1>
+    <p>This will test login directly without any complex JavaScript.</p>
+    
+    <div id="result"></div>
+    
+    <script>
+        // Test login immediately when page loads
+        window.onload = function() {
+            console.log('Starting direct login test...');
+            
+            fetch('/api/auth/login/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    username: 'logintest',
+                    password: 'password123'
+                })
+            })
+            .then(response => {
+                console.log('Response status:', response.status);
+                return response.json();
+            })
+            .then(data => {
+                console.log('Response data:', data);
+                
+                if (data.tokens && data.tokens.access) {
+                    // Success!
+                    localStorage.setItem('access_token', data.tokens.access);
+                    localStorage.setItem('refresh_token', data.tokens.refresh);
+                    localStorage.setItem('user_data', JSON.stringify(data.user));
+                    
+                    document.getElementById('result').innerHTML = `
+                        <h2 style="color: green;">LOGIN SUCCESS!</h2>
+                        <p>User: ${data.user.username}</p>
+                        <p>Company: ${data.user.company.name}</p>
+                        <p><a href="/dashboard/">Go to Dashboard</a></p>
+                    `;
+                } else {
+                    document.getElementById('result').innerHTML = `
+                        <h2 style="color: red;">LOGIN FAILED</h2>
+                        <p>Error: ${JSON.stringify(data)}</p>
+                    `;
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('result').innerHTML = `
+                    <h2 style="color: red;">NETWORK ERROR</h2>
+                    <p>Error: ${error.message}</p>
+                `;
+            });
+        };
+    </script>
+</body>
+</html>

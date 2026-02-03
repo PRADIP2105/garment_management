@@ -1,0 +1,323 @@
+{% extends 'base.html' %}
+
+{% block title %}Stock Management - Garment Management System{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2><i class="fas fa-warehouse"></i> Stock Management</h2>
+    <div>
+        <button class="btn btn-info me-2" onclick="refreshStock()">
+            <i class="fas fa-sync-alt"></i> Refresh
+        </button>
+        <button class="btn btn-warning" onclick="showLowStock()">
+            <i class="fas fa-exclamation-triangle"></i> Low Stock
+        </button>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h5><i class="fas fa-boxes"></i> Current Stock</h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-striped" id="stockTable">
+                        <thead>
+                            <tr>
+                                <th>Material</th>
+                                <th>Current Quantity</th>
+                                <th>Unit</th>
+                                <th>Status</th>
+                                <th>Last Updated</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td colspan="5" class="text-center">Loading stock...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <h5><i class="fas fa-chart-pie"></i> Stock Summary</h5>
+            </div>
+            <div class="card-body">
+                <div id="stockSummary">
+                    <div class="text-center">
+                        <div class="spinner-border spinner-border-sm" role="status"></div>
+                        <p class="mt-2">Loading summary...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card mt-3">
+            <div class="card-header">
+                <h5><i class="fas fa-exclamation-triangle text-warning"></i> Low Stock Alert</h5>
+            </div>
+            <div class="card-body">
+                <div id="lowStockAlert">
+                    <div class="text-center">
+                        <div class="spinner-border spinner-border-sm" role="status"></div>
+                        <p class="mt-2">Checking stock levels...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5><i class="fas fa-history"></i> Recent Stock Transactions</h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-sm" id="ledgerTable">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Material</th>
+                                <th>Transaction</th>
+                                <th>Quantity</th>
+                                <th>Balance</th>
+                                <th>Reference</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td colspan="6" class="text-center">Loading transactions...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+let currentStock = [];
+let stockLedger = [];
+let lowStockItems = [];
+
+async function loadData() {
+    const token = localStorage.getItem('access_token');
+    if (!token) {
+        window.location.href = '/login/';
+        return;
+    }
+    
+    try {
+        // Load current stock
+        const stockResponse = await fetch('/api/stock/current/', {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+        if (stockResponse.ok) {
+            const stockData = await stockResponse.json();
+            currentStock = stockData.results || [];
+            renderStock();
+            renderStockSummary();
+        }
+        
+        // Load low stock items
+        const lowStockResponse = await fetch('/api/stock/current/low_stock/', {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+        if (lowStockResponse.ok) {
+            lowStockItems = await lowStockResponse.json();
+            renderLowStockAlert();
+        }
+        
+        // Load stock ledger
+        const ledgerResponse = await fetch('/api/stock/ledger/?ordering=-transaction_date', {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+        if (ledgerResponse.ok) {
+            const ledgerData = await ledgerResponse.json();
+            stockLedger = ledgerData.results || [];
+            renderLedger();
+        }
+        
+    } catch (error) {
+        console.error('Error loading data:', error);
+    }
+}
+
+function renderStock() {
+    const tbody = document.querySelector('#stockTable tbody');
+    
+    if (currentStock.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="5" class="text-center">No stock records found</td></tr>';
+        return;
+    }
+    
+    tbody.innerHTML = currentStock.map(stock => `
+        <tr>
+            <td>
+                <strong>${stock.material_name}</strong>
+                <br><small class="text-muted">${stock.material_description || ''}</small>
+            </td>
+            <td>
+                <span class="fs-5 ${stock.current_quantity < 10 ? 'text-danger' : 'text-success'}">
+                    ${stock.current_quantity}
+                </span>
+            </td>
+            <td>${stock.material_unit}</td>
+            <td>
+                ${stock.current_quantity < 10 ? 
+                    '<span class="badge bg-danger">Low Stock</span>' : 
+                    stock.current_quantity < 50 ? 
+                        '<span class="badge bg-warning">Medium</span>' : 
+                        '<span class="badge bg-success">Good</span>'
+                }
+            </td>
+            <td>${new Date(stock.last_updated).toLocaleDateString()}</td>
+        </tr>
+    `).join('');
+}
+
+function renderStockSummary() {
+    const totalItems = currentStock.length;
+    const lowStockCount = currentStock.filter(s => s.current_quantity < 10).length;
+    const mediumStockCount = currentStock.filter(s => s.current_quantity >= 10 && s.current_quantity < 50).length;
+    const goodStockCount = currentStock.filter(s => s.current_quantity >= 50).length;
+    
+    document.getElementById('stockSummary').innerHTML = `
+        <div class="row text-center">
+            <div class="col-6">
+                <div class="border-end">
+                    <h4 class="text-primary">${totalItems}</h4>
+                    <small>Total Items</small>
+                </div>
+            </div>
+            <div class="col-6">
+                <h4 class="text-danger">${lowStockCount}</h4>
+                <small>Low Stock</small>
+            </div>
+        </div>
+        <hr>
+        <div class="row text-center">
+            <div class="col-6">
+                <div class="border-end">
+                    <h5 class="text-warning">${mediumStockCount}</h5>
+                    <small>Medium Stock</small>
+                </div>
+            </div>
+            <div class="col-6">
+                <h5 class="text-success">${goodStockCount}</h5>
+                <small>Good Stock</small>
+            </div>
+        </div>
+    `;
+}
+
+function renderLowStockAlert() {
+    const container = document.getElementById('lowStockAlert');
+    
+    if (lowStockItems.length === 0) {
+        container.innerHTML = '<p class="text-success"><i class="fas fa-check-circle"></i> All items have sufficient stock</p>';
+        return;
+    }
+    
+    container.innerHTML = `
+        <div class="alert alert-warning p-2 mb-2">
+            <strong>${lowStockItems.length}</strong> items are running low!
+        </div>
+        ${lowStockItems.slice(0, 5).map(item => `
+            <div class="d-flex justify-content-between align-items-center mb-1">
+                <small>${item.material_name}</small>
+                <span class="badge bg-danger">${item.current_quantity} ${item.material_unit}</span>
+            </div>
+        `).join('')}
+        ${lowStockItems.length > 5 ? `<small class="text-muted">... and ${lowStockItems.length - 5} more</small>` : ''}
+    `;
+}
+
+function renderLedger() {
+    const tbody = document.querySelector('#ledgerTable tbody');
+    
+    if (stockLedger.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="6" class="text-center">No transactions found</td></tr>';
+        return;
+    }
+    
+    tbody.innerHTML = stockLedger.slice(0, 20).map(entry => `
+        <tr>
+            <td>${new Date(entry.transaction_date).toLocaleDateString()}</td>
+            <td>${entry.material_name}</td>
+            <td>
+                <span class="badge ${getTransactionBadgeClass(entry.transaction_type)}">
+                    ${entry.transaction_type.toUpperCase()}
+                </span>
+            </td>
+            <td>
+                <span class="${entry.transaction_type === 'issued' || entry.transaction_type === 'wastage' ? 'text-danger' : 'text-success'}">
+                    ${entry.transaction_type === 'issued' || entry.transaction_type === 'wastage' ? '-' : '+'}${entry.quantity} ${entry.material_unit}
+                </span>
+            </td>
+            <td>${entry.balance_quantity} ${entry.material_unit}</td>
+            <td><small>${entry.reference_type}</small></td>
+        </tr>
+    `).join('');
+}
+
+function getTransactionBadgeClass(type) {
+    switch(type) {
+        case 'inward': return 'bg-success';
+        case 'issued': return 'bg-warning';
+        case 'returned': return 'bg-info';
+        case 'wastage': return 'bg-danger';
+        default: return 'bg-secondary';
+    }
+}
+
+function refreshStock() {
+    loadData();
+    showSuccess('Stock data refreshed!');
+}
+
+function showLowStock() {
+    if (lowStockItems.length === 0) {
+        alert('No low stock items found!');
+        return;
+    }
+    
+    const lowStockList = lowStockItems.map(item => 
+        `${item.material_name}: ${item.current_quantity} ${item.material_unit}`
+    ).join('\n');
+    
+    alert(`Low Stock Items (${lowStockItems.length}):\n\n${lowStockList}`);
+}
+
+function showSuccess(message) {
+    const alertDiv = document.createElement('div');
+    alertDiv.className = 'alert alert-success alert-dismissible fade show';
+    alertDiv.innerHTML = `
+        <i class="fas fa-check-circle"></i> ${message}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    `;
+    document.querySelector('.container').insertBefore(alertDiv, document.querySelector('.row'));
+    
+    setTimeout(() => {
+        if (alertDiv.parentNode) {
+            alertDiv.remove();
+        }
+    }, 3000);
+}
+
+// Load data on page load
+document.addEventListener('DOMContentLoaded', loadData);
+</script>
+{% endblock %}

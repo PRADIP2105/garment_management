@@ -1,0 +1,247 @@
+{% extends 'base.html' %}
+
+{% block title %}Workers - Garment Management System{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2><i class="fas fa-users"></i> Workers</h2>
+    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addWorkerModal">
+        <i class="fas fa-plus"></i> Add Worker
+    </button>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-striped" id="workersTable">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Mobile</th>
+                        <th>City</th>
+                        <th>Skill</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td colspan="6" class="text-center">Loading workers...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Add Worker Modal -->
+<div class="modal fade" id="addWorkerModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add New Worker</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="addWorkerForm">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Name *</label>
+                        <input type="text" class="form-control" id="name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="mobile_number" class="form-label">Mobile Number *</label>
+                        <input type="text" class="form-control" id="mobile_number" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="address" class="form-label">Address *</label>
+                        <textarea class="form-control" id="address" rows="3" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="city" class="form-label">City *</label>
+                        <input type="text" class="form-control" id="city" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="skill_type" class="form-label">Skill Type *</label>
+                        <select class="form-control" id="skill_type" required>
+                            <option value="">Select Skill</option>
+                            <option value="stitching">Stitching</option>
+                            <option value="button">Button</option>
+                            <option value="collar">Collar</option>
+                            <option value="color">Color</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="machine_type" class="form-label">Machine Type</label>
+                        <input type="text" class="form-control" id="machine_type">
+                    </div>
+                    <div class="mb-3">
+                        <label for="language_preference" class="form-label">Language Preference</label>
+                        <select class="form-control" id="language_preference">
+                            <option value="en">English</option>
+                            <option value="gu">Gujarati</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" onclick="addWorker()">Add Worker</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+let workers = [];
+
+async function loadWorkers() {
+    const token = localStorage.getItem('access_token');
+    if (!token) {
+        window.location.href = '/login/';
+        return;
+    }
+    
+    try {
+        const response = await fetch('/api/workers/', {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        
+        if (response.ok) {
+            const data = await response.json();
+            workers = data.results || [];
+            renderWorkers();
+        } else if (response.status === 401) {
+            localStorage.clear();
+            window.location.href = '/login/';
+        }
+    } catch (error) {
+        console.error('Error loading workers:', error);
+    }
+}
+
+function renderWorkers() {
+    const tbody = document.querySelector('#workersTable tbody');
+    
+    if (workers.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="6" class="text-center">No workers found</td></tr>';
+        return;
+    }
+    
+    tbody.innerHTML = workers.map(worker => `
+        <tr>
+            <td>${worker.name}</td>
+            <td>${worker.mobile_number}</td>
+            <td>${worker.city}</td>
+            <td><span class="badge bg-info">${worker.skill_type}</span></td>
+            <td>
+                <span class="badge ${worker.status ? 'bg-success' : 'bg-danger'}">
+                    ${worker.status ? 'Active' : 'Inactive'}
+                </span>
+            </td>
+            <td>
+                <button class="btn btn-sm btn-outline-primary" onclick="editWorker(${worker.id})">
+                    <i class="fas fa-edit"></i>
+                </button>
+                <button class="btn btn-sm btn-outline-danger" onclick="deleteWorker(${worker.id})">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </td>
+        </tr>
+    `).join('');
+}
+
+async function addWorker() {
+    const token = localStorage.getItem('access_token');
+    
+    const formData = {
+        name: document.getElementById('name').value,
+        mobile_number: document.getElementById('mobile_number').value,
+        address: document.getElementById('address').value,
+        city: document.getElementById('city').value,
+        skill_type: document.getElementById('skill_type').value,
+        machine_type: document.getElementById('machine_type').value,
+        language_preference: document.getElementById('language_preference').value,
+        status: true
+    };
+    
+    try {
+        const response = await fetch('/api/workers/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(formData)
+        });
+        
+        if (response.ok) {
+            const modal = bootstrap.Modal.getInstance(document.getElementById('addWorkerModal'));
+            modal.hide();
+            document.getElementById('addWorkerForm').reset();
+            loadWorkers();
+            
+            // Show success message
+            const alertDiv = document.createElement('div');
+            alertDiv.className = 'alert alert-success alert-dismissible fade show';
+            alertDiv.innerHTML = `
+                <i class="fas fa-check-circle"></i> Worker added successfully!
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            `;
+            document.querySelector('.container').insertBefore(alertDiv, document.querySelector('.card'));
+            
+            // Auto-dismiss after 3 seconds
+            setTimeout(() => {
+                if (alertDiv.parentNode) {
+                    alertDiv.remove();
+                }
+            }, 3000);
+        } else {
+            const errorData = await response.json();
+            console.error('Worker creation error:', errorData);
+            alert('Error adding worker: ' + JSON.stringify(errorData));
+        }
+    } catch (error) {
+        console.error('Network error:', error);
+        alert('Network error: ' + error.message);
+    }
+}
+
+function editWorker(id) {
+    // TODO: Implement edit functionality
+    alert('Edit functionality coming soon!');
+}
+
+async function deleteWorker(id) {
+    if (!confirm('Are you sure you want to delete this worker?')) {
+        return;
+    }
+    
+    const token = localStorage.getItem('access_token');
+    
+    try {
+        const response = await fetch(`/api/workers/${id}/`, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        
+        if (response.ok) {
+            loadWorkers();
+            alert('Worker deleted successfully!');
+        } else {
+            alert('Error deleting worker');
+        }
+    } catch (error) {
+        alert('Error: ' + error.message);
+    }
+}
+
+// Load workers on page load
+document.addEventListener('DOMContentLoaded', loadWorkers);
+</script>
+{% endblock %}

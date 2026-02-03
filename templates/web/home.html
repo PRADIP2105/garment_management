@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block title %}Home - Garment Management System{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="jumbotron bg-light p-5 rounded">
+            <h1 class="display-4">Garment Work & Material Management System</h1>
+            <p class="lead">Streamline your garment production workflow with our comprehensive management system.</p>
+            <hr class="my-4">
+            <p>Manage workers, suppliers, materials, and track production efficiently.</p>
+            <div class="mt-4" id="authButtons">
+                <a class="btn btn-primary btn-lg me-3" href="/login/" role="button">
+                    <i class="fas fa-sign-in-alt"></i> Login
+                </a>
+                <a class="btn btn-outline-primary btn-lg" href="/register/" role="button">
+                    <i class="fas fa-user-plus"></i> Register New Company
+                </a>
+            </div>
+            <div class="mt-4" id="dashboardButton" style="display: none;">
+                <a class="btn btn-success btn-lg" href="/dashboard/" role="button">
+                    <i class="fas fa-tachometer-alt"></i> Go to Dashboard
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-5">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body text-center">
+                <i class="fas fa-users fa-3x text-primary mb-3"></i>
+                <h5 class="card-title">Worker Management</h5>
+                <p class="card-text">Manage worker details, skills, and assignments efficiently.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body text-center">
+                <i class="fas fa-boxes fa-3x text-success mb-3"></i>
+                <h5 class="card-title">Material Tracking</h5>
+                <p class="card-text">Track raw materials, stock levels, and distribution.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body text-center">
+                <i class="fas fa-tasks fa-3x text-info mb-3"></i>
+                <h5 class="card-title">Work Distribution</h5>
+                <p class="card-text">Distribute work to workers and track completion status.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Check if user is already logged in
+    const token = localStorage.getItem('access_token');
+    if (token) {
+        document.getElementById('authButtons').style.display = 'none';
+        document.getElementById('dashboardButton').style.display = 'block';
+    }
+});
+</script>
+{% endblock %}

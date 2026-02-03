@@ -1,0 +1,1 @@
+# Web frontend uses API endpoints

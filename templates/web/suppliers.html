@@ -1,0 +1,214 @@
+{% extends 'base.html' %}
+
+{% block title %}Suppliers - Garment Management System{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2><i class="fas fa-truck"></i> Suppliers</h2>
+    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addSupplierModal">
+        <i class="fas fa-plus"></i> Add Supplier
+    </button>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-striped" id="suppliersTable">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Mobile</th>
+                        <th>City</th>
+                        <th>Address</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td colspan="5" class="text-center">Loading suppliers...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Add Supplier Modal -->
+<div class="modal fade" id="addSupplierModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add New Supplier</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="addSupplierForm">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Name *</label>
+                        <input type="text" class="form-control" id="name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="mobile_number" class="form-label">Mobile Number *</label>
+                        <input type="text" class="form-control" id="mobile_number" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="address" class="form-label">Address *</label>
+                        <textarea class="form-control" id="address" rows="3" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="city" class="form-label">City *</label>
+                        <input type="text" class="form-control" id="city" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" onclick="addSupplier()">Add Supplier</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+let suppliers = [];
+
+async function loadSuppliers() {
+    const token = localStorage.getItem('access_token');
+    if (!token) {
+        window.location.href = '/login/';
+        return;
+    }
+    
+    try {
+        const response = await fetch('/api/suppliers/', {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        
+        if (response.ok) {
+            const data = await response.json();
+            suppliers = data.results || [];
+            renderSuppliers();
+        } else if (response.status === 401) {
+            localStorage.clear();
+            window.location.href = '/login/';
+        }
+    } catch (error) {
+        console.error('Error loading suppliers:', error);
+    }
+}
+
+function renderSuppliers() {
+    const tbody = document.querySelector('#suppliersTable tbody');
+    
+    if (suppliers.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="5" class="text-center">No suppliers found</td></tr>';
+        return;
+    }
+    
+    tbody.innerHTML = suppliers.map(supplier => `
+        <tr>
+            <td>${supplier.name}</td>
+            <td>${supplier.mobile_number}</td>
+            <td>${supplier.city}</td>
+            <td>${supplier.address}</td>
+            <td>
+                <button class="btn btn-sm btn-outline-primary" onclick="editSupplier(${supplier.id})">
+                    <i class="fas fa-edit"></i>
+                </button>
+                <button class="btn btn-sm btn-outline-danger" onclick="deleteSupplier(${supplier.id})">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </td>
+        </tr>
+    `).join('');
+}
+
+async function addSupplier() {
+    const token = localStorage.getItem('access_token');
+    
+    const formData = {
+        name: document.getElementById('name').value,
+        mobile_number: document.getElementById('mobile_number').value,
+        address: document.getElementById('address').value,
+        city: document.getElementById('city').value
+    };
+    
+    try {
+        const response = await fetch('/api/suppliers/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(formData)
+        });
+        
+        if (response.ok) {
+            const modal = bootstrap.Modal.getInstance(document.getElementById('addSupplierModal'));
+            modal.hide();
+            document.getElementById('addSupplierForm').reset();
+            loadSuppliers();
+            
+            // Show success message
+            const alertDiv = document.createElement('div');
+            alertDiv.className = 'alert alert-success alert-dismissible fade show';
+            alertDiv.innerHTML = `
+                <i class="fas fa-check-circle"></i> Supplier added successfully!
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            `;
+            document.querySelector('.container').insertBefore(alertDiv, document.querySelector('.card'));
+            
+            setTimeout(() => {
+                if (alertDiv.parentNode) {
+                    alertDiv.remove();
+                }
+            }, 3000);
+        } else {
+            const errorData = await response.json();
+            console.error('Supplier creation error:', errorData);
+            alert('Error adding supplier: ' + JSON.stringify(errorData));
+        }
+    } catch (error) {
+        console.error('Network error:', error);
+        alert('Network error: ' + error.message);
+    }
+}
+
+function editSupplier(id) {
+    alert('Edit functionality coming soon!');
+}
+
+async function deleteSupplier(id) {
+    if (!confirm('Are you sure you want to delete this supplier?')) {
+        return;
+    }
+    
+    const token = localStorage.getItem('access_token');
+    
+    try {
+        const response = await fetch(`/api/suppliers/${id}/`, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        
+        if (response.ok) {
+            loadSuppliers();
+            alert('Supplier deleted successfully!');
+        } else {
+            alert('Error deleting supplier');
+        }
+    } catch (error) {
+        alert('Error: ' + error.message);
+    }
+}
+
+// Load suppliers on page load
+document.addEventListener('DOMContentLoaded', loadSuppliers);
+</script>
+{% endblock %}

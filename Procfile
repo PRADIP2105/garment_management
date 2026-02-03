@@ -1,0 +1,1 @@
+web: gunicorn garment_management.wsgi

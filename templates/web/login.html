@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+
+{% block title %}Login - Garment Management System{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="mb-0"><i class="fas fa-sign-in-alt"></i> Login</h4>
+            </div>
+            <div class="card-body">
+                <div id="loginMessage" class="alert alert-info">
+                    Enter your credentials to login
+                </div>
+                
+                <div class="mb-3">
+                    <label for="loginUsername" class="form-label">Username</label>
+                    <input type="text" class="form-control" id="loginUsername" placeholder="Enter username">
+                </div>
+                <div class="mb-3">
+                    <label for="loginPassword" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="loginPassword" placeholder="Enter password">
+                </div>
+                <button type="button" class="btn btn-primary w-100" onclick="performLogin()">Login</button>
+                
+                <div class="text-center mt-3">
+                    <a href="/register/">Don't have an account? Register here</a>
+                </div>
+                
+                <div class="text-center mt-2">
+                    <small class="text-muted">Test credentials: logintest / password123</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function showMessage(text, type) {
+    const messageDiv = document.getElementById('loginMessage');
+    messageDiv.className = `alert alert-${type}`;
+    messageDiv.innerHTML = text;
+}
+
+function performLogin() {
+    const username = document.getElementById('loginUsername').value;
+    const password = document.getElementById('loginPassword').value;
+    
+    console.log('Login attempt - Username:', username, 'Password length:', password.length);
+    
+    if (!username || username.trim() === '') {
+        showMessage('Please enter your username', 'warning');
+        document.getElementById('loginUsername').focus();
+        return;
+    }
+    
+    if (!password || password.trim() === '') {
+        showMessage('Please enter your password', 'warning');
+        document.getElementById('loginPassword').focus();
+        return;
+    }
+    
+    showMessage('Logging in...', 'info');
+    
+    fetch('/api/auth/login/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            username: username.trim(),
+            password: password
+        })
+    })
+    .then(response => {
+        console.log('Response status:', response.status);
+        return response.json();
+    })
+    .then(data => {
+        console.log('Response data:', data);
+        
+        if (data.tokens && data.tokens.access) {
+            showMessage('Login successful! Redirecting...', 'success');
+            
+            localStorage.setItem('access_token', data.tokens.access);
+            localStorage.setItem('refresh_token', data.tokens.refresh);
+            localStorage.setItem('user_data', JSON.stringify(data.user));
+            
+            setTimeout(() => {
+                window.location.href = '/dashboard/';
+            }, 1500);
+        } else {
+            let errorMsg = 'Login failed';
+            if (data.detail) {
+                errorMsg = data.detail;
+            } else if (data.non_field_errors) {
+                errorMsg = data.non_field_errors.join(', ');
+            }
+            showMessage('Error: ' + errorMsg, 'danger');
+        }
+    })
+    .catch(error => {
+        console.error('Login error:', error);
+        showMessage('Network error: ' + error.message, 'danger');
+    });
+}
+
+// Allow Enter key to login
+document.addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+        performLogin();
+    }
+});
+
+// Check if already logged in
+document.addEventListener('DOMContentLoaded', function() {
+    const token = localStorage.getItem('access_token');
+    if (token) {
+        window.location.href = '/dashboard/';
+    }
+});
+</script>
+{% endblock %}

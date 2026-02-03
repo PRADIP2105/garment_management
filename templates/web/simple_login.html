@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Login - Garment Management System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+    <div class="container">
+        <div class="row justify-content-center mt-5">
+            <div class="col-md-6">
+                <div class="card shadow">
+                    <div class="card-header bg-primary text-white">
+                        <h4 class="mb-0"><i class="fas fa-sign-in-alt"></i> Simple Login</h4>
+                    </div>
+                    <div class="card-body">
+                        <div id="message" class="alert alert-info">
+                            Use these test credentials:<br>
+                            <strong>Username:</strong> logintest<br>
+                            <strong>Password:</strong> password123
+                        </div>
+                        
+                        <form id="simpleLoginForm">
+                            <div class="mb-3">
+                                <label for="username" class="form-label">Username</label>
+                                <input type="text" class="form-control" id="username" value="logintest" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="password" class="form-label">Password</label>
+                                <input type="password" class="form-control" id="password" value="password123" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100" id="loginBtn">
+                                <i class="fas fa-sign-in-alt"></i> Login
+                            </button>
+                        </form>
+                        
+                        <div class="text-center mt-3">
+                            <a href="/register/" class="btn btn-outline-secondary">Register New Company</a>
+                            <a href="/" class="btn btn-outline-info">Back to Home</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showMessage(text, type = 'info') {
+            const messageDiv = document.getElementById('message');
+            messageDiv.className = `alert alert-${type}`;
+            messageDiv.innerHTML = text;
+        }
+
+        // Wait for page to fully load
+        window.addEventListener('load', function() {
+            console.log('Page loaded, setting up login form');
+            
+            const form = document.getElementById('simpleLoginForm');
+            const usernameInput = document.getElementById('username');
+            const passwordInput = document.getElementById('password');
+            const loginBtn = document.getElementById('loginBtn');
+            
+            if (!form || !usernameInput || !passwordInput || !loginBtn) {
+                showMessage('Error: Form elements not found!', 'danger');
+                return;
+            }
+            
+            form.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                console.log('Form submitted');
+                
+                const username = usernameInput.value;
+                const password = passwordInput.value;
+                
+                console.log('Username:', username);
+                console.log('Password length:', password.length);
+                
+                if (!username || !password) {
+                    showMessage('Please enter both username and password', 'warning');
+                    return;
+                }
+                
+                // Show loading
+                loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Logging in...';
+                loginBtn.disabled = true;
+                showMessage('Attempting to login...', 'info');
+                
+                try {
+                    console.log('Making API call...');
+                    
+                    const response = await fetch('/api/auth/login/', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            username: username,
+                            password: password
+                        })
+                    });
+                    
+                    console.log('Response status:', response.status);
+                    const data = await response.json();
+                    console.log('Response data:', data);
+                    
+                    if (response.ok) {
+                        // Success!
+                        showMessage('Login successful! Redirecting...', 'success');
+                        
+                        // Store tokens
+                        localStorage.setItem('access_token', data.tokens.access);
+                        localStorage.setItem('refresh_token', data.tokens.refresh);
+                        localStorage.setItem('user_data', JSON.stringify(data.user));
+                        
+                        // Update button
+                        loginBtn.innerHTML = '<i class="fas fa-check"></i> Success!';
+                        loginBtn.className = 'btn btn-success w-100';
+                        
+                        // Redirect
+                        setTimeout(() => {
+                            window.location.href = '/dashboard/';
+                        }, 2000);
+                        
+                    } else {
+                        // Error
+                        let errorMsg = 'Login failed';
+                        if (data.detail) {
+                            errorMsg = data.detail;
+                        } else if (data.non_field_errors) {
+                            errorMsg = data.non_field_errors.join(', ');
+                        }
+                        
+                        showMessage('Error: ' + errorMsg, 'danger');
+                    }
+                    
+                } catch (error) {
+                    console.error('Network error:', error);
+                    showMessage('Network error: ' + error.message, 'danger');
+                } finally {
+                    // Reset button if not successful
+                    if (!response || !response.ok) {
+                        loginBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Login';
+                        loginBtn.className = 'btn btn-primary w-100';
+                        loginBtn.disabled = false;
+                    }
+                }
+            });
+            
+            console.log('Login form setup complete');
+        });
+    </script>
+</body>
+</html>

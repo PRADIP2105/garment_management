@@ -1,0 +1,167 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard - Garment Management System{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2><i class="fas fa-tachometer-alt"></i> Dashboard</h2>
+    <button class="btn btn-outline-primary" onclick="loadDashboard()">
+        <i class="fas fa-sync-alt"></i> Refresh
+    </button>
+</div>
+
+<div id="dashboardContent">
+    <div class="text-center">
+        <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+        <p class="mt-2">Loading dashboard...</p>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+async function loadDashboard() {
+    const token = localStorage.getItem('access_token');
+    if (!token) {
+        window.location.href = '/login/';
+        return;
+    }
+    
+    try {
+        const response = await fetch('/api/dashboard/stats/', {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        });
+        
+        if (response.ok) {
+            const data = await response.json();
+            renderDashboard(data);
+        } else if (response.status === 401) {
+            localStorage.clear();
+            window.location.href = '/login/';
+        } else {
+            const errorText = await response.text();
+            console.error('Dashboard API error:', errorText);
+            document.getElementById('dashboardContent').innerHTML = `
+                <div class="alert alert-warning">
+                    <i class="fas fa-exclamation-triangle"></i> 
+                    Dashboard temporarily unavailable. Please try refreshing the page.
+                    <br><small>Error: ${response.status}</small>
+                </div>
+            `;
+        }
+    } catch (error) {
+        console.error('Dashboard fetch error:', error);
+        document.getElementById('dashboardContent').innerHTML = `
+            <div class="alert alert-danger">
+                <i class="fas fa-exclamation-triangle"></i> 
+                Error loading dashboard. Please check your connection and try again.
+                <br><small>Error: ${error.message}</small>
+            </div>
+        `;
+    }
+}
+
+function renderDashboard(data) {
+    const userData = JSON.parse(localStorage.getItem('user_data') || '{}');
+    
+    document.getElementById('dashboardContent').innerHTML = `
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card bg-primary text-white">
+                    <div class="card-body">
+                        <h5><i class="fas fa-building"></i> ${userData.company?.name || 'Company'}</h5>
+                        <p class="mb-0">Welcome back, ${userData.username || 'User'}!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row mb-4">
+            <div class="col-md-3">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <i class="fas fa-users fa-2x text-primary mb-2"></i>
+                        <h3>${data.total_workers}</h3>
+                        <p class="text-muted">Total Workers</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <i class="fas fa-check-circle fa-2x text-success mb-2"></i>
+                        <h3>${data.completed_today.count || 0}</h3>
+                        <p class="text-muted">Completed Today</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <i class="fas fa-clock fa-2x text-warning mb-2"></i>
+                        <h3>${data.work_summary.pending || 0}</h3>
+                        <p class="text-muted">Pending Work</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <i class="fas fa-exclamation-triangle fa-2x text-danger mb-2"></i>
+                        <h3>${data.low_stock_materials.length}</h3>
+                        <p class="text-muted">Low Stock Items</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h5><i class="fas fa-users"></i> Pending Work by Worker</h5>
+                    </div>
+                    <div class="card-body">
+                        ${data.pending_work_by_worker.length > 0 ? 
+                            data.pending_work_by_worker.map(worker => `
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <span>${worker.worker__name}</span>
+                                    <span class="badge bg-warning">${worker.pending_lots} lots (${worker.total_quantity} pieces)</span>
+                                </div>
+                            `).join('') : 
+                            '<p class="text-muted">No pending work</p>'
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h5><i class="fas fa-exclamation-triangle"></i> Low Stock Materials</h5>
+                    </div>
+                    <div class="card-body">
+                        ${data.low_stock_materials.length > 0 ? 
+                            data.low_stock_materials.slice(0, 5).map(item => `
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <span>${item.material__material_name}</span>
+                                    <span class="badge bg-danger">${item.current_quantity} ${item.material__unit}</span>
+                                </div>
+                            `).join('') : 
+                            '<p class="text-muted">No low stock items</p>'
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+// Load dashboard on page load
+document.addEventListener('DOMContentLoaded', loadDashboard);
+</script>
+{% endblock %}

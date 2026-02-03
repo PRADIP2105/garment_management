@@ -1,0 +1,366 @@
+{% extends 'base.html' %}
+
+{% block title %}Work Distribution - Garment Management System{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2><i class="fas fa-tasks"></i> Work Distribution</h2>
+    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addDistributionModal">
+        <i class="fas fa-plus"></i> Distribute Work
+    </button>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-striped" id="distributionsTable">
+                <thead>
+                    <tr>
+                        <th>Worker</th>
+                        <th>Work Type</th>
+                        <th>Lot Size</th>
+                        <th>Distributed Date</th>
+                        <th>Expected Return</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td colspan="7" class="text-center">Loading work distributions...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Add Distribution Modal -->
+<div class="modal fade" id="addDistributionModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Distribute Work</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="addDistributionForm">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="worker" class="form-label">Worker *</label>
+                                <select class="form-control" id="worker" required>
+                                    <option value="">Select Worker</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="work_type" class="form-label">Work Type *</label>
+                                <select class="form-control" id="work_type" required>
+                                    <option value="">Select Work Type</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="lot_size" class="form-label">Lot Size *</label>
+                                <input type="number" class="form-control" id="lot_size" required>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="distributed_date" class="form-label">Distributed Date *</label>
+                                <input type="date" class="form-control" id="distributed_date" required>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="expected_return_date" class="form-label">Expected Return Date *</label>
+                                <input type="date" class="form-control" id="expected_return_date" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <h6>Materials to Distribute</h6>
+                        <div id="materialsContainer">
+                            <div class="row material-row">
+                                <div class="col-md-8">
+                                    <select class="form-control material-select" name="material" required>
+                                        <option value="">Select Material</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <input type="number" step="0.01" class="form-control" name="quantity" placeholder="Quantity" required>
+                                </div>
+                                <div class="col-md-1">
+                                    <button type="button" class="btn btn-outline-danger btn-sm" onclick="removeMaterialRow(this)">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-outline-primary btn-sm mt-2" onclick="addMaterialRow()">
+                            <i class="fas fa-plus"></i> Add Material
+                        </button>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" onclick="addDistribution()">Distribute Work</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+let distributions = [];
+let workers = [];
+let workTypes = [];
+let materials = [];
+
+async function loadData() {
+    const token = localStorage.getItem('access_token');
+    if (!token) {
+        window.location.href = '/login/';
+        return;
+    }
+    
+    try {
+        // Load distributions
+        const distributionsResponse = await fetch('/api/work/distributions/', {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+        if (distributionsResponse.ok) {
+            const distributionsData = await distributionsResponse.json();
+            distributions = distributionsData.results || [];
+            renderDistributions();
+        }
+        
+        // Load workers
+        const workersResponse = await fetch('/api/workers/', {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+        if (workersResponse.ok) {
+            const workersData = await workersResponse.json();
+            workers = workersData.results || [];
+            populateWorkerDropdown();
+        }
+        
+        // Load work types
+        const workTypesResponse = await fetch('/api/work/types/', {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+        if (workTypesResponse.ok) {
+            const workTypesData = await workTypesResponse.json();
+            workTypes = workTypesData.results || [];
+            populateWorkTypeDropdown();
+        }
+        
+        // Load materials
+        const materialsResponse = await fetch('/api/materials/raw-materials/', {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+        if (materialsResponse.ok) {
+            const materialsData = await materialsResponse.json();
+            materials = materialsData.results || [];
+            populateMaterialDropdowns();
+        }
+        
+    } catch (error) {
+        console.error('Error loading data:', error);
+    }
+}
+
+function renderDistributions() {
+    const tbody = document.querySelector('#distributionsTable tbody');
+    
+    if (distributions.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="7" class="text-center">No work distributions found</td></tr>';
+        return;
+    }
+    
+    tbody.innerHTML = distributions.map(dist => `
+        <tr>
+            <td>${dist.worker_name}</td>
+            <td>${dist.work_type_name}</td>
+            <td>${dist.lot_size}</td>
+            <td>${dist.distributed_date}</td>
+            <td>${dist.expected_return_date}</td>
+            <td>
+                <span class="badge ${getStatusBadgeClass(dist.status)}">
+                    ${dist.status.replace('_', ' ').toUpperCase()}
+                </span>
+            </td>
+            <td>
+                <button class="btn btn-sm btn-outline-info" onclick="viewDistribution(${dist.id})">
+                    <i class="fas fa-eye"></i>
+                </button>
+            </td>
+        </tr>
+    `).join('');
+}
+
+function getStatusBadgeClass(status) {
+    switch(status) {
+        case 'pending': return 'bg-warning';
+        case 'in_progress': return 'bg-info';
+        case 'completed': return 'bg-success';
+        case 'partially_returned': return 'bg-secondary';
+        default: return 'bg-light';
+    }
+}
+
+function populateWorkerDropdown() {
+    const select = document.getElementById('worker');
+    select.innerHTML = '<option value="">Select Worker</option>';
+    workers.forEach(worker => {
+        select.innerHTML += `<option value="${worker.id}">${worker.name} (${worker.skill_type})</option>`;
+    });
+}
+
+function populateWorkTypeDropdown() {
+    const select = document.getElementById('work_type');
+    select.innerHTML = '<option value="">Select Work Type</option>';
+    workTypes.forEach(type => {
+        select.innerHTML += `<option value="${type.id}">${type.name}</option>`;
+    });
+}
+
+function populateMaterialDropdowns() {
+    const selects = document.querySelectorAll('.material-select');
+    selects.forEach(select => {
+        select.innerHTML = '<option value="">Select Material</option>';
+        materials.forEach(material => {
+            select.innerHTML += `<option value="${material.id}">${material.material_name} (${material.unit})</option>`;
+        });
+    });
+}
+
+function addMaterialRow() {
+    const container = document.getElementById('materialsContainer');
+    const newRow = document.createElement('div');
+    newRow.className = 'row material-row mt-2';
+    newRow.innerHTML = `
+        <div class="col-md-8">
+            <select class="form-control material-select" name="material" required>
+                <option value="">Select Material</option>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <input type="number" step="0.01" class="form-control" name="quantity" placeholder="Quantity" required>
+        </div>
+        <div class="col-md-1">
+            <button type="button" class="btn btn-outline-danger btn-sm" onclick="removeMaterialRow(this)">
+                <i class="fas fa-trash"></i>
+            </button>
+        </div>
+    `;
+    container.appendChild(newRow);
+    
+    // Populate the new dropdown
+    const newSelect = newRow.querySelector('.material-select');
+    materials.forEach(material => {
+        newSelect.innerHTML += `<option value="${material.id}">${material.material_name} (${material.unit})</option>`;
+    });
+}
+
+function removeMaterialRow(button) {
+    const rows = document.querySelectorAll('.material-row');
+    if (rows.length > 1) {
+        button.closest('.material-row').remove();
+    }
+}
+
+async function addDistribution() {
+    const token = localStorage.getItem('access_token');
+    
+    // Collect materials data
+    const materialRows = document.querySelectorAll('.material-row');
+    const materialsData = [];
+    
+    for (let row of materialRows) {
+        const materialId = row.querySelector('[name="material"]').value;
+        const quantity = row.querySelector('[name="quantity"]').value;
+        
+        if (materialId && quantity) {
+            materialsData.push({
+                material: parseInt(materialId),
+                issued_quantity: parseFloat(quantity)
+            });
+        }
+    }
+    
+    const formData = {
+        worker: document.getElementById('worker').value,
+        work_type: document.getElementById('work_type').value,
+        lot_size: document.getElementById('lot_size').value,
+        distributed_date: document.getElementById('distributed_date').value,
+        expected_return_date: document.getElementById('expected_return_date').value,
+        materials: materialsData
+    };
+    
+    try {
+        const response = await fetch('/api/work/distributions/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(formData)
+        });
+        
+        if (response.ok) {
+            const modal = bootstrap.Modal.getInstance(document.getElementById('addDistributionModal'));
+            modal.hide();
+            document.getElementById('addDistributionForm').reset();
+            loadData();
+            showSuccess('Work distributed successfully!');
+        } else {
+            const errorData = await response.json();
+            alert('Error distributing work: ' + JSON.stringify(errorData));
+        }
+    } catch (error) {
+        alert('Network error: ' + error.message);
+    }
+}
+
+function viewDistribution(id) {
+    alert('View distribution details coming soon!');
+}
+
+function showSuccess(message) {
+    const alertDiv = document.createElement('div');
+    alertDiv.className = 'alert alert-success alert-dismissible fade show';
+    alertDiv.innerHTML = `
+        <i class="fas fa-check-circle"></i> ${message}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    `;
+    document.querySelector('.container').insertBefore(alertDiv, document.querySelector('.card'));
+    
+    setTimeout(() => {
+        if (alertDiv.parentNode) {
+            alertDiv.remove();
+        }
+    }, 3000);
+}
+
+// Set today's date as default
+document.addEventListener('DOMContentLoaded', function() {
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('distributed_date').value = today;
+    
+    // Set expected return date to 7 days from today
+    const nextWeek = new Date();
+    nextWeek.setDate(nextWeek.getDate() + 7);
+    document.getElementById('expected_return_date').value = nextWeek.toISOString().split('T')[0];
+    
+    loadData();
+});
+</script>
+{% endblock %}

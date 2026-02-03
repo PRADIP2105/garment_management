@@ -1,0 +1,347 @@
+{% extends 'base.html' %}
+
+{% block title %}Materials - Garment Management System{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2><i class="fas fa-boxes"></i> Materials</h2>
+    <div>
+        <button class="btn btn-success me-2" data-bs-toggle="modal" data-bs-target="#addMaterialModal">
+            <i class="fas fa-plus"></i> Add Material
+        </button>
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addInwardModal">
+            <i class="fas fa-arrow-down"></i> Material Inward
+        </button>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5><i class="fas fa-list"></i> Raw Materials</h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-sm" id="materialsTable">
+                        <thead>
+                            <tr>
+                                <th>Material</th>
+                                <th>Unit</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td colspan="3" class="text-center">Loading materials...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5><i class="fas fa-arrow-down"></i> Recent Inward</h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-sm" id="inwardTable">
+                        <thead>
+                            <tr>
+                                <th>Material</th>
+                                <th>Quantity</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td colspan="3" class="text-center">Loading inward records...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add Material Modal -->
+<div class="modal fade" id="addMaterialModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add Raw Material</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="addMaterialForm">
+                    <div class="mb-3">
+                        <label for="material_name" class="form-label">Material Name *</label>
+                        <input type="text" class="form-control" id="material_name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="unit" class="form-label">Unit *</label>
+                        <select class="form-control" id="unit" required>
+                            <option value="">Select Unit</option>
+                            <option value="meter">Meter</option>
+                            <option value="roll">Roll</option>
+                            <option value="piece">Piece</option>
+                            <option value="kg">Kilogram</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Description</label>
+                        <textarea class="form-control" id="description" rows="3"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-success" onclick="addMaterial()">Add Material</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add Inward Modal -->
+<div class="modal fade" id="addInwardModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Material Inward</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="addInwardForm">
+                    <div class="mb-3">
+                        <label for="supplier" class="form-label">Supplier *</label>
+                        <select class="form-control" id="supplier" required>
+                            <option value="">Select Supplier</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="material" class="form-label">Material *</label>
+                        <select class="form-control" id="material" required>
+                            <option value="">Select Material</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="quantity" class="form-label">Quantity *</label>
+                        <input type="number" step="0.01" class="form-control" id="quantity" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="received_date" class="form-label">Received Date *</label>
+                        <input type="date" class="form-control" id="received_date" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="remarks" class="form-label">Remarks</label>
+                        <textarea class="form-control" id="remarks" rows="2"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" onclick="addInward()">Add Inward</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+let materials = [];
+let suppliers = [];
+let inwardRecords = [];
+
+async function loadData() {
+    const token = localStorage.getItem('access_token');
+    if (!token) {
+        window.location.href = '/login/';
+        return;
+    }
+    
+    try {
+        // Load materials
+        const materialsResponse = await fetch('/api/materials/raw-materials/', {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+        if (materialsResponse.ok) {
+            const materialsData = await materialsResponse.json();
+            materials = materialsData.results || [];
+            renderMaterials();
+            populateMaterialDropdown();
+        }
+        
+        // Load suppliers
+        const suppliersResponse = await fetch('/api/suppliers/', {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+        if (suppliersResponse.ok) {
+            const suppliersData = await suppliersResponse.json();
+            suppliers = suppliersData.results || [];
+            populateSupplierDropdown();
+        }
+        
+        // Load inward records
+        const inwardResponse = await fetch('/api/materials/inward/', {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+        if (inwardResponse.ok) {
+            const inwardData = await inwardResponse.json();
+            inwardRecords = inwardData.results || [];
+            renderInward();
+        }
+        
+    } catch (error) {
+        console.error('Error loading data:', error);
+    }
+}
+
+function renderMaterials() {
+    const tbody = document.querySelector('#materialsTable tbody');
+    
+    if (materials.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="3" class="text-center">No materials found</td></tr>';
+        return;
+    }
+    
+    tbody.innerHTML = materials.map(material => `
+        <tr>
+            <td>${material.material_name}</td>
+            <td>${material.unit}</td>
+            <td>${material.description || '-'}</td>
+        </tr>
+    `).join('');
+}
+
+function renderInward() {
+    const tbody = document.querySelector('#inwardTable tbody');
+    
+    if (inwardRecords.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="3" class="text-center">No inward records found</td></tr>';
+        return;
+    }
+    
+    tbody.innerHTML = inwardRecords.slice(0, 10).map(record => `
+        <tr>
+            <td>${record.material_name}</td>
+            <td>${record.quantity} ${record.material_unit}</td>
+            <td>${record.received_date}</td>
+        </tr>
+    `).join('');
+}
+
+function populateSupplierDropdown() {
+    const select = document.getElementById('supplier');
+    select.innerHTML = '<option value="">Select Supplier</option>';
+    suppliers.forEach(supplier => {
+        select.innerHTML += `<option value="${supplier.id}">${supplier.name}</option>`;
+    });
+}
+
+function populateMaterialDropdown() {
+    const select = document.getElementById('material');
+    select.innerHTML = '<option value="">Select Material</option>';
+    materials.forEach(material => {
+        select.innerHTML += `<option value="${material.id}">${material.material_name} (${material.unit})</option>`;
+    });
+}
+
+async function addMaterial() {
+    const token = localStorage.getItem('access_token');
+    
+    const formData = {
+        material_name: document.getElementById('material_name').value,
+        unit: document.getElementById('unit').value,
+        description: document.getElementById('description').value
+    };
+    
+    try {
+        const response = await fetch('/api/materials/raw-materials/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(formData)
+        });
+        
+        if (response.ok) {
+            const modal = bootstrap.Modal.getInstance(document.getElementById('addMaterialModal'));
+            modal.hide();
+            document.getElementById('addMaterialForm').reset();
+            loadData();
+            showSuccess('Material added successfully!');
+        } else {
+            const errorData = await response.json();
+            alert('Error adding material: ' + JSON.stringify(errorData));
+        }
+    } catch (error) {
+        alert('Network error: ' + error.message);
+    }
+}
+
+async function addInward() {
+    const token = localStorage.getItem('access_token');
+    
+    const formData = {
+        supplier: document.getElementById('supplier').value,
+        material: document.getElementById('material').value,
+        quantity: document.getElementById('quantity').value,
+        received_date: document.getElementById('received_date').value,
+        remarks: document.getElementById('remarks').value
+    };
+    
+    try {
+        const response = await fetch('/api/materials/inward/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(formData)
+        });
+        
+        if (response.ok) {
+            const modal = bootstrap.Modal.getInstance(document.getElementById('addInwardModal'));
+            modal.hide();
+            document.getElementById('addInwardForm').reset();
+            loadData();
+            showSuccess('Material inward recorded successfully!');
+        } else {
+            const errorData = await response.json();
+            alert('Error recording inward: ' + JSON.stringify(errorData));
+        }
+    } catch (error) {
+        alert('Network error: ' + error.message);
+    }
+}
+
+function showSuccess(message) {
+    const alertDiv = document.createElement('div');
+    alertDiv.className = 'alert alert-success alert-dismissible fade show';
+    alertDiv.innerHTML = `
+        <i class="fas fa-check-circle"></i> ${message}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    `;
+    document.querySelector('.container').insertBefore(alertDiv, document.querySelector('.row'));
+    
+    setTimeout(() => {
+        if (alertDiv.parentNode) {
+            alertDiv.remove();
+        }
+    }, 3000);
+}
+
+// Set today's date as default
+document.addEventListener('DOMContentLoaded', function() {
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('received_date').value = today;
+    loadData();
+});
+</script>
+{% endblock %}
