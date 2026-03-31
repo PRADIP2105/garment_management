@@ -1,0 +1,26 @@
+<ion-card class="premium-list-card">
+  <ion-item lines="none" class="premium-card-item">
+    <ion-avatar slot="start" class="premium-avatar" [style.background]="avatarBg">
+      <span class="avatar-letter">{{ avatarLetter }}</span>
+    </ion-avatar>
+
+    <ion-label class="ion-text-wrap">
+      <h2 class="card-primary-text">{{ title }}</h2>
+      <p class="card-subtitle" *ngIf="subtitle">{{ subtitle }}</p>
+      <div class="pill-row" *ngIf="pills?.length">
+        <ion-badge *ngFor="let p of pills" [class]="pillClass(p.tone)">{{ p.label }}</ion-badge>
+      </div>
+    </ion-label>
+
+    <div slot="end" class="end-column">
+      <ion-badge *ngFor="let p of endPills" [class]="pillClass(p.tone)">{{ p.label }}</ion-badge>
+      <ion-toggle
+        *ngIf="showToggle"
+        class="trail-toggle"
+        [checked]="toggleChecked"
+        [disabled]="true"
+        aria-label="Status"
+      ></ion-toggle>
+    </div>
+  </ion-item>
+</ion-card>

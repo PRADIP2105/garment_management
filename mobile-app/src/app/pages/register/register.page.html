@@ -1,0 +1,118 @@
+<ion-content [fullscreen]="true" class="register-page-content" scrollY="true">
+
+  <!-- Gradient hero area -->
+  <div class="register-hero">
+    <ion-buttons class="hero-back-wrap">
+      <ion-back-button defaultHref="/login" text="" color="light" class="hero-back-btn"></ion-back-button>
+    </ion-buttons>
+    <div class="hero-icon-wrap">
+      <ion-icon name="business-outline" class="hero-icon"></ion-icon>
+    </div>
+    <h1 class="hero-title">Create Account</h1>
+    <p class="hero-subtitle">Set up your company workspace</p>
+  </div>
+
+  <!-- Card form -->
+  <div class="register-card">
+
+    <!-- Section: Account -->
+    <div class="section-label">
+      <ion-icon name="person-circle-outline" class="section-icon"></ion-icon>
+      <span>Account Details</span>
+    </div>
+
+    <div class="input-group">
+      <ion-icon name="person-outline" class="input-icon"></ion-icon>
+      <ion-input
+        [(ngModel)]="registerData.username"
+        type="text"
+        placeholder="Username"
+        class="modern-input"
+        autocomplete="username"
+      ></ion-input>
+    </div>
+
+    <div class="input-group">
+      <ion-icon name="mail-outline" class="input-icon"></ion-icon>
+      <ion-input
+        [(ngModel)]="registerData.email"
+        type="email"
+        placeholder="Email address"
+        class="modern-input"
+        autocomplete="email"
+      ></ion-input>
+    </div>
+
+    <div class="input-group">
+      <ion-icon name="lock-closed-outline" class="input-icon"></ion-icon>
+      <ion-input
+        [(ngModel)]="registerData.password"
+        [type]="showPassword ? 'text' : 'password'"
+        placeholder="Password"
+        class="modern-input"
+      ></ion-input>
+      <ion-icon
+        [name]="showPassword ? 'eye-off-outline' : 'eye-outline'"
+        class="input-icon-end"
+        (click)="showPassword = !showPassword"
+      ></ion-icon>
+    </div>
+
+    <div class="input-group">
+      <ion-icon name="shield-checkmark-outline" class="input-icon"></ion-icon>
+      <ion-input
+        [(ngModel)]="registerData.confirm_password"
+        [type]="showPassword ? 'text' : 'password'"
+        placeholder="Confirm password"
+        class="modern-input"
+      ></ion-input>
+    </div>
+
+    <!-- Divider -->
+    <div class="section-divider"></div>
+
+    <!-- Section: Company -->
+    <div class="section-label">
+      <ion-icon name="storefront-outline" class="section-icon"></ion-icon>
+      <span>Company Details</span>
+    </div>
+
+    <div class="input-group">
+      <ion-icon name="business-outline" class="input-icon"></ion-icon>
+      <ion-input [(ngModel)]="registerData.company_name" type="text" placeholder="Company name" class="modern-input"></ion-input>
+    </div>
+    <div class="input-group">
+      <ion-icon name="location-outline" class="input-icon"></ion-icon>
+      <ion-input [(ngModel)]="registerData.company_address" type="text" placeholder="Address" class="modern-input"></ion-input>
+    </div>
+    <div class="input-group">
+      <ion-icon name="navigate-outline" class="input-icon"></ion-icon>
+      <ion-input [(ngModel)]="registerData.company_city" type="text" placeholder="City" class="modern-input"></ion-input>
+    </div>
+    <div class="input-group">
+      <ion-icon name="call-outline" class="input-icon"></ion-icon>
+      <ion-input [(ngModel)]="registerData.company_mobile" type="tel" placeholder="Mobile number" class="modern-input" inputmode="tel"></ion-input>
+    </div>
+
+    <!-- Register button -->
+    <ion-button
+      expand="block"
+      shape="round"
+      class="register-btn"
+      (click)="onRegister()"
+      [disabled]="isLoading"
+    >
+      <ion-spinner *ngIf="isLoading" name="crescent" class="btn-spinner"></ion-spinner>
+      <span *ngIf="!isLoading">Create Account</span>
+    </ion-button>
+
+    <!-- Login link -->
+    <div class="login-link">
+      <span class="login-text">Already have an account?</span>
+      <ion-button fill="clear" size="small" (click)="onLogin()" class="login-link-btn">
+        Sign In
+      </ion-button>
+    </div>
+  </div>
+
+</ion-content>

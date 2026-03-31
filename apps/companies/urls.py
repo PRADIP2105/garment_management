@@ -1,10 +1,4 @@
-from django.urls import path, include
-from rest_framework.routers import DefaultRouter
-from .views import CompanyViewSet
+from django.urls import path
 
-router = DefaultRouter()
-router.register(r'', CompanyViewSet, basename='company')
+urlpatterns: list = []
 
-urlpatterns = [
-    path('', include(router.urls)),
-]

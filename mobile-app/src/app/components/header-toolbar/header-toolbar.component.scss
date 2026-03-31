@@ -1,0 +1,45 @@
+@import '../../../theme/variables.scss';
+
+.app-header {
+  ion-toolbar {
+    --min-height: 56px;
+    --background: $gm-primary;
+    --color: #ffffff;
+    padding-inline: 4px;
+    border-radius: 0 0 24px 24px;
+  }
+}
+
+.app-toolbar-title {
+  font-size: 1.25rem !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.01em;
+  color: #ffffff !important;
+  padding-inline: 12px;
+}
+
+.app-back-btn {
+  --icon-font-size: 24px;
+  --padding-start: 12px;
+  --padding-end: 12px;
+  --color: rgba(255, 255, 255, 0.9);
+  min-width: 52px;
+  min-height: 52px;
+  border-radius: 14px;
+  margin-inline-start: 4px;
+  
+  &:hover {
+    --color: #ffffff;
+  }
+}
+
+// Action buttons
+:host ::ng-deep ion-button[fill="clear"] {
+  --color: rgba(255, 255, 255, 0.9);
+  font-weight: 600;
+  font-size: 14px;
+  
+  &:hover {
+    --color: #ffffff;
+  }
+}

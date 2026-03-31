@@ -1,34 +1,56 @@
 from django.db import models
+from django.utils.translation import gettext_lazy as _
+
 from apps.companies.models import Company
 
 
 class Worker(models.Model):
-    SKILL_CHOICES = [
-        ('stitching', 'Stitching'),
-        ('button', 'Button'),
-        ('collar', 'Collar'),
-        ('color', 'Color'),
-    ]
-    
-    LANGUAGE_CHOICES = [
-        ('en', 'English'),
-        ('gu', 'Gujarati'),
-    ]
+    class SkillType(models.TextChoices):
+        STITCHING = "stitching", _("Stitching")
+        BUTTON = "button", _("Button")
+        COLLAR = "collar", _("Collar")
+        COLOR = "color", _("Color")
+        CUFF = "cuff", _("Shirt Cuff")
+        WASHING = "washing", _("Washing")
 
-    company = models.ForeignKey(Company, on_delete=models.CASCADE)
-    name = models.CharField(max_length=200)
-    mobile_number = models.CharField(max_length=15)
-    address = models.TextField()
-    city = models.CharField(max_length=100)
-    skill_type = models.CharField(max_length=20, choices=SKILL_CHOICES)
-    machine_type = models.CharField(max_length=100, blank=True, null=True)
-    status = models.BooleanField(default=True)  # active/inactive
-    language_preference = models.CharField(max_length=2, choices=LANGUAGE_CHOICES, default='en')
+    class MachineType(models.TextChoices):
+        SIMPLE = "simple", _("Simple silai machine")
+        MUNDA = "munda", _("Munda machine")
+        OTHER = "other", _("Other")
+
+    class Status(models.TextChoices):
+        ACTIVE = "active", _("Active")
+        INACTIVE = "inactive", _("Inactive")
+
+    company = models.ForeignKey(
+        Company,
+        on_delete=models.CASCADE,
+        related_name="workers",
+    )
+    name = models.CharField(max_length=255)
+    mobile_number = models.CharField(max_length=20)
+    address = models.TextField(blank=True)
+    city = models.CharField(max_length=100, blank=True)
+    skill_type = models.CharField(
+        max_length=32, choices=SkillType.choices, default=SkillType.STITCHING
+    )
+    machine_type = models.CharField(
+        max_length=32, choices=MachineType.choices, default=MachineType.SIMPLE
+    )
+    status = models.CharField(
+        max_length=16, choices=Status.choices, default=Status.ACTIVE
+    )
+    language_preference = models.CharField(
+        max_length=2,
+        choices=(("gu", "Gujarati"), ("en", "English")),
+        default="gu",
+    )
     created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        unique_together = ['company', 'mobile_number']
+        verbose_name = _("Worker")
+        verbose_name_plural = _("Workers")
 
-    def __str__(self):
-        return f"{self.name} - {self.skill_type}"
+    def __str__(self) -> str:
+        return self.name
+

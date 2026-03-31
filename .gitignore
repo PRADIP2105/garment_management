@@ -1,0 +1,90 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+pip-wheel-metadata/
+pkg_resources.py
+pytemp/
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Django
+*.sqlite3
+staticfiles/
+media/
+local_settings.py
+db.sqlite3
+dev.sqlite3
+
+# Environment & secrets
+.env
+.env.*
+*.pem
+*.key
+localhost.pem
+localhost-key.pem
+
+# Logs
+*.log
+logs/
+
+# Test scripts (one-off scripts)
+test_*.py
+create_*.py
+setup.py
+deploy.py
+mobile_app.py
+compile_messages.py
+direct_login_test.html
+start_*.bat
+run-*.bat
+
+# IDE
+.vscode/
+.idea/
+*.iml
+
+# Node / Ionic / Angular
+node_modules/
+mobile-app/node_modules/
+mobile-app/www/
+mobile-app/.angular/
+mobile-app/dist/
+
+# Android build artifacts
+mobile-app/android/.gradle/
+mobile-app/android/build/
+mobile-app/android/app/build/
+mobile-app/android/local.properties
+mobile-app/android/captures/
+mobile-app/android/.navigation/
+mobile-app/android/app/src/main/assets/public/
+mobile-app/android/app/src/main/assets/capacitor.config.json
+mobile-app/android/app/src/main/assets/capacitor.plugins.json
+mobile-app/android/app/src/main/res/xml/config.xml
+
+# iOS build artifacts
+mobile-app/ios/App/Pods/
+mobile-app/ios/App/App/public/
+mobile-app/ios/App/capacitor-cordova-ios-plugins/
+
+# Misc
+*.exe
+mkcert.exe
+android-studio.exe
+package-lock.json
+TODO.md
+scripts/
+garment_management_system/logs/
+garment_management_system/.briefcase/

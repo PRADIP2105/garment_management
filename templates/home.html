@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Welcome" %} - Garment Work &amp; Material Management{% endblock %}
+
+{% block content %}
+<div class="grid md:grid-cols-2 gap-8 items-center">
+    <div>
+        <h1 class="text-2xl md:text-3xl font-bold mb-4">
+            {% trans "Garment Work & Material Management System" %}
+        </h1>
+        <p class="text-gray-700 mb-4">
+            {% trans "Simple production tracking for shirt contractors: materials in, work distribution, returns and stock control." %}
+        </p>
+        <ul class="list-disc list-inside text-gray-700 mb-4 space-y-1 text-sm">
+            <li>{% trans "Gujarati-first interface with English support" %}</li>
+            <li>{% trans "Lot-based work tracking with partial returns" %}</li>
+            <li>{% trans "Automatic stock ledger (no manual edits)" %}</li>
+        </ul>
+        <a href="{% url 'web:register' %}"
+           class="inline-flex items-center px-4 py-2 rounded bg-indigo-600 text-white text-sm font-medium hover:bg-indigo-700 mr-2">
+            {% trans "Register" %}
+        </a>
+        <a href="{% url 'web:login' %}"
+           class="inline-flex items-center px-4 py-2 rounded bg-gray-600 text-white text-sm font-medium hover:bg-gray-700">
+            {% trans "Login" %}
+        </a>
+    </div>
+    <div class="bg-white shadow rounded-lg p-4 text-sm text-gray-700">
+        <h2 class="font-semibold mb-2">{% trans "How to start (Owner)" %}</h2>
+        <ol class="list-decimal list-inside space-y-1">
+            <li>{% trans "Use mobile or Postman to call /api/accounts/register-owner/ and create your company + owner user." %}</li>
+            <li>{% trans "Login here with that username/password." %}</li>
+            <li>{% trans "Add workers, suppliers, materials, then start recording inwards and work distributions." %}</li>
+        </ol>
+    </div>
+</div>
+{% endblock %}
+

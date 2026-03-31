@@ -1,0 +1,36 @@
+{
+  "name": "garment-management-app",
+  "version": "1.0.0",
+  "description": "Garment Management System Mobile App",
+  "scripts": {
+    "ng": "ng",
+    "start": "ionic serve",
+    "build": "ionic build",
+    "android": "ionic capacitor run android",
+    "ios": "ionic capacitor run ios"
+  },
+  "dependencies": {
+    "@angular/common": "^17.0.0",
+    "@angular/core": "^17.0.0",
+    "@angular/forms": "^17.0.0",
+    "@angular/platform-browser": "^17.0.0",
+    "@angular/platform-browser-dynamic": "^17.0.0",
+    "@angular/router": "^17.0.0",
+    "@capacitor/android": "^5.0.0",
+    "@capacitor/core": "^5.0.0",
+    "@capacitor/ios": "^5.0.0",
+    "@ionic/angular": "^7.0.0",
+    "rxjs": "^7.8.0",
+    "tslib": "^2.6.0",
+    "zone.js": "^0.14.0"
+  },
+  "devDependencies": {
+    "@angular-devkit/build-angular": "^17.0.0",
+    "@angular/cli": "^17.0.0",
+    "@angular/compiler": "^17.0.0",
+    "@angular/compiler-cli": "^17.0.0",
+    "@capacitor/cli": "^5.0.0",
+    "@ionic/angular-toolkit": "^9.0.0",
+    "typescript": "~5.2.0"
+  }
+}

@@ -1,0 +1,114 @@
+@import '../../../theme/variables.scss';
+
+.dashboard-content {
+  --background: #f4f5f7;
+}
+
+/* Transparent header */
+.dash-header ion-toolbar {
+  --background: transparent;
+  --border-width: 0;
+  --min-height: 52px;
+}
+
+.logout-btn {
+  --color: #{$gm-text-secondary};
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* Page title sits on the page, not in a colored bar */
+.dash-title-row {
+  padding: 8px 20px 4px;
+}
+
+.dash-title {
+  font-size: 28px;
+  font-weight: 800;
+  color: #{$gm-text-primary};
+  margin: 0;
+  letter-spacing: -0.03em;
+}
+
+/* Stats grid */
+.stats-grid {
+  padding: 0 8px;
+}
+
+.stat-card {
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+  padding: 20px 12px;
+  text-align: center;
+  margin: 4px;
+}
+
+.stat-value {
+  font-size: 26px;
+  font-weight: 800;
+  color: #{$gm-text-primary};
+  margin-bottom: 4px;
+}
+
+.stat-label {
+  font-size: 13px;
+  color: #{$gm-text-muted};
+  font-weight: 500;
+}
+
+/* Section cards */
+.section-card {
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+  margin: 12px 16px;
+  padding: 16px 4px 8px;
+}
+
+.section-heading {
+  font-size: 13px;
+  font-weight: 700;
+  color: #{$gm-text-muted};
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin: 0 0 4px 16px;
+}
+
+/* Activity list — no lines */
+ion-item {
+  --background: transparent;
+  --border-width: 0;
+}
+
+ion-note {
+  font-size: 15px;
+  font-weight: 600;
+  color: #{$gm-primary};
+}
+
+/* Module buttons */
+.module-btn {
+  --background: #{$gm-primary};
+  --background-activated: #{$gm-primary-dark};
+  --border-radius: 12px;
+  --box-shadow: none;
+  margin: 0 12px 10px;
+  font-weight: 600;
+  font-size: 15px;
+}
+
+/* Error box */
+.error-box {
+  background: #fef2f2;
+  border: 1px solid #fca5a5;
+  border-radius: 16px;
+  padding: 20px;
+  margin: 12px 16px;
+  text-align: center;
+}
+
+.error-text {
+  color: #b91c1c;
+  margin-bottom: 8px;
+}

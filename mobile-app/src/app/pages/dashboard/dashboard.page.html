@@ -1,0 +1,110 @@
+<ion-header class="ion-no-border dash-header">
+  <ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" class="logout-btn" (click)="logout()">Logout</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="dashboard-content">
+
+  <div class="dash-title-row">
+    <h1 class="dash-title">Dashboard</h1>
+  </div>
+
+  <div *ngIf="loadError" class="error-box">
+    <p class="error-text">{{ loadError }}</p>
+    <ion-button size="small" (click)="loadDashboard()">Retry</ion-button>
+  </div>
+
+  <ng-container *ngIf="stats && !loadError">
+
+    <ion-grid class="stats-grid">
+      <ion-row>
+        <ion-col size="6">
+          <div class="stat-card">
+            <div class="stat-value">{{ stats['total_workers'] ?? '—' }}</div>
+            <div class="stat-label">Workers</div>
+          </div>
+        </ion-col>
+        <ion-col size="6">
+          <div class="stat-card">
+            <div class="stat-value">{{ stats['total_suppliers'] ?? '—' }}</div>
+            <div class="stat-label">Suppliers</div>
+          </div>
+        </ion-col>
+        <ion-col size="6">
+          <div class="stat-card">
+            <div class="stat-value">{{ stats['total_materials'] ?? '—' }}</div>
+            <div class="stat-label">Materials</div>
+          </div>
+        </ion-col>
+        <ion-col size="6">
+          <div class="stat-card">
+            <div class="stat-value">{{ stats['total_work_types'] ?? '—' }}</div>
+            <div class="stat-label">Work types</div>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <div class="section-card">
+      <p class="section-heading">Activity</p>
+      <ion-list lines="none">
+        <ion-item lines="none">
+          <ion-label>Completed work (qty)</ion-label>
+          <ion-note slot="end">{{ stats['completed_work_quantity'] ?? 0 }}</ion-note>
+        </ion-item>
+        <ion-item lines="none">
+          <ion-label>Today inward</ion-label>
+          <ion-note slot="end">{{ stats['today_inward_quantity'] ?? 0 }}</ion-note>
+        </ion-item>
+        <ion-item lines="none">
+          <ion-label>Today outward (lots)</ion-label>
+          <ion-note slot="end">{{ stats['today_outward_lot_size'] ?? 0 }}</ion-note>
+        </ion-item>
+        <ion-item lines="none">
+          <ion-label>Monthly completed</ion-label>
+          <ion-note slot="end">{{ stats['monthly_completed_work'] ?? 0 }}</ion-note>
+        </ion-item>
+      </ion-list>
+    </div>
+
+    <div *ngIf="asPendingList(stats['pending_work_by_worker']).length" class="section-card">
+      <p class="section-heading">Pending by worker</p>
+      <ion-list lines="none">
+        <ion-item lines="none" *ngFor="let p of asPendingList(stats['pending_work_by_worker'])">
+          <ion-label>
+            <h3>{{ p.worker__name }}</h3>
+            <p>Pending: {{ p.total_pending }}</p>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+    </div>
+
+    <div *ngIf="asLowStock(stats['low_stock_materials']).length" class="section-card">
+      <p class="section-heading">Low stock (≤10)</p>
+      <ion-list lines="none">
+        <ion-item lines="none" *ngFor="let m of asLowStock(stats['low_stock_materials'])">
+          <ion-label>
+            <h3>{{ m.name }}</h3>
+            <p>Closing: {{ m.closing_stock }} {{ m.unit }}</p>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+    </div>
+
+    <div class="section-card">
+      <p class="section-heading">Modules</p>
+      <ion-button expand="block" class="module-btn" (click)="openModule('workers')">Workers</ion-button>
+      <ion-button expand="block" class="module-btn" (click)="openModule('suppliers')">Suppliers</ion-button>
+      <ion-button expand="block" class="module-btn" (click)="openModule('materials')">Materials</ion-button>
+      <ion-button expand="block" class="module-btn" (click)="openModule('material-inward')">Material Inward</ion-button>
+      <ion-button expand="block" class="module-btn" (click)="openModule('work-types')">Work Types</ion-button>
+      <ion-button expand="block" class="module-btn" (click)="openModule('distributions')">Work Distribution</ion-button>
+      <ion-button expand="block" class="module-btn" (click)="openModule('work-received')">Work Received</ion-button>
+      <ion-button expand="block" class="module-btn" (click)="openModule('pending-work')">Pending Work</ion-button>
+    </div>
+
+  </ng-container>
+</ion-content>

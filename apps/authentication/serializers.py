@@ -1,83 +1,64 @@
 from rest_framework import serializers
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.contrib.auth import authenticate
-from apps.companies.models import Company, UserProfile
+
+User = get_user_model()
 
 
-class RegisterSerializer(serializers.Serializer):
-    username = serializers.CharField(max_length=150)
-    email = serializers.EmailField()
-    password = serializers.CharField(min_length=8, write_only=True)
+class RegisterSerializer(serializers.ModelSerializer):
+    """Serializer for user registration"""
+    password = serializers.CharField(write_only=True, min_length=8)
     confirm_password = serializers.CharField(write_only=True)
+    company_name = serializers.CharField(write_only=True, required=True)
+    company_address = serializers.CharField(write_only=True, required=False)
+    company_city = serializers.CharField(write_only=True, required=False)
+    company_mobile = serializers.CharField(write_only=True, required=False)
     
-    # Company details
-    company_name = serializers.CharField(max_length=200)
-    company_address = serializers.CharField()
-    company_city = serializers.CharField(max_length=100)
-    company_mobile = serializers.CharField(max_length=15)
-    company_email = serializers.EmailField(required=False)
+    class Meta:
+        model = User
+        fields = ['username', 'email', 'password', 'confirm_password', 'first_name', 'last_name', 'company_name', 'company_address', 'company_city', 'company_mobile']
     
-    # User details
-    mobile_number = serializers.CharField(max_length=15, required=False)
-    language_preference = serializers.ChoiceField(choices=[('en', 'English'), ('gu', 'Gujarati')], default='en')
-
-    def validate(self, attrs):
-        if attrs['password'] != attrs['confirm_password']:
-            raise serializers.ValidationError("Passwords don't match")
-        
-        if User.objects.filter(username=attrs['username']).exists():
-            raise serializers.ValidationError("Username already exists")
-        
-        if User.objects.filter(email=attrs['email']).exists():
-            raise serializers.ValidationError("Email already exists")
-        
-        return attrs
-
+    def validate(self, data):
+        if data['password'] != data['confirm_password']:
+            raise serializers.ValidationError("Passwords do not match")
+        return data
+    
     def create(self, validated_data):
-        # Create company
-        company = Company.objects.create(
-            name=validated_data['company_name'],
-            address=validated_data['company_address'],
-            city=validated_data['company_city'],
-            mobile_number=validated_data['company_mobile'],
-            email=validated_data.get('company_email', '')
-        )
-        
-        # Create user
-        user = User.objects.create_user(
-            username=validated_data['username'],
-            email=validated_data['email'],
-            password=validated_data['password']
-        )
-        
-        # Create user profile as owner
-        UserProfile.objects.create(
-            user=user,
-            company=company,
-            role='owner',
-            mobile_number=validated_data.get('mobile_number', ''),
-            language_preference=validated_data['language_preference']
-        )
-        
+        validated_data.pop('confirm_password')
+        company_name = validated_data.pop('company_name')
+        company_address = validated_data.pop('company_address', None)
+        company_city = validated_data.pop('company_city', None)
+        company_mobile = validated_data.pop('company_mobile', None)
+
+        user = User.objects.create_user(**validated_data)
+
+        # Assuming the User model has these fields or a related Company model
+        user.company_name = company_name
+        user.company_address = company_address
+        user.company_city = company_city
+        user.company_mobile = company_mobile
+        user.save()
+
         return user
 
 
 class LoginSerializer(serializers.Serializer):
+    """Serializer for user login"""
     username = serializers.CharField()
     password = serializers.CharField(write_only=True)
-
-    def validate(self, attrs):
-        username = attrs.get('username')
-        password = attrs.get('password')
-
+    
+    def validate(self, data):
+        username = data.get('username')
+        password = data.get('password')
+        
         if username and password:
             user = authenticate(username=username, password=password)
             if not user:
-                raise serializers.ValidationError('Invalid credentials')
+                raise serializers.ValidationError("Invalid credentials")
             if not user.is_active:
-                raise serializers.ValidationError('User account is disabled')
-            attrs['user'] = user
+                raise serializers.ValidationError("User account is disabled")
         else:
-            raise serializers.ValidationError('Must include username and password')
-
-        return attrs
+            raise serializers.ValidationError("Must include username and password")
+        
+        data['user'] = user
+        return data

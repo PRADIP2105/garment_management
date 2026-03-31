@@ -1,0 +1,17 @@
+<!-- Modern Dashboard Card Component -->
+<!-- Usage: {% include "components/modern_dashboard_card.html" with title="Card Title" value="123" icon="icon-svg" color="primary" %} -->
+<div class="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow border border-slate-100 p-6">
+    <div class="flex items-center">
+        <div class="flex-shrink-0">
+            <div class="w-10 h-10 bg-{{ color|default:'primary' }}/10 rounded-lg flex items-center justify-center">
+                <svg class="w-6 h-6 text-{{ color|default:'primary' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    {{ icon|safe }}
+                </svg>
+            </div>
+        </div>
+        <div class="ml-4">
+            <p class="text-sm font-medium text-slate-600">{{ title }}</p>
+            <p class="text-3xl font-bold text-{{ color|default:'primary' }}">{{ value }}</p>
+        </div>
+    </div>
+</div>

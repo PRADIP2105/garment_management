@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load widget_tweaks %}
+
+{% block title %}{% trans "Work Received" %} - Garment Management{% endblock %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto bg-white rounded-lg shadow-md p-4">
+    <h1 class="text-xl font-semibold mb-4">{{ title }}</h1>
+    <form method="post" class="space-y-4">
+        {% csrf_token %}
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+                <label class="block text-gray-700 mb-1" for="{{ form.distribution.id_for_label }}">{{ form.distribution.label }}</label>
+                {{ form.distribution|add_class:"mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500" }}
+                {% if form.distribution.errors %}
+                    <p class="text-red-500 text-xs mt-1">{{ form.distribution.errors.0 }}</p>
+                {% endif %}
+            </div>
+            <div>
+                <label class="block text-gray-700 mb-1" for="{{ form.received_quantity.id_for_label }}">{{ form.received_quantity.label }}</label>
+                {{ form.received_quantity|add_class:"mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500" }}
+                {% if form.received_quantity.errors %}
+                    <p class="text-red-500 text-xs mt-1">{{ form.received_quantity.errors.0 }}</p>
+                {% endif %}
+            </div>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+                <label class="block text-gray-700 mb-1" for="{{ form.received_date.id_for_label }}">{{ form.received_date.label }}</label>
+                {{ form.received_date|add_class:"mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500" }}
+                {% if form.received_date.errors %}
+                    <p class="text-red-500 text-xs mt-1">{{ form.received_date.errors.0 }}</p>
+                {% endif %}
+            </div>
+            <div>
+                <label class="block text-gray-700 mb-1" for="{{ form.quality_rating.id_for_label }}">{{ form.quality_rating.label }}</label>
+                {{ form.quality_rating|add_class:"mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500" }}
+                {% if form.quality_rating.errors %}
+                    <p class="text-red-500 text-xs mt-1">{{ form.quality_rating.errors.0 }}</p>
+                {% endif %}
+            </div>
+        </div>
+        <div>
+            <label class="block text-gray-700 mb-1" for="{{ form.status.id_for_label }}">{{ form.status.label }}</label>
+            {{ form.status|add_class:"mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500" }}
+            {% if form.status.errors %}
+                <p class="text-red-500 text-xs mt-1">{{ form.status.errors.0 }}</p>
+            {% endif %}
+        </div>
+        <div>
+            <label class="block text-gray-700 mb-1" for="{{ form.remarks.id_for_label }}">{{ form.remarks.label }}</label>
+            {{ form.remarks|add_class:"mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500" }}
+            {% if form.remarks.errors %}
+                <p class="text-red-500 text-xs mt-1">{{ form.remarks.errors.0 }}</p>
+            {% endif %}
+        </div>
+        {% if form.non_field_errors %}
+            <p class="text-red-500 text-xs">{{ form.non_field_errors.0 }}</p>
+        {% endif %}
+        <div class="flex space-x-4">
+            <button type="submit"
+                    class="flex-1 bg-indigo-600 text-white py-2 rounded text-sm font-medium hover:bg-indigo-700">
+                {% trans "Save" %}
+            </button>
+            <a href="{% url 'web:work_received_list' %}"
+               class="flex-1 bg-gray-600 text-white py-2 rounded text-sm font-medium hover:bg-gray-700 text-center">
+                {% trans "Cancel" %}
+            </a>
+        </div>
+    </form>
+</div>
+{% endblock %}

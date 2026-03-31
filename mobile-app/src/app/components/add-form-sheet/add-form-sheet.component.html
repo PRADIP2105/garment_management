@@ -1,0 +1,38 @@
+<ion-modal
+  [isOpen]="isOpen"
+  (didDismiss)="onBackdropDismiss()"
+  [initialBreakpoint]="0.75"
+  [breakpoints]="[0, 0.75, 1]"
+  [handle]="true"
+  [backdropDismiss]="true"
+  class="premium-sheet-modal"
+>
+  <ng-template>
+    <ion-header class="ion-no-border sheet-header">
+      <ion-toolbar>
+        <ion-title class="sheet-toolbar-title">{{ title }}</ion-title>
+        <ion-buttons slot="end">
+          <ion-button fill="clear" color="medium" (click)="onCancel()">Cancel</ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+
+    <ion-content class="sheet-body">
+      <div class="sheet-fields ion-padding-horizontal">
+        <ng-content></ng-content>
+      </div>
+
+      <div class="sheet-primary-action ion-padding">
+        <ion-button
+          expand="block"
+          shape="round"
+          color="primary"
+          class="sheet-save-btn"
+          (click)="onSave()"
+        >
+          {{ saveLabel }}
+        </ion-button>
+      </div>
+    </ion-content>
+  </ng-template>
+</ion-modal>

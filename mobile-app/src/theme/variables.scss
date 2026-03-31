@@ -1,0 +1,76 @@
+// Garment Management Modern Theme - Register Green Palette
+// Import in app.scss/global SCSS
+
+// === Colors ===
+$gm-primary: #10b981;
+$gm-primary-dark: #059669;
+$gm-primary-darker: #047857;
+$gm-primary-light: #34d399;
+
+$gm-bg-light: #f0f4ff;
+$gm-surface: #f8fafc;
+$gm-card: #ffffff;
+$gm-border: #e2e8f0;
+
+$gm-text-primary: #0f172a;
+$gm-text-secondary: #334155;
+$gm-text-muted: #94a3b8;
+$gm-text-light: rgba(255, 255, 255, 0.8);
+
+// === Ionic CSS Vars (override in :root or components) ===
+:host {
+  // Backgrounds
+  --ion-background-color: #{$gm-bg-light};
+  
+  // Primary (buttons, highlights)
+  --ion-color-primary: #{$gm-primary};
+  --ion-color-primary-rgb: 16,185,129;
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-primary-contrast-rgb: 255,255,255;
+  --ion-color-primary-shade: #{$gm-primary-dark};
+  
+  // Cards/Inputs
+  --ion-card-background: #{$gm-card};
+  --ion-card-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+  --ion-input-background: #{$gm-surface};
+  --ion-item-background: #{$gm-surface};
+  
+  // Inputs
+  --padding-start: 44px;
+  --border-radius: 16px;
+  
+  // Toolbar/Header
+  --ion-toolbar-background: #{$gm-primary};
+  --ion-toolbar-color: #ffffff;
+  
+  // Buttons
+  --ion-button-background: linear-gradient(135deg, #{$gm-primary} 0%, #{$gm-primary-dark} 100%);
+  --ion-button-box-shadow: 0 8px 24px rgba(16, 185, 129, 0.35);
+}
+
+// Modern input mixin (shared)
+@mixin modern-input {
+  --padding-start: 44px !important;
+  --padding-end: 44px !important;
+  --background: #{$gm-surface};
+  --border-radius: 16px !important;
+  --border-color: #{$gm-border};
+  --highlight-color-focused: #{$gm-primary};
+  --color: #{$gm-text-primary};
+  font-size: 15px;
+  min-height: 52px;
+}
+
+// Hero gradient mixin
+@mixin hero-gradient {
+  background: linear-gradient(135deg, #{$gm-primary} 0%, #{$gm-primary-dark} 50%, #{$gm-primary-darker} 100%);
+}
+
+// Card style mixin
+@mixin modern-card {
+  background: #{$gm-card};
+  border-radius: 24px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+  margin: -24px 20px 32px;
+  padding: 24px 22px;
+}

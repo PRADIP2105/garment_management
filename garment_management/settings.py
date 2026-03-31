@@ -8,7 +8,7 @@ SECRET_KEY = config('SECRET_KEY', default='django-insecure-change-me-in-producti
 
 DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
-ALLOWED_HOSTS = ['garment_management.herokuapp.com', '127.0.0.1']
+ALLOWED_HOSTS = ['garment_management.herokuapp.com', '127.0.0.1', '10.92.194.115', 'localhost', '10.58.202.165', '172.24.231.3', '10.94.62.87', '*']
 
 DJANGO_APPS = [
     'django.contrib.admin',
@@ -46,11 +46,12 @@ MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    # 'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'apps.companies.middleware.TenantMiddleware',
+    'garment_management.middleware.LogRequestMiddleware',
 ]
 
 ROOT_URLCONF = 'garment_management.urls'
@@ -133,6 +134,9 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 50,
+    'DEFAULT_PARSER_CLASSES': [
+        'rest_framework.parsers.JSONParser',
+    ],
 }
 
 from datetime import timedelta
@@ -148,9 +152,17 @@ CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:3000",
     "http://10.92.194.47:63333",
     "http://10.92.194.47:8000",
+    "http://10.92.194.115:8000",
+    "http://10.92.194.115:63333",
     "http://localhost:63333",
     "http://127.0.0.1:63333",
+    "http://10.58.202.165:8000",
+    "http://172.24.231.3:8000", # Added current server IP
+    "http://10.94.62.87:8000",  # Current LAN IP
+    "http://10.94.62.87:63333",
 ]
+
+CORS_ALLOW_ALL_ORIGINS = True  # Allow all origins during development
 
 CORS_ALLOW_CREDENTIALS = True
 
@@ -158,6 +170,12 @@ CORS_ALLOW_CREDENTIALS = True
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/dashboard/'
 LOGOUT_REDIRECT_URL = '/'
+
+# Authentication Backends - Critical for Django's authenticate() to work
+# This is required when using DRF with custom login views
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+]
 
 # Static files configuration for production
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
@@ -175,3 +193,33 @@ if not DEBUG:
 # Disable SECURE_SSL_REDIRECT for local development
 if DEBUG:
     SECURE_SSL_REDIRECT = False
+
+# Logging configuration - enables seeing login attempts in console
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '{levelname} {asctime} {module} {message}',
+            'style': '{',
+        },
+    },
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose',
+        },
+    },
+    'loggers': {
+        'apps.authentication': {
+            'handlers': ['console'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+        'django': {
+            'handlers': ['console'],
+            'level': 'WARNING',
+            'propagate': False,
+        },
+    },
+}

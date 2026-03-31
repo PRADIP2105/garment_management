@@ -1,0 +1,17 @@
+{
+  "appId": "com.garment.management",
+  "appName": "Garment Management",
+  "webDir": "www",
+  "server": {
+    "androidScheme": "http"
+  },
+  "plugins": {
+    "CapacitorHttp": {
+      "enabled": true
+    }
+  },
+  "android": {
+    "webContentsDebuggingEnabled": true,
+    "hardwareAcceleration": false
+  }
+}

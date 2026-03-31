@@ -1,0 +1,97 @@
+<ion-content [fullscreen]="true" class="login-content" scrollY="true">
+
+  <!-- Full-screen gradient hero -->
+  <div class="login-hero">
+    <div class="hero-blob hero-blob-1"></div>
+    <div class="hero-blob hero-blob-2"></div>
+
+    <div class="hero-logo-wrap">
+      <ion-icon name="shirt-outline" class="hero-logo-icon"></ion-icon>
+    </div>
+    <h1 class="hero-title">Garment Management</h1>
+    <p class="hero-subtitle">Production Tracking System</p>
+  </div>
+
+  <!-- Floating card -->
+  <div class="login-card">
+
+    <!-- Username -->
+    <div class="field-wrap">
+      <ion-icon name="person-outline" class="field-icon"></ion-icon>
+      <ion-input
+        [(ngModel)]="username"
+        type="text"
+        placeholder="Username"
+        class="field-input"
+        autocomplete="username"
+      ></ion-input>
+    </div>
+
+    <!-- Password -->
+    <div class="field-wrap">
+      <ion-icon name="lock-closed-outline" class="field-icon"></ion-icon>
+      <ion-input
+        [(ngModel)]="password"
+        [type]="showPassword ? 'text' : 'password'"
+        placeholder="Password"
+        class="field-input"
+        autocomplete="current-password"
+      ></ion-input>
+      <ion-icon
+        [name]="showPassword ? 'eye-off-outline' : 'eye-outline'"
+        class="field-icon-end"
+        (click)="showPassword = !showPassword"
+      ></ion-icon>
+    </div>
+
+    <!-- Sign In button -->
+    <ion-button
+      expand="block"
+      shape="round"
+      class="sign-in-btn"
+      (click)="onLogin()"
+      [disabled]="isLoading"
+    >
+      <ion-spinner *ngIf="isLoading" name="crescent" class="btn-spinner"></ion-spinner>
+      <span *ngIf="!isLoading">Sign In</span>
+    </ion-button>
+
+    <!-- Server settings toggle -->
+    <div class="adv-toggle" (click)="showAdvanced = !showAdvanced">
+      <ion-icon [name]="showAdvanced ? 'chevron-up-outline' : 'settings-outline'" class="adv-toggle-icon"></ion-icon>
+      <span>{{ showAdvanced ? 'Hide server settings' : 'Server settings' }}</span>
+    </div>
+
+    <div class="adv-panel" *ngIf="showAdvanced">
+      <div class="field-wrap">
+        <ion-icon name="globe-outline" class="field-icon"></ion-icon>
+        <ion-input
+          [(ngModel)]="serverUrl"
+          type="url"
+          placeholder="http://10.59.224.87:8000/api"
+          class="field-input"
+        ></ion-input>
+      </div>
+      <p class="adv-hint">
+        Enter your PC's LAN IP from <strong>ipconfig</strong> (Wi-Fi IPv4).
+        Phone must be on the same Wi-Fi as the PC.
+      </p>
+      <ion-button
+        *ngIf="showWrongLanWarning"
+        size="small" fill="outline" shape="round" color="warning"
+        (click)="useDefaultServerFromEnv()"
+        class="reset-btn"
+      >Reset to default URL</ion-button>
+    </div>
+
+    <!-- Register -->
+    <div class="register-row">
+      <span class="register-label">Don't have an account?</span>
+      <ion-button fill="clear" size="small" (click)="onRegister()" class="register-link-btn">
+        Register
+      </ion-button>
+    </div>
+
+  </div>
+
+</ion-content>

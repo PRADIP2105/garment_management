@@ -1,0 +1,177 @@
+<ion-header class="ion-no-border module-shell-header">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/dashboard" text="" color="dark" class="shell-back"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="module-page-content" [fullscreen]="true">
+  <div class="module-hero ion-padding-horizontal">
+    <h1 class="page-title">{{ title }}</h1>
+    <ion-searchbar
+      [(ngModel)]="searchQuery"
+      placeholder="Search"
+      [debounce]="200"
+      mode="ios"
+      class="search-capsule"
+      [animated]="false"
+      showClearButton="focus"
+    ></ion-searchbar>
+  </div>
+
+  <div class="list-scroll ion-padding-horizontal">
+    <ng-container *ngIf="filteredItems.length > 0">
+      <app-list-item-card
+        *ngFor="let item of filteredItems"
+        [title]="itemPrimary(item)"
+        [subtitle]="itemSubtitle(item)"
+        [pills]="itemPills(item)"
+        [endPills]="itemEndPills(item)"
+        [showToggle]="key === 'workers'"
+        [toggleChecked]="workerToggleOn(item)"
+      ></app-list-item-card>
+    </ng-container>
+
+    <div *ngIf="items.length === 0 && !error" class="empty-state">
+      <ion-icon name="folder-open-outline" class="empty-state-icon" aria-hidden="true"></ion-icon>
+      <p class="empty-state-title">No records found</p>
+      <p class="empty-state-caption">When you add items, they will show up here.</p>
+    </div>
+
+    <div *ngIf="items.length > 0 && filteredItems.length === 0 && !error" class="empty-state empty-state-filter">
+      <ion-icon name="search-outline" class="empty-state-icon" aria-hidden="true"></ion-icon>
+      <p class="empty-state-title">No matching results</p>
+      <p class="empty-state-caption">Try a different search term.</p>
+    </div>
+
+    <div *ngIf="error" class="error-panel ion-text-center">
+      <p class="error-text">{{ error }}</p>
+      <ion-button fill="outline" color="primary" (click)="load()">Retry</ion-button>
+    </div>
+  </div>
+
+  <ion-fab
+    *ngIf="showAddFab"
+    slot="fixed"
+    vertical="bottom"
+    horizontal="end"
+    class="fab-add fab-electric"
+  >
+    <ion-fab-button class="fab-electric-btn" (click)="openAddModal()" aria-label="Add record">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>
+
+<app-add-form-sheet
+  *ngIf="hasAddFormSheet"
+  [isOpen]="addModalOpen"
+  (isOpenChange)="addModalOpen = $event"
+  [title]="addSheetTitle"
+  saveLabel="Save"
+  (save)="submitAddForm()"
+>
+  <ng-container [ngSwitch]="key">
+    <ng-container *ngSwitchCase="'workers'">
+      <ion-input
+        class="sheet-field-input"
+        type="text"
+        labelPlacement="floating"
+        label="Name"
+        placeholder="Full name"
+        [(ngModel)]="workerForm.name"
+        name="wname"
+        autocomplete="name"
+      ></ion-input>
+      <ion-input
+        class="sheet-field-input"
+        type="tel"
+        labelPlacement="floating"
+        label="Mobile number"
+        placeholder="10-digit number"
+        [(ngModel)]="workerForm.mobile_number"
+        name="wmobile"
+        inputmode="tel"
+      ></ion-input>
+      <ion-input
+        class="sheet-field-input"
+        type="text"
+        labelPlacement="floating"
+        label="City"
+        placeholder="Optional"
+        [(ngModel)]="workerForm.city"
+        name="wcity"
+      ></ion-input>
+    </ng-container>
+
+    <ng-container *ngSwitchCase="'suppliers'">
+      <ion-input
+        class="sheet-field-input"
+        type="text"
+        labelPlacement="floating"
+        label="Name"
+        [(ngModel)]="supplierForm.name"
+        name="sname"
+      ></ion-input>
+      <ion-input
+        class="sheet-field-input"
+        type="tel"
+        labelPlacement="floating"
+        label="Mobile number"
+        [(ngModel)]="supplierForm.mobile_number"
+        name="smobile"
+        inputmode="tel"
+      ></ion-input>
+      <ion-input
+        class="sheet-field-input"
+        type="text"
+        labelPlacement="floating"
+        label="City"
+        placeholder="Optional"
+        [(ngModel)]="supplierForm.city"
+        name="scity"
+      ></ion-input>
+    </ng-container>
+
+    <ng-container *ngSwitchCase="'materials'">
+      <ion-input
+        class="sheet-field-input"
+        type="text"
+        labelPlacement="floating"
+        label="Material name"
+        [(ngModel)]="materialForm.material_name"
+        name="mname"
+      ></ion-input>
+      <ion-input
+        class="sheet-field-input"
+        type="text"
+        labelPlacement="floating"
+        label="Unit"
+        placeholder="meter, roll, piece, kg…"
+        [(ngModel)]="materialForm.unit"
+        name="munit"
+      ></ion-input>
+      <ion-input
+        class="sheet-field-input"
+        type="text"
+        labelPlacement="floating"
+        label="Description"
+        placeholder="Optional"
+        [(ngModel)]="materialForm.description"
+        name="mdesc"
+      ></ion-input>
+    </ng-container>
+
+    <ng-container *ngSwitchCase="'work-types'">
+      <ion-input
+        class="sheet-field-input"
+        type="text"
+        labelPlacement="floating"
+        label="Work type name"
+        [(ngModel)]="workTypeForm.name"
+        name="wtname"
+      ></ion-input>
+    </ng-container>
+  </ng-container>
+</app-add-form-sheet>

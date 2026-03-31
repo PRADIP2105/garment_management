@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load widget_tweaks %}
+
+{% block title %}{{ title }} - Garment Management{% endblock %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto bg-white rounded-lg shadow-md p-4">
+    <h1 class="text-xl font-semibold mb-4">{{ title }}</h1>
+    <form method="post" class="space-y-4">
+        {% csrf_token %}
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div>
+                <label class="block text-gray-700 mb-1" for="{{ form.worker.id_for_label }}">{{ form.worker.label }}</label>
+                {{ form.worker|add_class:"mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500" }}
+                {% if form.worker.errors %}
+                    <p class="text-red-500 text-xs mt-1">{{ form.worker.errors.0 }}</p>
+                {% endif %}
+            </div>
+            <div>
+                <label class="block text-gray-700 mb-1" for="{{ form.work_type.id_for_label }}">{{ form.work_type.label }}</label>
+                {{ form.work_type|add_class:"mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500" }}
+                {% if form.work_type.errors %}
+                    <p class="text-red-500 text-xs mt-1">{{ form.work_type.errors.0 }}</p>
+                {% endif %}
+            </div>
+            <div>
+                <label class="block text-gray-700 mb-1" for="{{ form.lot_size.id_for_label }}">{{ form.lot_size.label }}</label>
+                {{ form.lot_size|add_class:"mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500" }}
+                {% if form.lot_size.errors %}
+                    <p class="text-red-500 text-xs mt-1">{{ form.lot_size.errors.0 }}</p>
+                {% endif %}
+            </div>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+                <label class="block text-gray-700 mb-1" for="{{ form.distributed_date.id_for_label }}">{{ form.distributed_date.label }}</label>
+                {{ form.distributed_date|add_class:"mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500" }}
+                {% if form.distributed_date.errors %}
+                    <p class="text-red-500 text-xs mt-1">{{ form.distributed_date.errors.0 }}</p>
+                {% endif %}
+            </div>
+            <div>
+                <label class="block text-gray-700 mb-1" for="{{ form.expected_return_date.id_for_label }}">{{ form.expected_return_date.label }}</label>
+                {{ form.expected_return_date|add_class:"mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500" }}
+                {% if form.expected_return_date.errors %}
+                    <p class="text-red-500 text-xs mt-1">{{ form.expected_return_date.errors.0 }}</p>
+                {% endif %}
+            </div>
+        </div>
+        {% if form.non_field_errors %}
+            <p class="text-red-500 text-xs">{{ form.non_field_errors.0 }}</p>
+        {% endif %}
+        <div class="flex space-x-4">
+            <button type="submit"
+                    class="flex-1 bg-indigo-600 text-white py-2 rounded text-sm font-medium hover:bg-indigo-700">
+                {% trans "Save" %}
+            </button>
+            <a href="{% url 'web:work_distribution_list' %}"
+               class="flex-1 bg-gray-600 text-white py-2 rounded text-sm font-medium hover:bg-gray-700 text-center">
+                {% trans "Cancel" %}
+            </a>
+        </div>
+    </form>
+</div>
+{% endblock %}

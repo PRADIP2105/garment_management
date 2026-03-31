@@ -1,38 +1,33 @@
 from django.db import models
+from django.utils.translation import gettext_lazy as _
+
 from apps.companies.models import Company
-from apps.suppliers.models import Supplier
 
 
-class RawMaterial(models.Model):
-    UNIT_CHOICES = [
-        ('meter', 'Meter'),
-        ('roll', 'Roll'),
-        ('piece', 'Piece'),
-        ('kg', 'Kilogram'),
-    ]
+class Material(models.Model):
+    class Unit(models.TextChoices):
+        METER = "meter", _("Meter")
+        ROLL = "roll", _("Roll")
+        PIECE = "piece", _("Piece")
+        KG = "kg", _("Kilogram")
 
-    company = models.ForeignKey(Company, on_delete=models.CASCADE)
-    material_name = models.CharField(max_length=200)
-    unit = models.CharField(max_length=10, choices=UNIT_CHOICES)
+    company = models.ForeignKey(
+        Company,
+        on_delete=models.CASCADE,
+        related_name="materials",
+    )
+    material_name = models.CharField(max_length=255)
+    unit = models.CharField(
+        max_length=16,
+        choices=Unit.choices,
+    )
     description = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        unique_together = ['company', 'material_name']
+        verbose_name = _("Material")
+        verbose_name_plural = _("Materials")
 
-    def __str__(self):
-        return f"{self.material_name} ({self.unit})"
+    def __str__(self) -> str:
+        return self.material_name
 
-
-class MaterialInward(models.Model):
-    company = models.ForeignKey(Company, on_delete=models.CASCADE)
-    supplier = models.ForeignKey(Supplier, on_delete=models.CASCADE)
-    material = models.ForeignKey(RawMaterial, on_delete=models.CASCADE)
-    quantity = models.DecimalField(max_digits=10, decimal_places=2)
-    received_date = models.DateField()
-    remarks = models.TextField(blank=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return f"{self.material.material_name} - {self.quantity} {self.material.unit}"

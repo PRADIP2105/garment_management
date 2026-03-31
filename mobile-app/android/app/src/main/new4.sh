@@ -1,0 +1,2 @@
+sh
+    rm -rf www

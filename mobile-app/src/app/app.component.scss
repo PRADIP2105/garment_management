@@ -1,0 +1,31 @@
+@import '../theme/variables.scss';
+
+ion-content {
+  --background: #f0f4ff;
+}
+
+ion-toolbar {
+  --min-height: 56px;
+  --background: #10b981;
+  --color: #ffffff;
+}
+
+ion-title {
+  font-size: 20px !important;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+// Global modern input override
+ion-input.modern-input,
+ion-input {
+  @include modern-input;
+}
+
+// Global button styling
+ion-button {
+  --border-radius: 16px;
+  --padding-top: 12px;
+  --padding-bottom: 12px;
+  font-weight: 600;
+}

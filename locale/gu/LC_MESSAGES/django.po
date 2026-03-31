@@ -1,0 +1,593 @@
+# Gujarati translations for Garment Management System
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-01-01 00:00+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Gujarati <LL@li.org>\n"
+"Language: gu\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "Garment Work & Material Management"
+msgstr "કપડાં કામ અને સામગ્રી વ્યવસ્થાપન"
+
+msgid "Welcome"
+msgstr "સ્વાગત"
+
+msgid "Garment Work & Material Management System"
+msgstr "કપડાં કામ અને સામગ્રી વ્યવસ્થાપન સિસ્ટમ"
+
+msgid "Simple production tracking for shirt contractors: materials in, work distribution, returns and stock control."
+msgstr "શર્ટ કોન્ટ્રાક્ટર્સ માટે સરળ ઉત્પાદન ટ્રેકિંગ: સામગ્રી અંદર, કામનું વિતરણ, પરત અને સ્ટોક નિયંત્રણ."
+
+msgid "Gujarati-first interface with English support"
+msgstr "ગુજરાતી-પ્રથમ ઇન્ટરફેસ સાથે અંગ્રેજી સપોર્ટ"
+
+msgid "Lot-based work tracking with partial returns"
+msgstr "આંશિક પરત સાથે લોટ-આધારિત કામ ટ્રેકિંગ"
+
+msgid "Automatic stock ledger (no manual edits)"
+msgstr "સ્વચાલિત સ્ટોક લેડર (મેન્યુઅલ એડિટ્સ વિના)"
+
+msgid "How to start (Owner)"
+msgstr "કેવી રીતે શરૂ કરવું (માલિક)"
+
+msgid "Use mobile or Postman to call /api/accounts/register-owner/ and create your company + owner user."
+msgstr "તમારી કંપની + માલિક વપરાશકર્તા બનાવવા માટે મોબાઇલ અથવા Postman વાપરીને /api/accounts/register-owner/ કૉલ કરો."
+
+msgid "Login here with that username/password."
+msgstr "તે વપરાશકર્તાનામ/પાસવર્ડ સાથે અહીં લૉગિન કરો."
+
+msgid "Add workers, suppliers, materials, then start recording inwards and work distributions."
+msgstr "કામદારો, સપ્લાયર્સ, સામગ્રી ઉમેરો, પછી ઇનવર્ડ્સ અને કામના વિતરણનું રેકોર્ડિંગ શરૂ કરો."
+
+msgid "Password"
+msgstr "પાસવર્ડ"
+
+msgid "Name"
+msgstr "નામ"
+
+msgid "Mobile"
+msgstr "મોબાઇલ"
+
+msgid "Skill Type"
+msgstr "કૌશલ પ્રકાર"
+
+msgid "Machine Type"
+msgstr "મશીન પ્રકાર"
+
+msgid "Status"
+msgstr "સ્થિતિ"
+
+msgid "Actions"
+msgstr "ક્રિયાઓ"
+
+msgid "Lot Size"
+msgstr "લોટ સાઇઝ"
+
+msgid "Distributed Date"
+msgstr "વિતરણ તારીખ"
+
+msgid "Expected Return Date"
+msgstr "અપેક્ષિત પરત તારીખ"
+
+msgid "Edit"
+msgstr "સંપાદિત કરો"
+
+msgid "Delete"
+msgstr "કાઢી નાખો"
+
+msgid "Save"
+msgstr "સાચવો"
+
+msgid "Cancel"
+msgstr "રદ કરો"
+
+msgid "No work distributions found."
+msgstr "કોઈ કામ વિતરણ મળ્યું નથી."
+
+msgid "Add Your First Work Distribution"
+msgstr "તમારું પ્રથમ કામ વિતરણ ઉમેરો"
+
+msgid "Quantity"
+msgstr "માત્રા"
+
+msgid "Date"
+msgstr "તારીખ"
+
+msgid "No material inward entries found."
+msgstr "કોઈ સામગ્રી આંતરિક પ્રવેશો મળ્યા નથી."
+
+msgid "Add Your First Material Inward Entry"
+msgstr "તમારો પ્રથમ સામગ્રી આંતરિક પ્રવેશ ઉમેરો"
+
+msgid "Delete Work Type"
+msgstr "કામનો પ્રકાર કાઢી નાખો"
+
+msgid "Are you sure you want to delete the work type"
+msgstr "શું તમને ખાતરી છે કે તમે કામનો પ્રકાર કાઢી નાખવા માંગો છો"
+
+msgid "This action cannot be undone."
+msgstr "આ ક્રિયા પાછી નથી કરી શકાતી."
+
+msgid "Work Type Name"
+msgstr "કામના પ્રકારનું નામ"
+
+msgid "Description"
+msgstr "વર્ણન"
+
+msgid "No work types found."
+msgstr "કોઈ કામના પ્રકારો મળ્યા નથી."
+
+msgid "Add Your First Work Type"
+msgstr "તમારો પ્રથમ કામનો પ્રકાર ઉમેરો"
+
+msgid "Material Name"
+msgstr "સામગ્રીનું નામ"
+
+msgid "Add Work Distribution"
+msgstr "કામ વિતરણ ઉમેરો"
+
+msgid "Add Material Inward"
+msgstr "સામગ્રી આંતરિક ઉમેરો"
+
+msgid "Add Work Type"
+msgstr "કામનો પ્રકાર ઉમેરો"
+
+msgid "Add Material"
+msgstr "સામગ્રી ઉમેરો"
+
+msgid "Dashboard"
+msgstr "ડેશબોર્ડ"
+
+msgid "Workers"
+msgstr "કામદારો"
+
+msgid "Suppliers"
+msgstr "સપ્લાયર્સ"
+
+msgid "Materials"
+msgstr "સામગ્રીઓ"
+
+msgid "Material Inward"
+msgstr "સામગ્રી આંતરિક"
+
+msgid "Work Types"
+msgstr "કામના પ્રકારો"
+
+msgid "Work Distribution"
+msgstr "કામ વિતરણ"
+
+msgid "Admin"
+msgstr "એડમિન"
+
+msgid "Logout"
+msgstr "લૉગઆઉટ"
+
+msgid "Register"
+msgstr "નોંધણી"
+
+msgid "Login"
+msgstr "લૉગિન"
+
+msgid "Create Worker"
+msgstr "કામદાર બનાવો"
+
+msgid "Update Worker"
+msgstr "કામદાર અપડેટ કરો"
+
+msgid "Create Supplier"
+msgstr "સપ્લાયર બનાવો"
+
+msgid "Update Supplier"
+msgstr "સપ્લાયર અપડેટ કરો"
+
+msgid "Create Material"
+msgstr "સામગ્રી બનાવો"
+
+msgid "Update Material"
+msgstr "સામગ્રી અપડેટ કરો"
+
+msgid "Create Material Inward"
+msgstr "સામગ્રી આંતરિક બનાવો"
+
+msgid "Update Material Inward"
+msgstr "સામગ્રી આંતરિક અપડેટ કરો"
+
+msgid "Create Work Type"
+msgstr "કામનો પ્રકાર બનાવો"
+
+msgid "Update Work Type"
+msgstr "કામનો પ્રકાર અપડેટ કરો"
+
+msgid "Create Work Distribution"
+msgstr "કામ વિતરણ બનાવો"
+
+msgid "Update Work Distribution"
+msgstr "કામ વિતરણ અપડેટ કરો"
+
+msgid "Worker created successfully."
+msgstr "કામદાર સફળતાપૂર્વક બનાવવામાં આવ્યો."
+
+msgid "Worker updated successfully."
+msgstr "કામદાર સફળતાપૂર્વક અપડેટ કરવામાં આવ્યો."
+
+msgid "Worker deleted successfully."
+msgstr "કામદાર સફળતાપૂર્વક કાઢી નાખવામાં આવ્યો."
+
+msgid "Supplier created successfully."
+msgstr "સપ્લાયર સફળતાપૂર્વક બનાવવામાં આવ્યો."
+
+msgid "Supplier updated successfully."
+msgstr "સપ્લાયર સફળતાપૂર્વક અપડેટ કરવામાં આવ્યો."
+
+msgid "Supplier deleted successfully."
+msgstr "સપ્લાયર સફળતાપૂર્વક કાઢી નાખવામાં આવ્યો."
+
+msgid "Material created successfully."
+msgstr "સામગ્રી સફળતાપૂર્વક બનાવવામાં આવી."
+
+msgid "Material updated successfully."
+msgstr "સામગ્રી સફળતાપૂર્વક અપડેટ કરવામાં આવી."
+
+msgid "Material deleted successfully."
+msgstr "સામગ્રી સફળતાપૂર્વક કાઢી નાખવામાં આવી."
+
+msgid "Material inward entry created successfully."
+msgstr "સામગ્રી આંતરિક એન્ટ્રી સફળતાપૂર્વક બનાવવામાં આવી."
+
+msgid "Material inward entry updated successfully."
+msgstr "સામગ્રી આંતરિક એન્ટ્રી સફળતાપૂર્વક અપડેટ કરવામાં આવી."
+
+msgid "Material inward entry deleted successfully."
+msgstr "સામગ્રી આંતરિક એન્ટ્રી સફળતાપૂર્વક કાઢી નાખવામાં આવી."
+
+msgid "Work type created successfully."
+msgstr "કામનો પ્રકાર સફળતાપૂર્વક બનાવવામાં આવ્યો."
+
+msgid "Work type updated successfully."
+msgstr "કામનો પ્રકાર સફળતાપૂર્વક અપડેટ કરવામાં આવ્યો."
+
+msgid "Work type deleted successfully."
+msgstr "કામનો પ્રકાર સફળતાપૂર્વક કાઢી નાખવામાં આવ્યો."
+
+msgid "Work distribution created successfully."
+msgstr "કામ વિતરણ સફળતાપૂર્વક બનાવવામાં આવ્યું."
+
+msgid "Work distribution updated successfully."
+msgstr "કામ વિતરણ સફળતાપૂર્વક અપડેટ કરવામાં આવ્યું."
+
+msgid "Work distribution deleted successfully."
+msgstr "કામ વિતરણ સફળતાપૂર્વક કાઢી નાખવામાં આવ્યું."
+
+msgid "Account created successfully! Welcome!"
+msgstr "એકાઉન્ટ સફળતાપૂર્વક બનાવવામાં આવ્યો! સ્વાગત છે!"
+
+msgid "Welcome back!"
+msgstr "ફરી સ્વાગત છે!"
+
+msgid "Invalid username or password."
+msgstr "અમાન્ય વપરાશકર્તા નામ અથવા પાસવર્ડ."
+
+msgid "You have been logged out."
+msgstr "તમે લૉગ આઉટ થયા છો."
+
+msgid "Your account is not linked to a company. Please contact an administrator."
+msgstr "તમારું એકાઉન્ટ કંપની સાથે જોડાયેલું નથી. કૃપા કરીને એડમિનિસ્ટ્રેટરનો સંપર્ક કરો."
+
+msgid "Dashboard data is not available. Please ensure your account is linked to a company."
+msgstr "ડેશબોર્ડ ડેટા ઉપલબ્ધ નથી. કૃપા કરીને ખાતરી કરો કે તમારું એકાઉન્ટ કંપની સાથે જોડાયેલ છે."
+
+msgid "Total workers"
+msgstr "કુલ કામદારો"
+
+msgid "Completed work qty"
+msgstr "પૂર્ણ થયેલ કામની માત્રા"
+
+msgid "Today inward qty"
+msgstr "આજની આંતરિક માત્રા"
+
+msgid "Today outward lot size"
+msgstr "આજનું બહારનું લોટ સાઇઝ"
+
+msgid "Pending work by worker"
+msgstr "કામદાર પ્રમાણે બાકી કામ"
+
+msgid "Worker"
+msgstr "કામદાર"
+
+msgid "Pending qty"
+msgstr "બાકી માત્રા"
+
+msgid "No pending work"
+msgstr "કોઈ બાકી કામ નથી"
+
+msgid "Low stock materials"
+msgstr "ઓછી સ્ટોક સામગ્રી"
+
+msgid "Material"
+msgstr "સામગ્રી"
+
+msgid "Closing stock"
+msgstr "સમાપન સ્ટોક"
+
+msgid "Unit"
+msgstr "એકમ"
+
+msgid "No low stock materials"
+msgstr "કોઈ ઓછી સ્ટોક સામગ્રી નથી"
+
+msgid "Please correct the errors below."
+msgstr "કૃપા કરીને નીચેની ભૂલો સુધારો."
+
+msgid "Company Name"
+msgstr "કંપની નું નામ"
+
+msgid "Company City"
+msgstr "કંપની શહેર"
+
+msgid "Username"
+msgstr "વપરાશકર્તા નામ"
+
+msgid "Email"
+msgstr "ઈમેલ"
+
+msgid "Password"
+msgstr "પાસવર્ડ"
+
+msgid "Confirm Password"
+msgstr "પાસવર્ડ પુષ્ટિ કરો"
+
+msgid "Language Preference"
+msgstr "ભાષા પસંદગી"
+
+msgid "Gujarati"
+msgstr "ગુજરાતી"
+
+msgid "English"
+msgstr "અંગ્રેજી"
+
+msgid "Name"
+msgstr "નામ"
+
+msgid "Mobile Number"
+msgstr "મોબાઇલ નંબર"
+
+msgid "Address"
+msgstr "સરનામું"
+
+msgid "City"
+msgstr "શહેર"
+
+msgid "Skill Type"
+msgstr "કૌશલ્ય પ્રકાર"
+
+msgid "Machine Type"
+msgstr "મશીન પ્રકાર"
+
+msgid "Status"
+msgstr "સ્થિતિ"
+
+msgid "Active"
+msgstr "સક્રિય"
+
+msgid "Inactive"
+msgstr "નિષ્ક્રિય"
+
+msgid "Stitching"
+msgstr "સીવિંગ"
+
+msgid "Button"
+msgstr "બટન"
+
+msgid "Collar"
+msgstr "કોલર"
+
+msgid "Color"
+msgstr "રંગ"
+
+msgid "Shirt Cuff"
+msgstr "શર્ટ કફ"
+
+msgid "Washing"
+msgstr "ધોવાણી"
+
+msgid "Simple silai machine"
+msgstr "સરળ સિલાઈ મશીન"
+
+msgid "Munda machine"
+msgstr "મુંડા મશીન"
+
+msgid "Other"
+msgstr "અન્ય"
+
+msgid "Language priority: Gujarati, then English"
+msgstr "ભાષા પ્રાધાન્ય: ગુજરાતી, પછી અંગ્રેજી"
+
+msgid "© 2024 Garment Work & Material Management System"
+msgstr "© 2024 કપડાં કામ અને સામગ્રી વ્યવસ્થાપન સિસ્ટમ"
+
+msgid "Add Worker"
+msgstr "કામદાર ઉમેરો"
+
+msgid "Add Supplier"
+msgstr "સપ્લાયર ઉમેરો"
+
+msgid "Add Material"
+msgstr "સામગ્રી ઉમેરો"
+
+msgid "Add Work Type"
+msgstr "કામનો પ્રકાર ઉમેરો"
+
+msgid "Add Work Distribution"
+msgstr "કામ વિતરણ ઉમેરો"
+
+msgid "Add Material Inward"
+msgstr "સામગ્રી આંતરિક ઉમેરો"
+
+msgid "Edit"
+msgstr "સંપાદિત કરો"
+
+msgid "Delete"
+msgstr "કાઢી નાખો"
+
+msgid "No workers found."
+msgstr "કોઈ કામદારો મળ્યા નથી."
+
+msgid "No suppliers found."
+msgstr "કોઈ સપ્લાયર્સ મળ્યા નથી."
+
+msgid "No materials found."
+msgstr "કોઈ સામગ્રીઓ મળી નથી."
+
+msgid "No work types found."
+msgstr "કોઈ કામના પ્રકારો મળ્યા નથી."
+
+msgid "No material inward entries found."
+msgstr "કોઈ સામગ્રી આંતરિક એન્ટ્રીઓ મળી નથી."
+
+msgid "No work distributions found."
+msgstr "કોઈ કામ વિતરણ મળ્યું નથી."
+
+msgid "Add Your First Worker"
+msgstr "તમારો પહેલો કામદાર ઉમેરો"
+
+msgid "Add Your First Supplier"
+msgstr "તમારો પહેલો સપ્લાયર ઉમેરો"
+
+msgid "Add Your First Material"
+msgstr "તમારી પહેલી સામગ્રી ઉમેરો"
+
+msgid "Add Your First Work Type"
+msgstr "તમારો પહેલો કામનો પ્રકાર ઉમેરો"
+
+msgid "Add Your First Material Inward Entry"
+msgstr "તમારી પહેલી સામગ્રી આંતરિક એન્ટ્રી ઉમેરો"
+
+msgid "Add Your First Work Distribution"
+msgstr "તમારું પહેલું કામ વિતરણ ઉમેરો"
+
+msgid "Work Received"
+msgstr "કામ મળ્યું"
+
+msgid "Create Work Received"
+msgstr "કામ મળ્યું બનાવો"
+
+msgid "Update Work Received"
+msgstr "કામ મળ્યું અપડેટ કરો"
+
+msgid "Delete Work Received"
+msgstr "કામ મળ્યું કાઢી નાખો"
+
+msgid "Work received entry created successfully."
+msgstr "કામ મળ્યું એન્ટ્રી સફળતાપૂર્વક બનાવવામાં આવ્યું."
+
+msgid "Work received entry updated successfully."
+msgstr "કામ મળ્યું એન્ટ્રી સફળતાપૂર્વક અપડેટ કરવામાં આવ્યું."
+
+msgid "Work received entry deleted successfully."
+msgstr "કામ મળ્યું એન્ટ્રી સફળતાપૂર્વક કાઢી નાખવામાં આવ્યું."
+
+msgid "Distribution"
+msgstr "વિતરણ"
+
+msgid "Received Quantity"
+msgstr "મળેલ માત્રા"
+
+msgid "Received Date"
+msgstr "મળેલ તારીખ"
+
+msgid "Quality Rating"
+msgstr "ગુણવત્તા રેટિંગ"
+
+msgid "Status"
+msgstr "સ્થિતિ"
+
+msgid "Remarks"
+msgstr "ટિપ્પણીઓ"
+
+msgid "No work received entries found."
+msgstr "કોઈ કામ મળ્યું એન્ટ્રીઓ મળી નથી."
+
+msgid "Add Your First Work Received Entry"
+msgstr "તમારો પ્રથમ કામ મળ્યું એન્ટ્રી ઉમેરો"
+
+msgid "Mobile"
+msgstr "મોબાઇલ"
+
+msgid "Unit"
+msgstr "એકમ"
+
+msgid "Description"
+msgstr "વર્ણન"
+
+msgid "Work Type Name"
+msgstr "કામના પ્રકારનું નામ"
+
+msgid "Lot Size"
+msgstr "લોટ સાઇઝ"
+
+msgid "Distributed Date"
+msgstr "વિતરિત તારીખ"
+
+msgid "Expected Return Date"
+msgstr "અપેક્ષિત રીટર્ન તારીખ"
+
+msgid "Material"
+msgstr "સામગ્રી"
+
+msgid "Quantity"
+msgstr "માત્રા"
+
+msgid "Date"
+msgstr "તારીખ"
+
+msgid "Actions"
+msgstr "ક્રિયાઓ"
+
+msgid "Material Name"
+msgstr "સામગ્રીનું નામ"
+
+msgid "Username already exists"
+msgstr "વપરાશકર્તા નામ પહેલેથી અસ્તિત્વમાં છે"
+
+msgid "Passwords do not match"
+msgstr "પાસવર્ડ મેળ ખાતા નથી"
+
+msgid "Track completed work received from workers and manage production output."
+msgstr "કામદારો પાસેથી મળેલ પૂર્ણ કામને ટ્રેક કરો અને ઉત્પાદન આઉટપુટનું સંચાલન કરો."
+
+msgid "Filters"
+msgstr "ફિલ્ટર્સ"
+
+msgid "Worker Name"
+msgstr "કામદારનું નામ"
+
+msgid "Work Type Name"
+msgstr "કામના પ્રકારનું નામ"
+
+msgid "Completed Quantity Min"
+msgstr "પૂર્ણ માત્રા મિનિમમ"
+
+msgid "Completed Quantity Max"
+msgstr "પૂર્ણ માત્રા મેક્સિમમ"
+
+msgid "Apply Filters"
+msgstr "ફિલ્ટર્સ લાગુ કરો"
+
+msgid "Clear Filters"
+msgstr "ફિલ્ટર્સ સાફ કરો"
+
+msgid "units"
+msgstr "એકમો"
+
+msgid "Get started by adding your first work received entry to track completed production."
+msgstr "પૂર્ણ ઉત્પાદનને ટ્રેક કરવા માટે તમારી પહેલી કામ મળેલ એન્ટ્રી ઉમેરીને શરૂ કરો."
