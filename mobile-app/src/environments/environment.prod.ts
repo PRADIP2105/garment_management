@@ -1,5 +1,5 @@
-/** Production build: set to your deployed API (match PC ipconfig on LAN). */
+/** Production build: deployed API on Render. */
 export const environment = {
   production: true,
-  apiUrl: 'http://10.94.62.87:8000/api',
+  apiUrl: 'https://garment-management.onrender.com/api',
 };
