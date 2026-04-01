@@ -39,6 +39,11 @@ localhost-key.pem
 *.log
 logs/
 
+# Management commands should always be tracked
+!apps/**/management/
+!apps/**/management/commands/
+!apps/**/management/commands/*.py
+
 # Test scripts (one-off scripts)
 test_*.py
 create_*.py
