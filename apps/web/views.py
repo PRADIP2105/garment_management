@@ -105,24 +105,9 @@ def dashboard(request: HttpRequest) -> HttpResponse:
         return render(request, "dashboard.html", {"stats": None})
     
     # Reuse API view logic to compute stats
-    try:
-        api_view = DashboardSummaryView()
-        api_view.request = request
-        response = api_view.get(request)
-        stats = response.data
-    except Exception as e:
-        # If there's any error, show empty dashboard
-        import logging
-        logger = logging.getLogger(__name__)
-        logger.exception("Dashboard error")
-        stats = {
-            "total_workers": 0,
-            "pending_work_by_worker": [],
-            "completed_work_quantity": 0,
-            "low_stock_materials": [],
-            "today_inward_quantity": 0,
-            "today_outward_lot_size": 0,
-        }
+    api_view = DashboardSummaryView()
+    response = api_view.get(request)
+    stats = response.data
     
     return render(request, "dashboard.html", {"stats": stats})
 
