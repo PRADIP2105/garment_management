@@ -88,3 +88,6 @@ TODO.md
 scripts/
 garment_management_system/logs/
 garment_management_system/.briefcase/
+
+# Ghost file from previous AI session
+mobile-app/tsconfig.json Let*
