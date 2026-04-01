@@ -77,26 +77,27 @@ ASGI_APPLICATION = "garment_saas.asgi.application"
 DB_ENGINE = os.getenv("DB_ENGINE", "sqlite")
 
 if DB_ENGINE == "postgres":
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.postgresql",
-            "NAME": os.getenv("DB_NAME", "garment_saas"),
-            "USER": os.getenv("DB_USER", "garment_saas"),
-            "PASSWORD": os.getenv("DB_PASSWORD", ""),
-            "HOST": os.getenv("DB_HOST", "localhost"),
-            "PORT": os.getenv("DB_PORT", "5432"),
+    import dj_database_url
+    DATABASE_URL = os.getenv("DATABASE_URL")
+    if DATABASE_URL:
+        DATABASES = {"default": dj_database_url.config(default=DATABASE_URL, conn_max_age=600)}
+    else:
+        DATABASES = {
+            "default": {
+                "ENGINE": "django.db.backends.postgresql",
+                "NAME": os.getenv("DB_NAME", "garment_saas"),
+                "USER": os.getenv("DB_USER", "garment_saas"),
+                "PASSWORD": os.getenv("DB_PASSWORD", ""),
+                "HOST": os.getenv("DB_HOST", "localhost"),
+                "PORT": os.getenv("DB_PORT", "5432"),
+            }
         }
-    }
 else:
-    # Default to SQLite for easy local runs
-    # timeout: reduces "database is locked" / flaky I/O when web + API hit SQLite together
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.sqlite3",
             "NAME": BASE_DIR / "dev.sqlite3",
-            "OPTIONS": {
-                "timeout": 30,
-            },
+            "OPTIONS": {"timeout": 30},
         }
     }
 
