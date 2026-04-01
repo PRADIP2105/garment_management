@@ -8,6 +8,7 @@ from apps.materials.models import Material
 from apps.materials.services import get_material_closing_stock
 from apps.suppliers.models import Supplier
 from apps.work.models import WorkDistribution, WorkReceived, WorkReturn, WorkType
+
 from apps.workers.models import Worker
 
 
@@ -39,12 +40,12 @@ class DashboardSummaryView(views.APIView):
         total_materials = Material.objects.filter(company=company).count()
         total_work_types = WorkType.objects.filter(company=company).count()
 
-        # Pending work by worker = distributions where total_completed < lot_size
+        # Pending work by worker = distributions where total received_quantity < lot_size
         from django.db.models import F
         from django.db.models.functions import Coalesce
         from collections import defaultdict
         distributions = WorkDistribution.objects.filter(company=company).annotate(
-            total_completed=Coalesce(Sum('returns__completed_quantity'), 0)
+            total_completed=Coalesce(Sum('received_works__received_quantity'), 0)
         ).filter(total_completed__lt=F('lot_size')).select_related('worker')
         pending_dict = defaultdict(int)
         for dist in distributions:
@@ -72,8 +73,8 @@ class DashboardSummaryView(views.APIView):
             page_number = 1
         pending_work_paginated = paginator.get_page(page_number)
 
-        completed_work = WorkReturn.objects.filter(company=company).aggregate(
-            total_completed=Sum("completed_quantity")
+        completed_work = WorkReceived.objects.filter(company=company).aggregate(
+            total_completed=Sum("received_quantity")
         )["total_completed"] or 0
 
         # Low-stock materials: closing_stock <= threshold (e.g. 10 units)
@@ -126,9 +127,9 @@ class DashboardSummaryView(views.APIView):
 
         # Monthly completed work (current month)
         month_start = today.replace(day=1)
-        monthly_completed = WorkReturn.objects.filter(
-            company=company, return_date__gte=month_start, return_date__lte=today
-        ).aggregate(total_completed=Sum("completed_quantity")).get("total_completed") or 0
+        monthly_completed = WorkReceived.objects.filter(
+            company=company, received_date__gte=month_start, received_date__lte=today
+        ).aggregate(total_completed=Sum("received_quantity")).get("total_completed") or 0
 
         # Return JSON-serializable pending list (Paginator Page is not JSON-safe for mobile API)
         pending_items = list(pending_work_paginated.object_list)
