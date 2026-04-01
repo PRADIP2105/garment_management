@@ -4,392 +4,158 @@
 {% block title %}{% trans "Dashboard" %} - {% trans "Garment Management" %}{% endblock %}
 
 {% block content %}
-<div class="space-y-8">
-    <!-- Page Header -->
+<div class="space-y-6">
     <div class="flex items-center justify-between">
         <h1 class="text-3xl font-bold text-slate-900">{% trans "Dashboard" %}</h1>
-        <div class="text-sm text-slate-600">
-            {% trans "Welcome back" %}, {{ user.username }}
-        </div>
+        <div class="text-sm text-slate-600">{% trans "Welcome back" %}, {{ user.username }}</div>
     </div>
 
     {% if stats %}
-    <!-- Stats Cards -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <!-- Total Workers -->
-        <div class="bg-white rounded-xl shadow-sm hover:shadow-lg transition-all duration-200 p-6 border border-slate-200/50">
-            <div class="flex items-center">
-                <div class="flex-shrink-0">
-                    <div class="w-12 h-12 bg-indigo-50 rounded-xl flex items-center justify-center">
-                        <i data-lucide="users" class="w-6 h-6 text-indigo-600"></i>
-                    </div>
-                </div>
-                <div class="ml-4">
-                    <p class="text-sm font-medium text-slate-600">{% trans "Total Workers" %}</p>
-                    <p class="text-3xl font-bold text-indigo-600">{{ stats.total_workers }}</p>
-                </div>
-            </div>
-        </div>
 
-        <!-- Total Suppliers -->
-        <div class="bg-white rounded-xl shadow-sm hover:shadow-lg transition-all duration-200 p-6 border border-slate-200/50">
-            <div class="flex items-center">
-                <div class="flex-shrink-0">
-                    <div class="w-12 h-12 bg-emerald-50 rounded-xl flex items-center justify-center">
-                        <i data-lucide="building" class="w-6 h-6 text-emerald-600"></i>
-                    </div>
-                </div>
-                <div class="ml-4">
-                    <p class="text-sm font-medium text-slate-600">{% trans "Total Suppliers" %}</p>
-                    <p class="text-3xl font-bold text-indigo-600">{{ stats.total_suppliers }}</p>
-                </div>
-            </div>
+    <!-- Row 1: Master counts -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="bg-white rounded-xl shadow-sm p-5 border border-slate-200">
+            <p class="text-xs font-medium text-slate-500 uppercase">{% trans "Total Workers" %}</p>
+            <p class="text-3xl font-bold text-indigo-600 mt-1">{{ stats.total_workers }}</p>
         </div>
-
-        <!-- Total Materials -->
-        <div class="bg-white rounded-xl shadow-sm hover:shadow-lg transition-all duration-200 p-6 border border-slate-200/50">
-            <div class="flex items-center">
-                <div class="flex-shrink-0">
-                    <div class="w-12 h-12 bg-amber-50 rounded-xl flex items-center justify-center">
-                        <i data-lucide="package" class="w-6 h-6 text-amber-600"></i>
-                    </div>
-                </div>
-                <div class="ml-4">
-                    <p class="text-sm font-medium text-slate-600">{% trans "Total Materials" %}</p>
-                    <p class="text-3xl font-bold text-indigo-600">{{ stats.total_materials }}</p>
-                </div>
-            </div>
+        <div class="bg-white rounded-xl shadow-sm p-5 border border-slate-200">
+            <p class="text-xs font-medium text-slate-500 uppercase">{% trans "Total Suppliers" %}</p>
+            <p class="text-3xl font-bold text-emerald-600 mt-1">{{ stats.total_suppliers }}</p>
         </div>
-
-        <!-- Total Work Types -->
-        <div class="bg-white rounded-xl shadow-sm hover:shadow-lg transition-all duration-200 p-6 border border-slate-200/50">
-            <div class="flex items-center">
-                <div class="flex-shrink-0">
-                    <div class="w-12 h-12 bg-cyan-50 rounded-xl flex items-center justify-center">
-                        <i data-lucide="file-text" class="w-6 h-6 text-cyan-600"></i>
-                    </div>
-                </div>
-                <div class="ml-4">
-                    <p class="text-sm font-medium text-slate-600">{% trans "Total Work Types" %}</p>
-                    <p class="text-3xl font-bold text-indigo-600">{{ stats.total_work_types }}</p>
-                </div>
-            </div>
+        <div class="bg-white rounded-xl shadow-sm p-5 border border-slate-200">
+            <p class="text-xs font-medium text-slate-500 uppercase">{% trans "Total Materials" %}</p>
+            <p class="text-3xl font-bold text-amber-600 mt-1">{{ stats.total_materials }}</p>
+        </div>
+        <div class="bg-white rounded-xl shadow-sm p-5 border border-slate-200">
+            <p class="text-xs font-medium text-slate-500 uppercase">{% trans "Total Work Types" %}</p>
+            <p class="text-3xl font-bold text-cyan-600 mt-1">{{ stats.total_work_types }}</p>
         </div>
     </div>
 
-    <!-- Performance Metrics -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div class="bg-white rounded-lg shadow-sm p-6 border border-gray-200">
-            <div class="flex items-center">
-                <div class="flex-shrink-0">
-                    <div class="w-8 h-8 bg-success/10 rounded-lg flex items-center justify-center">
-                        <svg class="w-5 h-5 text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                        </svg>
-                    </div>
-                </div>
-                <div class="ml-4">
-                    <p class="text-sm font-medium text-gray-600">{% trans "Completed Work Qty" %}</p>
-                    <p class="text-2xl font-semibold text-gray-900">{{ stats.completed_work_quantity }}</p>
-                </div>
-            </div>
+    <!-- Row 2: Work stats -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="bg-white rounded-xl shadow-sm p-5 border border-slate-200">
+            <p class="text-xs font-medium text-slate-500 uppercase">{% trans "Total Distributed" %}</p>
+            <p class="text-3xl font-bold text-slate-800 mt-1">{{ stats.total_distributed_work }}</p>
+            <p class="text-xs text-slate-400 mt-1">{% trans "all time lot size" %}</p>
         </div>
-
-        <div class="bg-white rounded-lg shadow-sm p-6 border border-gray-200">
-            <div class="flex items-center">
-                <div class="flex-shrink-0">
-                    <div class="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center">
-                        <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"></path>
-                        </svg>
-                    </div>
-                </div>
-                <div class="ml-4">
-                    <p class="text-sm font-medium text-gray-600">{% trans "Today Inward Qty" %}</p>
-                    <p class="text-2xl font-semibold text-gray-900">{{ stats.today_inward_quantity }}</p>
-                </div>
-            </div>
+        <div class="bg-white rounded-xl shadow-sm p-5 border border-slate-200">
+            <p class="text-xs font-medium text-slate-500 uppercase">{% trans "Total Completed" %}</p>
+            <p class="text-3xl font-bold text-green-600 mt-1">{{ stats.completed_work_quantity }}</p>
+            <p class="text-xs text-slate-400 mt-1">{% trans "all time received qty" %}</p>
         </div>
-
-        <div class="bg-white rounded-lg shadow-sm p-6 border border-gray-200">
-            <div class="flex items-center">
-                <div class="flex-shrink-0">
-                    <div class="w-8 h-8 bg-secondary/10 rounded-lg flex items-center justify-center">
-                        <svg class="w-5 h-5 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
-                        </svg>
-                    </div>
-                </div>
-                <div class="ml-4">
-                    <p class="text-sm font-medium text-gray-600">{% trans "Today Outward Lot Size" %}</p>
-                    <p class="text-2xl font-semibold text-gray-900">{{ stats.today_outward_lot_size }}</p>
-                </div>
-            </div>
+        <div class="bg-white rounded-xl shadow-sm p-5 border border-slate-200">
+            <p class="text-xs font-medium text-slate-500 uppercase">{% trans "Total Pending" %}</p>
+            <p class="text-3xl font-bold text-orange-500 mt-1">{{ stats.total_pending_work }}</p>
+            <p class="text-xs text-slate-400 mt-1">{% trans "across all workers" %}</p>
         </div>
-
-        <div class="bg-white rounded-lg shadow-sm p-6 border border-gray-200">
-            <div class="flex items-center">
-                <div class="flex-shrink-0">
-                    <div class="w-8 h-8 bg-info/10 rounded-lg flex items-center justify-center">
-                        <svg class="w-5 h-5 text-info" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-                        </svg>
-                    </div>
-                </div>
-                <div class="ml-4">
-                    <p class="text-sm font-medium text-gray-600">{% trans "Monthly Completed Work" %}</p>
-                    <p class="text-2xl font-semibold text-gray-900">{{ stats.monthly_completed_work }}</p>
-                </div>
-            </div>
+        <div class="bg-white rounded-xl shadow-sm p-5 border border-slate-200">
+            <p class="text-xs font-medium text-slate-500 uppercase">{% trans "Monthly Completed" %}</p>
+            <p class="text-3xl font-bold text-indigo-600 mt-1">{{ stats.monthly_completed_work }}</p>
+            <p class="text-xs text-slate-400 mt-1">{% trans "this month" %}</p>
         </div>
     </div>
 
-    <!-- Weekly Metrics -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div class="bg-white rounded-lg shadow-sm p-6 border border-gray-200">
-            <div class="flex items-center">
-                <div class="flex-shrink-0">
-                    <div class="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center">
-                        <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"></path>
-                        </svg>
-                    </div>
-                </div>
-                <div class="ml-4">
-                    <p class="text-sm font-medium text-gray-600">{% trans "Weekly Inward Qty" %}</p>
-                    <p class="text-2xl font-semibold text-gray-900">{{ stats.weekly_inward_quantity }}</p>
-                </div>
-            </div>
+    <!-- Row 3: Today & Weekly -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="bg-white rounded-xl shadow-sm p-5 border border-slate-200">
+            <p class="text-xs font-medium text-slate-500 uppercase">{% trans "Today Inward Qty" %}</p>
+            <p class="text-3xl font-bold text-blue-600 mt-1">{{ stats.today_inward_quantity }}</p>
         </div>
-
-        <div class="bg-white rounded-lg shadow-sm p-6 border border-gray-200">
-            <div class="flex items-center">
-                <div class="flex-shrink-0">
-                    <div class="w-8 h-8 bg-secondary/10 rounded-lg flex items-center justify-center">
-                        <svg class="w-5 h-5 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
-                        </svg>
-                    </div>
-                </div>
-                <div class="ml-4">
-                    <p class="text-sm font-medium text-gray-600">{% trans "Weekly Outward Lot Size" %}</p>
-                    <p class="text-2xl font-semibold text-gray-900">{{ stats.weekly_outward_lot_size }}</p>
-                </div>
-            </div>
+        <div class="bg-white rounded-xl shadow-sm p-5 border border-slate-200">
+            <p class="text-xs font-medium text-slate-500 uppercase">{% trans "Today Outward Lot" %}</p>
+            <p class="text-3xl font-bold text-purple-600 mt-1">{{ stats.today_outward_lot_size }}</p>
+        </div>
+        <div class="bg-white rounded-xl shadow-sm p-5 border border-slate-200">
+            <p class="text-xs font-medium text-slate-500 uppercase">{% trans "Today Completed" %}</p>
+            <p class="text-3xl font-bold text-green-500 mt-1">{{ stats.today_completed_work }}</p>
+        </div>
+        <div class="bg-white rounded-xl shadow-sm p-5 border border-slate-200">
+            <p class="text-xs font-medium text-slate-500 uppercase">{% trans "Weekly Completed" %}</p>
+            <p class="text-3xl font-bold text-teal-600 mt-1">{{ stats.weekly_completed_work }}</p>
+            <p class="text-xs text-slate-400 mt-1">{% trans "last 7 days" %}</p>
         </div>
     </div>
 
-    <!-- Payment Section -->
-    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-        <div class="flex items-center justify-between">
-            <div>
-                <h3 class="text-lg font-medium text-gray-900">{% trans "Payment" %}</h3>
-                <p class="text-sm text-gray-600 mt-1">{% trans "Make payments for services and materials" %}</p>
-            </div>
-            <div class="flex items-center space-x-4">
-                <div class="text-right">
-                    <p class="text-sm text-gray-600">{% trans "Currency" %}</p>
-                    <p class="text-lg font-semibold text-gray-900">GBP (£)</p>
-                </div>
-                <button class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-primary hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
-                    <svg class="-ml-1 mr-3 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path>
-                    </svg>
-                    {% trans "Pay Now" %}
-                </button>
-            </div>
+    <!-- Row 4: Weekly inward/outward -->
+    <div class="grid grid-cols-2 gap-4">
+        <div class="bg-white rounded-xl shadow-sm p-5 border border-slate-200">
+            <p class="text-xs font-medium text-slate-500 uppercase">{% trans "Weekly Inward Qty" %}</p>
+            <p class="text-3xl font-bold text-blue-500 mt-1">{{ stats.weekly_inward_quantity }}</p>
+            <p class="text-xs text-slate-400 mt-1">{% trans "last 7 days" %}</p>
         </div>
-
-        <!-- Payment Options -->
-        <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div class="border border-gray-200 rounded-lg p-4 hover:border-primary/50 hover:shadow-sm transition-all cursor-pointer">
-                <div class="flex items-center">
-                    <div class="flex-shrink-0">
-                        <div class="w-10 h-10 bg-success/10 rounded-lg flex items-center justify-center">
-                            <svg class="w-6 h-6 text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                            </svg>
-                        </div>
-                    </div>
-                    <div class="ml-4">
-                        <h4 class="text-sm font-medium text-gray-900">{% trans "Worker Payments" %}</h4>
-                        <p class="text-sm text-gray-600">{% trans "Pay workers for completed work" %}</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="border border-gray-200 rounded-lg p-4 hover:border-primary/50 hover:shadow-sm transition-all cursor-pointer">
-                <div class="flex items-center">
-                    <div class="flex-shrink-0">
-                        <div class="w-10 h-10 bg-warning/10 rounded-lg flex items-center justify-center">
-                            <svg class="w-6 h-6 text-warning" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
-                            </svg>
-                        </div>
-                    </div>
-                    <div class="ml-4">
-                        <h4 class="text-sm font-medium text-gray-900">{% trans "Material Payments" %}</h4>
-                        <p class="text-sm text-gray-600">{% trans "Pay suppliers for materials" %}</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="border border-gray-200 rounded-lg p-4 hover:border-primary/50 hover:shadow-sm transition-all cursor-pointer">
-                <div class="flex items-center">
-                    <div class="flex-shrink-0">
-                        <div class="w-10 h-10 bg-info/10 rounded-lg flex items-center justify-center">
-                            <svg class="w-6 h-6 text-info" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
-                        </svg>
-                    </div>
-                    <div class="ml-4">
-                        <h4 class="text-sm font-medium text-gray-900">{% trans "Service Payments" %}</h4>
-                        <p class="text-sm text-gray-600">{% trans "Pay for additional services" %}</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Recent Payments -->
-        <div class="mt-6">
-            <h4 class="text-sm font-medium text-gray-900 mb-3">{% trans "Recent Payments" %}</h4>
-            <div class="space-y-3">
-                <div class="flex items-center justify-between py-3 border-b border-gray-200">
-                    <div class="flex items-center">
-                        <div class="flex-shrink-0">
-                            <div class="w-8 h-8 bg-success/10 rounded-full flex items-center justify-center">
-                                <svg class="w-4 h-4 text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                                </svg>
-                            </div>
-                        </div>
-                        <div class="ml-3">
-                            <p class="text-sm font-medium text-gray-900">{% trans "Worker Payment - John Doe" %}</p>
-                            <p class="text-xs text-gray-600">{% trans "Completed stitching work" %}</p>
-                        </div>
-                    </div>
-                    <div class="text-right">
-                        <p class="text-sm font-medium text-gray-900">£150.00</p>
-                        <p class="text-xs text-gray-600">2 days ago</p>
-                    </div>
-                </div>
-
-                <div class="flex items-center justify-between py-3 border-b border-gray-200">
-                    <div class="flex items-center">
-                        <div class="flex-shrink-0">
-                            <div class="w-8 h-8 bg-warning/10 rounded-full flex items-center justify-center">
-                                <svg class="w-4 h-4 text-warning" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
-                                </svg>
-                            </div>
-                        </div>
-                        <div class="ml-3">
-                            <p class="text-sm font-medium text-gray-900">{% trans "Material Purchase - Fabric Co." %}</p>
-                            <p class="text-xs text-gray-600">{% trans "Cotton fabric delivery" %}</p>
-                        </div>
-                    </div>
-                    <div class="text-right">
-                        <p class="text-sm font-medium text-gray-900">£320.50</p>
-                        <p class="text-xs text-gray-600">5 days ago</p>
-                    </div>
-                </div>
-            </div>
+        <div class="bg-white rounded-xl shadow-sm p-5 border border-slate-200">
+            <p class="text-xs font-medium text-slate-500 uppercase">{% trans "Weekly Outward Lot" %}</p>
+            <p class="text-3xl font-bold text-purple-500 mt-1">{{ stats.weekly_outward_lot_size }}</p>
+            <p class="text-xs text-slate-400 mt-1">{% trans "last 7 days" %}</p>
         </div>
     </div>
 
-    <!-- Pending Work Progress Bars -->
-    <div class="bg-white border border-gray-200 p-4">
+    <!-- Pending Work by Worker -->
+    <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
         <div class="flex items-center justify-between mb-4">
-            <h3 class="text-sm font-bold text-gray-900">{% trans "Pending Work by Worker" %}</h3>
-            <span class="text-xs text-gray-500">{% trans "Top 5 workers" %}</span>
+            <h3 class="text-sm font-bold text-slate-800">{% trans "Pending Work by Worker" %}</h3>
+            <span class="text-xs text-slate-400">{% trans "Top 5 workers" %}</span>
         </div>
-        <div class="space-y-3">
+        <div class="space-y-4">
             {% for item in stats.pending_work_by_worker|slice:":5" %}
-            <div class="flex items-center space-x-3">
-                <div class="flex-shrink-0 w-16 text-xs font-medium text-gray-900 truncate">{{ item.worker__name|default:"-" }}</div>
-                <div class="flex-1">
-                    <div class="w-full bg-gray-200 rounded-full h-1.5">
-                        <div class="bg-primary h-1.5 rounded-full" style="width: {% widthratio item.total_pending 10 100 %}%"></div>
-                    </div>
-                    <div class="flex justify-between mt-1">
-                        <span class="text-xs text-gray-600">{{ item.total_pending|default:0 }} {% trans "pending" %}</span>
-                        <span class="text-xs text-gray-600">{{ item.total_pending|default:0 }}/10</span>
-                    </div>
+            <div>
+                <div class="flex justify-between text-xs mb-1">
+                    <span class="font-medium text-slate-700">{{ item.worker__name|default:"-" }}</span>
+                    <span class="text-slate-500">{{ item.total_pending }} {% trans "pending" %}</span>
+                </div>
+                <div class="w-full bg-slate-100 rounded-full h-2">
+                    <div class="bg-indigo-500 h-2 rounded-full"
+                         style="width: {% widthratio item.total_pending stats.total_distributed_work 100 %}%"></div>
                 </div>
             </div>
             {% empty %}
-            <div class="text-center py-6">
-                <svg class="mx-auto h-8 w-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                </svg>
-                <h3 class="mt-2 text-xs font-medium text-gray-900">{% trans "No pending work" %}</h3>
-                <p class="mt-1 text-xs text-gray-500">{% trans "All work is completed!" %}</p>
+            <div class="text-center py-6 text-slate-400">
+                <p class="text-sm">{% trans "No pending work — all done!" %}</p>
             </div>
             {% endfor %}
         </div>
     </div>
 
-        <!-- Low Stock Materials -->
-        <div class="bg-white rounded-lg shadow-sm border border-gray-200">
-            <div class="px-6 py-4 border-b border-gray-200">
-                <h3 class="text-lg font-medium text-gray-900">{% trans "Low Stock Materials" %}</h3>
-            </div>
-            <div class="overflow-x-auto">
-                <table class="min-w-full divide-y divide-gray-200">
-                    <thead class="bg-gray-50">
-                        <tr>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{% trans "Material" %}</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{% trans "Closing Stock" %}</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{% trans "Unit" %}</th>
-                        </tr>
-                    </thead>
-                    <tbody class="bg-white divide-y divide-gray-200">
-                        {% for m in stats.low_stock_materials %}
-                        <tr class="hover:bg-gray-50">
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ m.name }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
-                                    {{ m.closing_stock }}
-                                </span>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ m.unit }}</td>
-                        </tr>
-                        {% empty %}
-                        <tr>
-                            <td colspan="3" class="px-6 py-4 text-center">
-                                <div class="py-8">
-                                    <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
-                                    </svg>
-                                    <h3 class="mt-2 text-sm font-medium text-gray-900">{% trans "No low stock materials" %}</h3>
-                                    <p class="mt-1 text-sm text-gray-500">{% trans "All materials are well-stocked!" %}</p>
-                                </div>
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
+    <!-- Low Stock Materials -->
+    <div class="bg-white rounded-xl shadow-sm border border-slate-200">
+        <div class="px-6 py-4 border-b border-slate-200">
+            <h3 class="text-sm font-bold text-slate-800">{% trans "Low Stock Materials" %}</h3>
         </div>
+        <table class="min-w-full divide-y divide-slate-200">
+            <thead class="bg-slate-50">
+                <tr>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase">{% trans "Material" %}</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase">{% trans "Closing Stock" %}</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase">{% trans "Unit" %}</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-200">
+                {% for m in stats.low_stock_materials %}
+                <tr class="hover:bg-slate-50">
+                    <td class="px-6 py-3 text-sm font-medium text-slate-900">{{ m.name }}</td>
+                    <td class="px-6 py-3">
+                        <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-700">
+                            {{ m.closing_stock }}
+                        </span>
+                    </td>
+                    <td class="px-6 py-3 text-sm text-slate-500">{{ m.unit }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="3" class="px-6 py-8 text-center text-sm text-slate-400">
+                        {% trans "No low stock materials — all well-stocked!" %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
+
     {% else %}
-    <!-- No Data State -->
-    <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-6">
-        <div class="flex">
-            <div class="flex-shrink-0">
-                <svg class="h-5 w-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 100 2h.01a1 1 0 100-2H10z" clip-rule="evenodd" />
-                </svg>
-            </div>
-            <div class="ml-3">
-                <h3 class="text-sm font-medium text-yellow-800">{% trans "Dashboard data not available" %}</h3>
-                <div class="mt-2 text-sm text-yellow-700">
-                    <p>{% trans "Please ensure your account is linked to a company." %}</p>
-                </div>
-            </div>
-        </div>
+    <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-6 text-sm text-yellow-800">
+        {% trans "Dashboard data not available. Please ensure your account is linked to a company." %}
     </div>
     {% endif %}
 </div>
 {% endblock %}
-

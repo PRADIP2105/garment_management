@@ -77,6 +77,16 @@ class DashboardSummaryView(views.APIView):
             total_completed=Sum("received_quantity")
         )["total_completed"] or 0
 
+        # Today completed work
+        today_completed = WorkReceived.objects.filter(
+            company=company, received_date=today
+        ).aggregate(total=Sum("received_quantity")).get("total") or 0
+
+        # Weekly completed work (last 7 days)
+        weekly_completed = WorkReceived.objects.filter(
+            company=company, received_date__gte=week_start, received_date__lte=today
+        ).aggregate(total=Sum("received_quantity")).get("total") or 0
+
         # Low-stock materials: closing_stock <= threshold (e.g. 10 units)
         low_stock = []
         for material in Material.objects.filter(company=company):
@@ -131,8 +141,17 @@ class DashboardSummaryView(views.APIView):
             company=company, received_date__gte=month_start, received_date__lte=today
         ).aggregate(total_completed=Sum("received_quantity")).get("total_completed") or 0
 
-        # Return JSON-serializable pending list (Paginator Page is not JSON-safe for mobile API)
+        # Total pending work quantity
+        total_pending = sum(item['total_pending'] for item in pending_by_worker)
+
+        # Total work distributed (all time)
+        total_distributed = WorkDistribution.objects.filter(company=company).aggregate(
+            total=Sum("lot_size")
+        ).get("total") or 0
+
+        # Return JSON-serializable pending list
         pending_items = list(pending_work_paginated.object_list)
+
         return Response(
             {
                 "total_workers": total_workers,
@@ -143,12 +162,16 @@ class DashboardSummaryView(views.APIView):
                 "pending_work_page": pending_work_paginated.number,
                 "pending_work_total_pages": pending_work_paginated.paginator.num_pages,
                 "completed_work_quantity": completed_work,
+                "today_completed_work": today_completed,
+                "weekly_completed_work": weekly_completed,
+                "monthly_completed_work": monthly_completed,
+                "total_pending_work": total_pending,
+                "total_distributed_work": total_distributed,
                 "low_stock_materials": low_stock,
                 "today_inward_quantity": today_inward,
                 "today_outward_lot_size": today_outward,
                 "weekly_inward_quantity": weekly_inward,
                 "weekly_outward_lot_size": weekly_outward,
-                "monthly_completed_work": monthly_completed,
             }
         )
 
