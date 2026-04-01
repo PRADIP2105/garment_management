@@ -6,21 +6,36 @@ import os
 User = get_user_model()
 
 class Command(BaseCommand):
-    help = 'Create a default superadmin user if not exists'
+    help = 'Create or fix the default superadmin user'
 
     def handle(self, *args, **kwargs):
         username = os.getenv('SUPERADMIN_USERNAME', 'superadmin')
         password = os.getenv('SUPERADMIN_PASSWORD', 'admin@1234')
 
-        if User.objects.filter(username=username).exists():
-            self.stdout.write(f'Superadmin "{username}" already exists, skipping.')
-            return
+        user = User.objects.filter(username=username).first()
 
-        company, _ = Company.objects.get_or_create(name='Admin Company')
-        User.objects.create_superuser(
-            username=username,
-            password=password,
-            email='',
-            company=company,
-        )
-        self.stdout.write(self.style.SUCCESS(f'Superadmin "{username}" created successfully.'))
+        if user:
+            # Fix flags if they were not set correctly
+            changed = False
+            if not user.is_superuser:
+                user.is_superuser = True
+                changed = True
+            if not user.is_staff:
+                user.is_staff = True
+                changed = True
+            user.set_password(password)
+            user.save()
+            self.stdout.write(self.style.SUCCESS(
+                f'Superadmin "{username}" updated — is_staff=True, is_superuser=True, password reset.'
+            ))
+        else:
+            company, _ = Company.objects.get_or_create(name='Admin Company')
+            User.objects.create_superuser(
+                username=username,
+                password=password,
+                email='',
+                company=company,
+                is_staff=True,
+                is_superuser=True,
+            )
+            self.stdout.write(self.style.SUCCESS(f'Superadmin "{username}" created successfully.'))
