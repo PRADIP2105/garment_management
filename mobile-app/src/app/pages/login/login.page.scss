@@ -1,15 +1,15 @@
 @import '../../../theme/variables.scss';
 
 .login-content {
-  --background: #f4f5f7;
+  --background: #f1f5f9;
 }
 
 /* Hero */
 .login-hero {
   @include hero-gradient;
-  padding: 64px 24px 72px;
+  padding: 72px 24px 80px;
   text-align: center;
-  border-radius: 0 0 40px 40px;
+  border-radius: 0 0 36px 36px;
   position: relative;
   overflow: hidden;
 }
@@ -17,55 +17,53 @@
 .hero-blob {
   position: absolute;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.07);
+  background: rgba(255,255,255,0.08);
 }
-.hero-blob-1 { width: 280px; height: 280px; top: -80px; right: -60px; }
-.hero-blob-2 { width: 200px; height: 200px; bottom: -60px; left: -40px; }
+.hero-blob-1 { width: 260px; height: 260px; top: -80px; right: -60px; }
+.hero-blob-2 { width: 180px; height: 180px; bottom: -50px; left: -40px; }
 
 .hero-logo-wrap {
-  width: 80px;
-  height: 80px;
-  margin: 0 auto 18px;
-  background: rgba(255, 255, 255, 0.18);
-  border-radius: 24px;
+  width: 76px;
+  height: 76px;
+  margin: 0 auto 16px;
+  background: rgba(255,255,255,0.2);
+  border-radius: 22px;
   display: flex;
   align-items: center;
   justify-content: center;
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(8px);
 }
-
-.hero-logo-icon { font-size: 40px; color: #ffffff; }
+.hero-logo-icon { font-size: 38px; color: #fff; }
 
 .hero-title {
-  font-size: 26px;
+  font-size: 24px;
   font-weight: 800;
-  color: #ffffff;
+  color: #fff;
   margin: 0 0 6px;
   letter-spacing: -0.02em;
 }
-
 .hero-subtitle {
-  font-size: 14px;
-  color: rgba(255, 255, 255, 0.78);
+  font-size: 13px;
+  color: rgba(255,255,255,0.75);
   margin: 0;
   font-weight: 500;
 }
 
 /* Card */
 .login-card {
-  margin: -32px 16px 32px;
-  padding: 28px 16px 20px;
-  background: #ffffff;
+  margin: -36px 16px 0;
+  padding: 28px 20px 24px;
+  background: #fff;
   border-radius: 20px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.1);
   position: relative;
   z-index: 2;
 }
 
-/* Fields — soft background, no pill, no hard border */
+/* Fields */
 .field-wrap {
   position: relative;
-  margin-bottom: 12px;
+  margin-bottom: 14px;
 }
 
 .field-icon {
@@ -73,7 +71,7 @@
   left: 14px;
   top: 50%;
   transform: translateY(-50%);
-  font-size: 20px;
+  font-size: 19px;
   color: #94a3b8;
   z-index: 3;
   pointer-events: none;
@@ -84,7 +82,7 @@
   right: 14px;
   top: 50%;
   transform: translateY(-50%);
-  font-size: 20px;
+  font-size: 19px;
   color: #94a3b8;
   z-index: 3;
   cursor: pointer;
@@ -93,27 +91,28 @@
 .field-input {
   --padding-start: 44px !important;
   --padding-end: 44px !important;
-  --background: #f4f5f7;
+  --background: #f8fafc;
   --border-radius: 12px;
-  --border-color: transparent;
-  --border-width: 0;
-  --highlight-color-focused: #10b981;
+  --border-color: #e2e8f0;
+  --border-width: 1.5px;
+  --border-style: solid;
+  --highlight-color-focused: #{$gm-primary};
   --highlight-height: 2px;
   --color: #0f172a;
   --placeholder-color: #94a3b8;
-  font-size: 16px;
-  min-height: 50px;
+  font-size: 15px;
+  min-height: 52px;
 }
 
 /* Sign In button */
 .sign-in-btn {
-  margin-top: 8px;
+  margin-top: 6px;
   margin-bottom: 4px;
-  --background: linear-gradient(135deg, #{$gm-primary} 0%, #{$gm-primary-dark} 100%);
-  --background-activated: #{$gm-primary-darker};
+  --background: #{$gm-primary};
+  --background-activated: #{$gm-primary-dark};
   --border-radius: 12px;
-  --box-shadow: 0 6px 20px rgba(16, 185, 129, 0.30);
-  --color: #ffffff;
+  --box-shadow: 0 4px 16px rgba(16,185,129,0.35);
+  --color: #fff;
   min-height: 52px;
   font-weight: 700;
   font-size: 16px;
@@ -122,57 +121,21 @@
 
 .btn-spinner { width: 20px; height: 20px; }
 
-/* Server settings toggle */
-.adv-toggle {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  margin-top: 16px;
-  padding: 6px;
-  cursor: pointer;
-  color: #94a3b8;
-  font-size: 13px;
-  font-weight: 500;
-}
-
-.adv-toggle-icon { font-size: 15px; }
-
-.adv-panel {
-  margin-top: 10px;
-  padding: 14px;
-  background: #f4f5f7;
-  border-radius: 12px;
-}
-
-.adv-hint {
-  font-size: 12px;
-  color: #64748b;
-  margin: 8px 0 0;
-  line-height: 1.5;
-  strong { color: #334155; }
-}
-
-.reset-btn { margin-top: 10px; font-size: 12px; }
-
-/* Register row — properly centered and aligned */
+/* Register row */
 .register-row {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 16px;
-  gap: 0;
+  margin-top: 18px;
+  gap: 2px;
 }
-
 .register-label {
-  font-size: 14px;
+  font-size: 13px;
   color: #94a3b8;
-  line-height: 1;
 }
-
 .register-link-btn {
   font-weight: 700;
-  font-size: 14px;
+  font-size: 13px;
   --color: #{$gm-primary};
   --padding-top: 0;
   --padding-bottom: 0;
