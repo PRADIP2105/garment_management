@@ -94,6 +94,7 @@ class DashboardSummaryView(views.APIView):
         today_inward = company.material_inwards.filter(
             received_date=today
         ).aggregate(total=Sum("quantity"))["total"] or 0
+        today_inward = int(today_inward)
 
         today_outward = WorkDistribution.objects.filter(
             company=company, distributed_date=today
@@ -102,6 +103,7 @@ class DashboardSummaryView(views.APIView):
         weekly_inward = company.material_inwards.filter(
             received_date__gte=week_start, received_date__lte=today
         ).aggregate(total=Sum("quantity"))["total"] or 0
+        weekly_inward = int(weekly_inward)
 
         weekly_outward = WorkDistribution.objects.filter(
             company=company, distributed_date__gte=week_start, distributed_date__lte=today

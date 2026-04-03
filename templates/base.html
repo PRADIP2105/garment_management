@@ -8,19 +8,15 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
             theme: {
                 extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'Geist', 'sans-serif'],
-                    },
                     colors: {
-                        primary: '#4F46E5', // Indigo
-                        secondary: '#64748b', // Slate
-                        success: '#059669', // Emerald
+                        primary: '#4F46E5',
+                        secondary: '#64748b',
+                        success: '#059669',
                         danger: '#ef4444',
                         warning: '#f59e0b',
                         info: '#06b6d4'
@@ -29,123 +25,132 @@
             }
         }
     </script>
-    <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
-    <!-- Radix UI (for components like dropdowns, but since Django, we'll use Tailwind equivalents) -->
-    <!-- For simplicity, we'll use Tailwind classes to simulate -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        /* Hide scrollbar everywhere in sidebar */
+        #sidebar-nav::-webkit-scrollbar { display: none; }
+        #sidebar-nav { scrollbar-width: none; -ms-overflow-style: none; }
+    </style>
 </head>
 <body class="bg-slate-50 text-slate-900 flex min-h-screen">
-    <!-- Sidebar -->
-    <aside id="sidebar" class="fixed left-0 top-0 w-64 h-full bg-slate-800 text-slate-300 shadow-lg border-r border-slate-700 overflow-y-auto transition-all duration-300">
-        <div class="p-6 flex items-center justify-between">
-            <h1 class="text-xl font-bold text-white">{% trans "Garment Management" %}</h1>
-            <button id="sidebar-toggle" class="text-slate-400 hover:text-white">
-                <i data-lucide="chevron-left" class="w-5 h-5"></i>
+
+    <!-- Sidebar: flex column, no overflow on the aside itself -->
+    <aside id="sidebar" class="fixed left-0 top-0 h-full bg-slate-800 text-slate-300 shadow-lg border-r border-slate-700 transition-all duration-300 flex flex-col" style="width:256px; overflow:hidden;">
+
+        <!-- Top: logo + toggle -->
+        <div class="flex items-center justify-between px-4 py-4 flex-shrink-0 border-b border-slate-700">
+            <h1 id="sidebar-title" class="text-sm font-bold text-white truncate leading-tight">{% trans "Garment Management" %}</h1>
+            <button id="sidebar-toggle" class="text-slate-400 hover:text-white flex-shrink-0 ml-2 p-1 rounded hover:bg-slate-700">
+                <i data-lucide="chevron-left" class="w-4 h-4" id="toggle-icon" style="transition: transform 0.3s;"></i>
             </button>
         </div>
-        <nav class="mt-6">
+
+        <!-- Middle: scrollable nav -->
+        <nav class="flex-1 overflow-y-auto py-2" id="sidebar-nav">
             {% if user.is_authenticated %}
-                <a href="{% url 'web:dashboard' %}" class="flex items-center px-6 py-3 text-slate-300 hover:bg-slate-700 hover:text-white transition-colors">
-                    <i data-lucide="layout-dashboard" class="w-5 h-5 mr-3"></i>
-                    {% trans "Dashboard" %}
+                <a href="{% url 'web:dashboard' %}" class="flex items-center px-4 py-2 text-slate-300 hover:bg-slate-700 hover:text-white transition-colors rounded mx-1">
+                    <i data-lucide="layout-dashboard" class="w-4 h-4 flex-shrink-0"></i>
+                    <span class="sidebar-text ml-3 text-sm truncate">{% trans "Dashboard" %}</span>
                 </a>
-                <div class="px-6 py-2 text-xs font-semibold text-slate-500 uppercase tracking-wider">{% trans "Management" %}</div>
-                <a href="{% url 'web:workers_list' %}" class="flex items-center px-6 py-3 text-slate-300 hover:bg-slate-700 hover:text-white transition-colors">
-                    <i data-lucide="users" class="w-5 h-5 mr-3"></i>
-                    {% trans "Workers" %}
+
+                <p class="sidebar-text px-4 pt-4 pb-1 text-xs font-semibold text-slate-500 uppercase tracking-wider">{% trans "Management" %}</p>
+
+                <a href="{% url 'web:workers_list' %}" class="flex items-center px-4 py-2 text-slate-300 hover:bg-slate-700 hover:text-white transition-colors rounded mx-1">
+                    <i data-lucide="users" class="w-4 h-4 flex-shrink-0"></i>
+                    <span class="sidebar-text ml-3 text-sm truncate">{% trans "Workers" %}</span>
                 </a>
-                <a href="{% url 'web:suppliers_list' %}" class="flex items-center px-6 py-3 text-slate-300 hover:bg-slate-700 hover:text-white transition-colors">
-                    <i data-lucide="building" class="w-5 h-5 mr-3"></i>
-                    {% trans "Suppliers" %}
+                <a href="{% url 'web:suppliers_list' %}" class="flex items-center px-4 py-2 text-slate-300 hover:bg-slate-700 hover:text-white transition-colors rounded mx-1">
+                    <i data-lucide="building" class="w-4 h-4 flex-shrink-0"></i>
+                    <span class="sidebar-text ml-3 text-sm truncate">{% trans "Suppliers" %}</span>
                 </a>
-                <a href="{% url 'web:materials_list' %}" class="flex items-center px-6 py-3 text-slate-300 hover:bg-slate-700 hover:text-white transition-colors">
-                    <i data-lucide="package" class="w-5 h-5 mr-3"></i>
-                    {% trans "Materials" %}
+                <a href="{% url 'web:materials_list' %}" class="flex items-center px-4 py-2 text-slate-300 hover:bg-slate-700 hover:text-white transition-colors rounded mx-1">
+                    <i data-lucide="package" class="w-4 h-4 flex-shrink-0"></i>
+                    <span class="sidebar-text ml-3 text-sm truncate">{% trans "Materials" %}</span>
                 </a>
-                <div class="px-6 py-2 text-xs font-semibold text-slate-500 uppercase tracking-wider">{% trans "Operations" %}</div>
-                <a href="{% url 'web:material_inward_list' %}" class="flex items-center px-6 py-3 text-slate-300 hover:bg-slate-700 hover:text-white transition-colors">
-                    <i data-lucide="arrow-down" class="w-5 h-5 mr-3"></i>
-                    {% trans "Material Inward" %}
+
+                <p class="sidebar-text px-4 pt-4 pb-1 text-xs font-semibold text-slate-500 uppercase tracking-wider">{% trans "Operations" %}</p>
+
+                <a href="{% url 'web:material_inward_list' %}" class="flex items-center px-4 py-2 text-slate-300 hover:bg-slate-700 hover:text-white transition-colors rounded mx-1">
+                    <i data-lucide="arrow-down" class="w-4 h-4 flex-shrink-0"></i>
+                    <span class="sidebar-text ml-3 text-sm truncate">{% trans "Material Inward" %}</span>
                 </a>
-                <a href="{% url 'web:work_types_list' %}" class="flex items-center px-6 py-3 text-slate-300 hover:bg-slate-700 hover:text-white transition-colors">
-                    <i data-lucide="file-text" class="w-5 h-5 mr-3"></i>
-                    {% trans "Work Types" %}
+                <a href="{% url 'web:work_types_list' %}" class="flex items-center px-4 py-2 text-slate-300 hover:bg-slate-700 hover:text-white transition-colors rounded mx-1">
+                    <i data-lucide="file-text" class="w-4 h-4 flex-shrink-0"></i>
+                    <span class="sidebar-text ml-3 text-sm truncate">{% trans "Work Types" %}</span>
                 </a>
-                <a href="{% url 'web:work_distribution_list' %}" class="flex items-center px-6 py-3 text-slate-300 hover:bg-slate-700 hover:text-white transition-colors">
-                    <i data-lucide="share" class="w-5 h-5 mr-3"></i>
-                    {% trans "Work Distribution" %}
+                <a href="{% url 'web:work_distribution_list' %}" class="flex items-center px-4 py-2 text-slate-300 hover:bg-slate-700 hover:text-white transition-colors rounded mx-1">
+                    <i data-lucide="share" class="w-4 h-4 flex-shrink-0"></i>
+                    <span class="sidebar-text ml-3 text-sm truncate">{% trans "Work Distribution" %}</span>
                 </a>
-                <a href="{% url 'web:work_received_list' %}" class="flex items-center px-6 py-3 text-slate-300 hover:bg-slate-700 hover:text-white transition-colors">
-                    <i data-lucide="check-circle" class="w-5 h-5 mr-3"></i>
-                    {% trans "Work Received" %}
+                <a href="{% url 'web:work_received_list' %}" class="flex items-center px-4 py-2 text-slate-300 hover:bg-slate-700 hover:text-white transition-colors rounded mx-1">
+                    <i data-lucide="check-circle" class="w-4 h-4 flex-shrink-0"></i>
+                    <span class="sidebar-text ml-3 text-sm truncate">{% trans "Work Received" %}</span>
                 </a>
-                <a href="{% url 'web:pending_work_list' %}" class="flex items-center px-6 py-3 text-slate-300 hover:bg-slate-700 hover:text-white transition-colors">
-                    <i data-lucide="clock" class="w-5 h-5 mr-3"></i>
-                    {% trans "Pending Work" %}
-                </a>
-                <div class="px-6 py-2 text-xs font-semibold text-slate-500 uppercase tracking-wider">{% trans "Account" %}</div>
-                <a href="{% url 'web:logout' %}" class="flex items-center px-6 py-3 text-slate-300 hover:bg-slate-700 hover:text-white transition-colors">
-                    <i data-lucide="log-out" class="w-5 h-5 mr-3"></i>
-                    {% trans "Logout" %}
+                <a href="{% url 'web:pending_work_list' %}" class="flex items-center px-4 py-2 text-slate-300 hover:bg-slate-700 hover:text-white transition-colors rounded mx-1">
+                    <i data-lucide="clock" class="w-4 h-4 flex-shrink-0"></i>
+                    <span class="sidebar-text ml-3 text-sm truncate">{% trans "Pending Work" %}</span>
                 </a>
             {% else %}
-                <a href="{% url 'web:register' %}" class="flex items-center px-6 py-3 text-slate-300 hover:bg-slate-700 hover:text-white transition-colors">
-                    <i data-lucide="user-plus" class="w-5 h-5 mr-3"></i>
-                    {% trans "Register" %}
+                <a href="{% url 'web:register' %}" class="flex items-center px-4 py-2 text-slate-300 hover:bg-slate-700 hover:text-white transition-colors rounded mx-1">
+                    <i data-lucide="user-plus" class="w-4 h-4 flex-shrink-0"></i>
+                    <span class="sidebar-text ml-3 text-sm truncate">{% trans "Register" %}</span>
                 </a>
-                <a href="{% url 'web:login' %}" class="flex items-center px-6 py-3 text-slate-300 hover:bg-slate-700 hover:text-white transition-colors">
-                    <i data-lucide="log-in" class="w-5 h-5 mr-3"></i>
-                    {% trans "Login" %}
+                <a href="{% url 'web:login' %}" class="flex items-center px-4 py-2 text-slate-300 hover:bg-slate-700 hover:text-white transition-colors rounded mx-1">
+                    <i data-lucide="log-in" class="w-4 h-4 flex-shrink-0"></i>
+                    <span class="sidebar-text ml-3 text-sm truncate">{% trans "Login" %}</span>
                 </a>
             {% endif %}
         </nav>
-        <div class="absolute bottom-0 left-0 w-64 p-6">
-            <form id="language-form" action="{% url 'set_language' %}" method="post" style="display: none;">
-                {% csrf_token %}
-                <input type="hidden" name="next" id="next-url" />
-                <input type="hidden" name="language" id="language-input" />
-            </form>
-            <select name="language" onchange="changeLanguage(this.value)" class="w-full bg-slate-700 text-slate-300 border border-slate-600 rounded px-3 py-2 text-sm">
-                {% get_current_language as LANGUAGE_CODE %}
-                <option value="en"{% if LANGUAGE_CODE == 'en' %} selected{% endif %}>English</option>
-                <option value="gu"{% if LANGUAGE_CODE == 'gu' %} selected{% endif %}>ગુજરાતી</option>
-            </select>
+
+        <!-- Bottom: logout + language — always visible, never overlapped -->
+        <div class="flex-shrink-0 border-t border-slate-700">
+            {% if user.is_authenticated %}
+            <a href="{% url 'web:logout' %}" class="flex items-center px-4 py-2.5 text-slate-300 hover:bg-slate-700 hover:text-white transition-colors">
+                <i data-lucide="log-out" class="w-4 h-4 flex-shrink-0"></i>
+                <span class="sidebar-text ml-3 text-sm truncate">{% trans "Logout" %}</span>
+            </a>
+            {% endif %}
+            <div class="px-3 py-2" id="language-selector">
+                <form id="language-form" action="{% url 'set_language' %}" method="post" style="display:none;">
+                    {% csrf_token %}
+                    <input type="hidden" name="next" id="next-url" />
+                    <input type="hidden" name="language" id="language-input" />
+                </form>
+                <select onchange="changeLanguage(this.value)" class="w-full bg-slate-700 text-slate-300 border border-slate-600 rounded px-2 py-1.5 text-xs">
+                    {% get_current_language as LANGUAGE_CODE %}
+                    <option value="en"{% if LANGUAGE_CODE == 'en' %} selected{% endif %}>English</option>
+                    <option value="gu"{% if LANGUAGE_CODE == 'gu' %} selected{% endif %}>ગુજરાતી</option>
+                </select>
+            </div>
         </div>
     </aside>
 
     <!-- Main Content -->
-    <div class="flex-1 flex flex-col ml-64 transition-all duration-300 min-h-screen" id="main-content">
+    <div class="flex-1 flex flex-col transition-all duration-300 min-h-screen" id="main-content" style="margin-left:256px;">
         <!-- Top Bar -->
-        <header class="bg-white shadow-sm border-b border-slate-200 px-6 py-4 flex items-center justify-between">
+        <header class="bg-white shadow-sm border-b border-slate-200 px-6 py-3 flex items-center justify-between">
             <div class="flex items-center space-x-4">
-                <button id="sidebar-toggle-mobile" class="text-slate-500 hover:text-slate-700 md:hidden">
-                    <i data-lucide="menu" class="w-6 h-6"></i>
+                <button id="sidebar-toggle-mobile" class="text-slate-500 hover:text-slate-700">
+                    <i data-lucide="menu" class="w-5 h-5"></i>
                 </button>
                 <div class="relative">
-                    <input type="text" placeholder="Global search..." class="w-64 pl-10 pr-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
-                    <i data-lucide="search" class="absolute left-3 top-2.5 w-5 h-5 text-slate-400"></i>
+                    <input type="text" placeholder="Global search..." class="w-56 pl-9 pr-4 py-1.5 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+                    <i data-lucide="search" class="absolute left-3 top-2 w-4 h-4 text-slate-400"></i>
                 </div>
             </div>
             {% if user.is_authenticated %}
-            <div class="flex items-center space-x-4">
-                <button class="relative text-slate-500 hover:text-slate-700">
-                    <i data-lucide="bell" class="w-6 h-6"></i>
-                    <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">3</span>
-                </button>
+            <div class="flex items-center space-x-3">
                 <div class="relative">
                     <button id="user-dropdown-btn" class="flex items-center space-x-2 text-slate-700 hover:text-slate-900">
                         <div class="w-8 h-8 bg-indigo-100 rounded-full flex items-center justify-center">
                             <span class="text-sm font-medium text-indigo-600">{{ user.username|first|upper }}</span>
                         </div>
-                        <span class="hidden md:block">{{ user.username }}</span>
+                        <span class="hidden md:block text-sm">{{ user.username }}</span>
                         <i data-lucide="chevron-down" class="w-4 h-4"></i>
                     </button>
-                    <!-- Dropdown menu (simplified) -->
-                    <div id="user-dropdown-menu" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg border border-slate-200 hidden">
-                        <a href="#" class="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-100">Profile</a>
-                        <a href="#" class="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-100">Settings</a>
-                        <a href="{% url 'web:logout' %}" class="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-100">Logout</a>
+                    <div id="user-dropdown-menu" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg border border-slate-200 hidden z-50">
+                        <a href="{% url 'web:logout' %}" class="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-100">{% trans "Logout" %}</a>
                     </div>
                 </div>
             </div>
@@ -153,54 +158,70 @@
         </header>
 
         <main class="flex-1 p-4 bg-slate-50">
-            <div class="flex-1 overflow-hidden">
-                {% block content %}{% endblock %}
-            </div>
+            {% block content %}{% endblock %}
         </main>
 
-        <footer class="mt-auto border-t bg-white px-6 py-4 text-xs text-slate-500">
-            <div class="flex justify-between">
-                <span>&copy; {% now "Y" %} {% trans "Garment Work & Material Management System" %}</span>
-                <span>{% trans "Language priority: Gujarati, then English" %}</span>
-            </div>
+        <footer class="border-t bg-white px-6 py-3 text-xs text-slate-500 flex justify-between">
+            <span>&copy; {% now "Y" %} {% trans "Garment Work & Material Management System" %}</span>
+            <span>{% trans "Language priority: Gujarati, then English" %}</span>
         </footer>
     </div>
 
     <script>
         lucide.createIcons();
 
-        // Sidebar toggle
         const sidebar = document.getElementById('sidebar');
         const mainContent = document.getElementById('main-content');
         const sidebarToggle = document.getElementById('sidebar-toggle');
         const sidebarToggleMobile = document.getElementById('sidebar-toggle-mobile');
+        const sidebarTexts = document.querySelectorAll('.sidebar-text');
+        const sidebarTitle = document.getElementById('sidebar-title');
+        const languageSelector = document.getElementById('language-selector');
+        const toggleIcon = document.getElementById('toggle-icon');
+
+        let collapsed = localStorage.getItem('sidebar-collapsed') === 'true';
+
+        function applySidebarState() {
+            if (collapsed) {
+                sidebar.style.width = '56px';
+                mainContent.style.marginLeft = '56px';
+                sidebarTexts.forEach(el => el.style.display = 'none');
+                sidebarTitle.style.display = 'none';
+                languageSelector.style.display = 'none';
+                toggleIcon.style.transform = 'rotate(180deg)';
+            } else {
+                sidebar.style.width = '256px';
+                mainContent.style.marginLeft = '256px';
+                sidebarTexts.forEach(el => el.style.display = '');
+                sidebarTitle.style.display = '';
+                languageSelector.style.display = '';
+                toggleIcon.style.transform = 'rotate(0deg)';
+            }
+        }
 
         function toggleSidebar() {
-            sidebar.classList.toggle('w-16');
-            sidebar.classList.toggle('w-64');
-            mainContent.classList.toggle('ml-16');
-            mainContent.classList.toggle('ml-64');
+            collapsed = !collapsed;
+            localStorage.setItem('sidebar-collapsed', collapsed);
+            applySidebarState();
         }
+
+        applySidebarState();
 
         sidebarToggle.addEventListener('click', toggleSidebar);
-        sidebarToggleMobile.addEventListener('click', toggleSidebar);
+        if (sidebarToggleMobile) sidebarToggleMobile.addEventListener('click', toggleSidebar);
 
-        // User dropdown toggle
-        const userDropdownButton = document.getElementById('user-dropdown-btn');
-        const userDropdownMenu = document.getElementById('user-dropdown-menu');
-
-        if (userDropdownButton && userDropdownMenu) {
-            userDropdownButton.addEventListener('click', () => {
-                userDropdownMenu.classList.toggle('hidden');
-            });
+        // User dropdown
+        const userBtn = document.getElementById('user-dropdown-btn');
+        const userMenu = document.getElementById('user-dropdown-menu');
+        if (userBtn && userMenu) {
+            userBtn.addEventListener('click', (e) => { e.stopPropagation(); userMenu.classList.toggle('hidden'); });
+            document.addEventListener('click', () => userMenu.classList.add('hidden'));
         }
 
-        // Language change function
         function changeLanguage(lang) {
-            const next = window.location.pathname + window.location.search + (window.location.search ? '&' : '?') + '_t=' + Date.now();
+            const next = window.location.pathname + window.location.search;
             window.location.href = '/i18n/setlang/?language=' + lang + '&next=' + encodeURIComponent(next);
         }
     </script>
 </body>
 </html>
-
