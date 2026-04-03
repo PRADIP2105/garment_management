@@ -5,5 +5,5 @@
  */
 export const environment = {
   production: false,
-  apiUrl: 'http://10.94.62.87:8000/api',
+  apiUrl: 'https://garment-management-8b65.onrender.com/api',
 };

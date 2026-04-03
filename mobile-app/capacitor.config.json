@@ -3,7 +3,7 @@
   "appName": "Garment Management",
   "webDir": "www",
   "server": {
-    "androidScheme": "http"
+    "androidScheme": "https"
   },
   "plugins": {
     "CapacitorHttp": {
@@ -11,7 +11,7 @@
     }
   },
   "android": {
-    "webContentsDebuggingEnabled": true,
-    "hardwareAcceleration": false
+    "webContentsDebuggingEnabled": false,
+    "hardwareAcceleration": true
   }
 }
