@@ -3,66 +3,68 @@
   <ion-menu contentId="main-content" menuId="main-menu" side="start" type="overlay">
     <ion-header>
       <ion-toolbar color="dark">
-        <ion-title>Garment Management</ion-title>
+        <ion-title style="font-size:15px; font-weight:700;">Garment Management</ion-title>
       </ion-toolbar>
     </ion-header>
-    <ion-content color="dark">
-      <ion-list lines="none" class="menu-list">
-        <ion-item button routerLink="/dashboard" routerLinkActive="active-menu-item" (click)="closeMenu()" color="dark">
-          <ion-icon name="grid-outline" slot="start"></ion-icon>
-          <ion-label>Dashboard</ion-label>
+    <ion-content color="dark" style="--background:#1e293b;">
+      <ion-list lines="none" style="background:transparent; padding: 8px 0;">
+
+        <ion-item button (click)="navigate('/dashboard')" color="dark" style="--background:transparent;">
+          <ion-icon name="grid-outline" slot="start" style="color:#94a3b8;"></ion-icon>
+          <ion-label style="color:#cbd5e1;">Dashboard</ion-label>
         </ion-item>
 
-        <ion-item-divider color="dark">
-          <ion-label color="medium" class="menu-section-label">Management</ion-label>
+        <ion-item-divider style="--background:transparent; --padding-start:16px; min-height:28px;">
+          <ion-label style="font-size:0.65rem; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:#475569;">Management</ion-label>
         </ion-item-divider>
 
-        <ion-item button routerLink="/module/workers" (click)="closeMenu()" color="dark">
-          <ion-icon name="people-outline" slot="start"></ion-icon>
-          <ion-label>Workers</ion-label>
+        <ion-item button (click)="navigate('/module/workers')" color="dark" style="--background:transparent;">
+          <ion-icon name="people-outline" slot="start" style="color:#94a3b8;"></ion-icon>
+          <ion-label style="color:#cbd5e1;">Workers</ion-label>
         </ion-item>
-        <ion-item button routerLink="/module/suppliers" (click)="closeMenu()" color="dark">
-          <ion-icon name="business-outline" slot="start"></ion-icon>
-          <ion-label>Suppliers</ion-label>
+        <ion-item button (click)="navigate('/module/suppliers')" color="dark" style="--background:transparent;">
+          <ion-icon name="business-outline" slot="start" style="color:#94a3b8;"></ion-icon>
+          <ion-label style="color:#cbd5e1;">Suppliers</ion-label>
         </ion-item>
-        <ion-item button routerLink="/module/materials" (click)="closeMenu()" color="dark">
-          <ion-icon name="cube-outline" slot="start"></ion-icon>
-          <ion-label>Materials</ion-label>
+        <ion-item button (click)="navigate('/module/materials')" color="dark" style="--background:transparent;">
+          <ion-icon name="cube-outline" slot="start" style="color:#94a3b8;"></ion-icon>
+          <ion-label style="color:#cbd5e1;">Materials</ion-label>
         </ion-item>
 
-        <ion-item-divider color="dark">
-          <ion-label color="medium" class="menu-section-label">Operations</ion-label>
+        <ion-item-divider style="--background:transparent; --padding-start:16px; min-height:28px;">
+          <ion-label style="font-size:0.65rem; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:#475569;">Operations</ion-label>
         </ion-item-divider>
 
-        <ion-item button routerLink="/module/material-inward" (click)="closeMenu()" color="dark">
-          <ion-icon name="arrow-down-circle-outline" slot="start"></ion-icon>
-          <ion-label>Material Inward</ion-label>
+        <ion-item button (click)="navigate('/module/material-inward')" color="dark" style="--background:transparent;">
+          <ion-icon name="arrow-down-circle-outline" slot="start" style="color:#94a3b8;"></ion-icon>
+          <ion-label style="color:#cbd5e1;">Material Inward</ion-label>
         </ion-item>
-        <ion-item button routerLink="/module/work-types" (click)="closeMenu()" color="dark">
-          <ion-icon name="document-text-outline" slot="start"></ion-icon>
-          <ion-label>Work Types</ion-label>
+        <ion-item button (click)="navigate('/module/work-types')" color="dark" style="--background:transparent;">
+          <ion-icon name="document-text-outline" slot="start" style="color:#94a3b8;"></ion-icon>
+          <ion-label style="color:#cbd5e1;">Work Types</ion-label>
         </ion-item>
-        <ion-item button routerLink="/module/distributions" (click)="closeMenu()" color="dark">
-          <ion-icon name="git-branch-outline" slot="start"></ion-icon>
-          <ion-label>Work Distribution</ion-label>
+        <ion-item button (click)="navigate('/module/distributions')" color="dark" style="--background:transparent;">
+          <ion-icon name="git-branch-outline" slot="start" style="color:#94a3b8;"></ion-icon>
+          <ion-label style="color:#cbd5e1;">Work Distribution</ion-label>
         </ion-item>
-        <ion-item button routerLink="/module/work-received" (click)="closeMenu()" color="dark">
-          <ion-icon name="checkmark-circle-outline" slot="start"></ion-icon>
-          <ion-label>Work Received</ion-label>
+        <ion-item button (click)="navigate('/module/work-received')" color="dark" style="--background:transparent;">
+          <ion-icon name="checkmark-circle-outline" slot="start" style="color:#94a3b8;"></ion-icon>
+          <ion-label style="color:#cbd5e1;">Work Received</ion-label>
         </ion-item>
-        <ion-item button routerLink="/module/pending-work" (click)="closeMenu()" color="dark">
-          <ion-icon name="time-outline" slot="start"></ion-icon>
-          <ion-label>Pending Work</ion-label>
+        <ion-item button (click)="navigate('/module/pending-work')" color="dark" style="--background:transparent;">
+          <ion-icon name="time-outline" slot="start" style="color:#94a3b8;"></ion-icon>
+          <ion-label style="color:#cbd5e1;">Pending Work</ion-label>
         </ion-item>
 
-        <ion-item-divider color="dark">
-          <ion-label color="medium" class="menu-section-label">Account</ion-label>
+        <ion-item-divider style="--background:transparent; --padding-start:16px; min-height:28px;">
+          <ion-label style="font-size:0.65rem; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:#475569;">Account</ion-label>
         </ion-item-divider>
 
-        <ion-item button (click)="logout()" color="dark">
+        <ion-item button (click)="logout()" color="dark" style="--background:transparent;">
           <ion-icon name="log-out-outline" slot="start" color="danger"></ion-icon>
           <ion-label color="danger">Logout</ion-label>
         </ion-item>
+
       </ion-list>
     </ion-content>
   </ion-menu>

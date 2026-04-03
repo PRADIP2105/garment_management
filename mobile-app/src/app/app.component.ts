@@ -33,6 +33,11 @@ export class AppComponent implements OnInit, OnDestroy {
     await this.menuCtrl.close('main-menu');
   }
 
+  async navigate(path: string) {
+    await this.menuCtrl.close('main-menu');
+    this.router.navigateByUrl(path);
+  }
+
   async logout() {
     await this.menuCtrl.close('main-menu');
     this.api.clearToken();

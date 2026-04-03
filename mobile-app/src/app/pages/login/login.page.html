@@ -1,65 +1,64 @@
 <ion-content [fullscreen]="true" class="login-content" scrollY="false">
 
-  <!-- Hero -->
+  <!-- Top green hero -->
   <div class="login-hero">
-    <div class="hero-blob hero-blob-1"></div>
-    <div class="hero-blob hero-blob-2"></div>
-    <div class="hero-logo-wrap">
-      <ion-icon name="shirt-outline" class="hero-logo-icon"></ion-icon>
-    </div>
     <h1 class="hero-title">Garment Management</h1>
     <p class="hero-subtitle">Production Tracking System</p>
   </div>
 
-  <!-- Card -->
+  <!-- White card -->
   <div class="login-card">
+    <h2 class="card-title">Sign In</h2>
 
-    <div class="field-wrap">
-      <ion-icon name="person-outline" class="field-icon"></ion-icon>
+    <!-- Username -->
+    <div class="input-wrap">
+      <ion-icon name="person-circle-outline" class="input-icon"></ion-icon>
       <ion-input
         [(ngModel)]="username"
         type="text"
-        placeholder="Username"
-        class="field-input"
+        placeholder="Username or Email Address"
+        class="custom-input"
         autocomplete="username"
         (keyup.enter)="onLogin()"
       ></ion-input>
     </div>
 
-    <div class="field-wrap">
-      <ion-icon name="lock-closed-outline" class="field-icon"></ion-icon>
+    <!-- Password -->
+    <div class="input-wrap">
+      <ion-icon name="lock-closed-outline" class="input-icon"></ion-icon>
       <ion-input
         [(ngModel)]="password"
         [type]="showPassword ? 'text' : 'password'"
         placeholder="Password"
-        class="field-input"
+        class="custom-input"
         autocomplete="current-password"
         (keyup.enter)="onLogin()"
       ></ion-input>
       <ion-icon
-        [name]="showPassword ? 'eye-off-outline' : 'eye-outline'"
-        class="field-icon-end"
+        [name]="showPassword ? 'eye-outline' : 'eye-off-outline'"
+        class="input-icon-end"
         (click)="showPassword = !showPassword"
       ></ion-icon>
     </div>
 
-    <ion-button
-      expand="block"
-      class="sign-in-btn"
-      (click)="onLogin()"
-      [disabled]="isLoading"
-    >
-      <ion-spinner *ngIf="isLoading" name="crescent" class="btn-spinner"></ion-spinner>
-      <span *ngIf="!isLoading">Sign In</span>
-    </ion-button>
-
-    <div class="register-row">
-      <span class="register-label">Don't have an account?</span>
-      <ion-button fill="clear" size="small" (click)="onRegister()" class="register-link-btn">
-        Register
+    <!-- Forgot password -->
+    <div class="forgot-row">
+      <ion-button fill="clear" size="small" class="forgot-btn" (click)="onForgotPassword()">
+        Forgot Password?
       </ion-button>
     </div>
 
+    <!-- Sign In button -->
+    <ion-button expand="block" shape="round" class="signin-btn" (click)="onLogin()" [disabled]="isLoading">
+      <ion-spinner *ngIf="isLoading" name="crescent"></ion-spinner>
+      <span *ngIf="!isLoading">Sign In</span>
+    </ion-button>
+
+    <!-- Register -->
+    <div class="register-row">
+      <span class="register-text">Don't have an account?</span>
+      <ion-button fill="clear" size="small" class="signup-btn" (click)="onRegister()">Sign Up</ion-button>
+    </div>
   </div>
 
 </ion-content>

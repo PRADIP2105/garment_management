@@ -1,143 +1,132 @@
-@import '../../../theme/variables.scss';
-
 .login-content {
-  --background: #f1f5f9;
+  --background: #f0faf6;
 }
 
-/* Hero */
+/* Green hero top */
 .login-hero {
-  @include hero-gradient;
-  padding: 72px 24px 80px;
+  background: linear-gradient(160deg, #0d9e7e 0%, #0b8a6d 100%);
+  padding: 80px 24px 100px;
   text-align: center;
-  border-radius: 0 0 36px 36px;
-  position: relative;
-  overflow: hidden;
 }
-
-.hero-blob {
-  position: absolute;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.08);
-}
-.hero-blob-1 { width: 260px; height: 260px; top: -80px; right: -60px; }
-.hero-blob-2 { width: 180px; height: 180px; bottom: -50px; left: -40px; }
-
-.hero-logo-wrap {
-  width: 76px;
-  height: 76px;
-  margin: 0 auto 16px;
-  background: rgba(255,255,255,0.2);
-  border-radius: 22px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  backdrop-filter: blur(8px);
-}
-.hero-logo-icon { font-size: 38px; color: #fff; }
 
 .hero-title {
-  font-size: 24px;
-  font-weight: 800;
+  font-size: 22px;
+  font-weight: 700;
   color: #fff;
   margin: 0 0 6px;
-  letter-spacing: -0.02em;
-}
-.hero-subtitle {
-  font-size: 13px;
-  color: rgba(255,255,255,0.75);
-  margin: 0;
-  font-weight: 500;
+  letter-spacing: 0.01em;
 }
 
-/* Card */
+.hero-subtitle {
+  font-size: 13px;
+  color: rgba(255,255,255,0.8);
+  margin: 0;
+}
+
+/* White card */
 .login-card {
-  margin: -36px 16px 0;
-  padding: 28px 20px 24px;
   background: #fff;
-  border-radius: 20px;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+  border-radius: 28px 28px 0 0;
+  margin-top: -28px;
+  padding: 32px 24px 40px;
+  min-height: 100%;
   position: relative;
   z-index: 2;
 }
 
-/* Fields */
-.field-wrap {
+.card-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: #1a1a2e;
+  text-align: center;
+  margin: 0 0 28px;
+}
+
+/* Input fields */
+.input-wrap {
   position: relative;
-  margin-bottom: 14px;
+  margin-bottom: 16px;
+  border: 1.5px solid #d1fae5;
+  border-radius: 50px;
+  background: #f9fffe;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  min-height: 54px;
 }
 
-.field-icon {
-  position: absolute;
-  left: 14px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 19px;
-  color: #94a3b8;
-  z-index: 3;
-  pointer-events: none;
+.input-icon {
+  font-size: 22px;
+  color: #0d9e7e;
+  flex-shrink: 0;
+  margin-right: 10px;
 }
 
-.field-icon-end {
-  position: absolute;
-  right: 14px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 19px;
+.input-icon-end {
+  font-size: 20px;
   color: #94a3b8;
-  z-index: 3;
+  flex-shrink: 0;
   cursor: pointer;
+  margin-left: 8px;
 }
 
-.field-input {
-  --padding-start: 44px !important;
-  --padding-end: 44px !important;
-  --background: #f8fafc;
-  --border-radius: 12px;
-  --border-color: #e2e8f0;
-  --border-width: 1.5px;
-  --border-style: solid;
-  --highlight-color-focused: #{$gm-primary};
-  --highlight-height: 2px;
-  --color: #0f172a;
+.custom-input {
+  flex: 1;
+  --background: transparent;
+  --border-width: 0;
+  --padding-start: 0 !important;
+  --padding-end: 0 !important;
+  --color: #1a1a2e;
   --placeholder-color: #94a3b8;
   font-size: 15px;
   min-height: 52px;
 }
 
-/* Sign In button */
-.sign-in-btn {
-  margin-top: 6px;
-  margin-bottom: 4px;
-  --background: #{$gm-primary};
-  --background-activated: #{$gm-primary-dark};
-  --border-radius: 12px;
-  --box-shadow: 0 4px 16px rgba(16,185,129,0.35);
-  --color: #fff;
-  min-height: 52px;
-  font-weight: 700;
-  font-size: 16px;
-  letter-spacing: 0.02em;
+/* Forgot password */
+.forgot-row {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: -6px;
+  margin-bottom: 20px;
 }
 
-.btn-spinner { width: 20px; height: 20px; }
+.forgot-btn {
+  --color: #0d9e7e;
+  font-size: 13px;
+  font-weight: 600;
+  --padding-end: 0;
+}
+
+/* Sign In button */
+.signin-btn {
+  --background: linear-gradient(135deg, #0d9e7e 0%, #0b8a6d 100%);
+  --background-activated: #0b8a6d;
+  --border-radius: 50px;
+  --box-shadow: 0 6px 20px rgba(13,158,126,0.35);
+  --color: #fff;
+  min-height: 54px;
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  margin-bottom: 24px;
+}
 
 /* Register row */
 .register-row {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 18px;
   gap: 2px;
 }
-.register-label {
-  font-size: 13px;
-  color: #94a3b8;
+
+.register-text {
+  font-size: 14px;
+  color: #64748b;
 }
-.register-link-btn {
+
+.signup-btn {
+  --color: #0d9e7e;
+  font-size: 14px;
   font-weight: 700;
-  font-size: 13px;
-  --color: #{$gm-primary};
-  --padding-top: 0;
-  --padding-bottom: 0;
-  height: auto;
+  --padding-start: 4px;
 }
