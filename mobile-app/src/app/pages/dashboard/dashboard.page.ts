@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { IonicModule, LoadingController, ViewWillEnter } from '@ionic/angular';
+import { IonicModule, LoadingController, MenuController, ViewWillEnter } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { ApiService } from '../../services/api.service';
 
@@ -15,10 +15,22 @@ export class DashboardPage implements ViewWillEnter {
   stats: Record<string, unknown> | null = null;
   loadError: string | null = null;
 
+  modules = [
+    { key: 'workers', label: 'Workers', icon: 'people-outline' },
+    { key: 'suppliers', label: 'Suppliers', icon: 'business-outline' },
+    { key: 'materials', label: 'Materials', icon: 'cube-outline' },
+    { key: 'material-inward', label: 'Material Inward', icon: 'arrow-down-circle-outline' },
+    { key: 'work-types', label: 'Work Types', icon: 'document-text-outline' },
+    { key: 'distributions', label: 'Work Distribution', icon: 'git-branch-outline' },
+    { key: 'work-received', label: 'Work Received', icon: 'checkmark-circle-outline' },
+    { key: 'pending-work', label: 'Pending Work', icon: 'time-outline' },
+  ];
+
   constructor(
     private api: ApiService,
     private router: Router,
-    private loadingCtrl: LoadingController
+    private loadingCtrl: LoadingController,
+    private menuCtrl: MenuController
   ) {}
 
   ionViewWillEnter(): void {
@@ -40,8 +52,7 @@ export class DashboardPage implements ViewWillEnter {
       },
       error: (err) => {
         loading.dismiss();
-        this.loadError =
-          err?.error?.detail || err?.message || 'Could not load dashboard. Check server and login.';
+        this.loadError = err?.error?.detail || err?.message || 'Could not load dashboard.';
       },
     });
   }

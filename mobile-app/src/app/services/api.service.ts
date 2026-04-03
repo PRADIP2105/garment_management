@@ -316,6 +316,6 @@ export class ApiService {
   }
 
   getWorkReceived(): Observable<unknown> {
-    return this.getWorkReturns();
+    return this.getReq(`${this.apiUrl}/work/received/`);
   }
 }

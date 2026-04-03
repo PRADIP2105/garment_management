@@ -1,7 +1,11 @@
 <ion-header class="ion-no-border module-shell-header">
-  <ion-toolbar>
+  <ion-toolbar color="dark">
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/dashboard" text="" color="dark" class="shell-back"></ion-back-button>
+      <ion-back-button defaultHref="/dashboard" text="" color="light" class="shell-back"></ion-back-button>
+    </ion-buttons>
+    <ion-title color="light">{{ title }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-menu-button color="light" menu="main-menu"></ion-menu-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
