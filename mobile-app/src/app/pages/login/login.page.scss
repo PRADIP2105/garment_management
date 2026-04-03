@@ -1,132 +1,179 @@
-.login-content {
-  --background: #f0faf6;
+/* Exact same theme as register page */
+
+.login-page-content {
+  --background: #f4f5f7;
 }
 
-/* Green hero top */
 .login-hero {
-  background: linear-gradient(160deg, #0d9e7e 0%, #0b8a6d 100%);
-  padding: 80px 24px 100px;
+  background: linear-gradient(135deg, #10b981 0%, #059669 50%, #047857 100%);
+  padding: 72px 24px 56px;
   text-align: center;
+  border-radius: 0 0 32px 32px;
+  position: relative;
+  overflow: hidden;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: -40%;
+    right: -20%;
+    width: 260px;
+    height: 260px;
+    background: rgba(255,255,255,0.06);
+    border-radius: 50%;
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    bottom: -30%;
+    left: -15%;
+    width: 200px;
+    height: 200px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 50%;
+  }
 }
+
+.hero-icon-wrap {
+  width: 72px;
+  height: 72px;
+  margin: 0 auto 16px;
+  background: rgba(255,255,255,0.15);
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(8px);
+}
+
+.hero-icon { font-size: 34px; color: #ffffff; }
 
 .hero-title {
-  font-size: 22px;
-  font-weight: 700;
-  color: #fff;
+  font-size: 24px;
+  font-weight: 800;
+  color: #ffffff;
   margin: 0 0 6px;
-  letter-spacing: 0.01em;
+  letter-spacing: -0.02em;
 }
 
 .hero-subtitle {
-  font-size: 13px;
-  color: rgba(255,255,255,0.8);
+  font-size: 14px;
+  color: rgba(255,255,255,0.78);
   margin: 0;
+  font-weight: 500;
 }
 
-/* White card */
+/* Card — identical to register-card */
 .login-card {
-  background: #fff;
-  border-radius: 28px 28px 0 0;
-  margin-top: -28px;
-  padding: 32px 24px 40px;
-  min-height: 100%;
+  margin: -24px 16px 32px;
+  padding: 24px 16px;
+  background: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.08);
   position: relative;
   z-index: 2;
 }
 
-.card-title {
-  font-size: 22px;
-  font-weight: 700;
-  color: #1a1a2e;
-  text-align: center;
-  margin: 0 0 28px;
-}
-
-/* Input fields */
-.input-wrap {
-  position: relative;
-  margin-bottom: 16px;
-  border: 1.5px solid #d1fae5;
-  border-radius: 50px;
-  background: #f9fffe;
+.section-label {
   display: flex;
   align-items: center;
-  padding: 0 16px;
-  min-height: 54px;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #64748b;
+  margin-bottom: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.section-icon { font-size: 16px; color: #059669; }
+
+/* Input groups — identical to register */
+.input-group {
+  position: relative;
+  margin-bottom: 12px;
 }
 
 .input-icon {
-  font-size: 22px;
-  color: #0d9e7e;
-  flex-shrink: 0;
-  margin-right: 10px;
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 18px;
+  color: #94a3b8;
+  z-index: 3;
+  pointer-events: none;
 }
 
 .input-icon-end {
-  font-size: 20px;
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 18px;
   color: #94a3b8;
-  flex-shrink: 0;
+  z-index: 3;
   cursor: pointer;
-  margin-left: 8px;
 }
 
-.custom-input {
-  flex: 1;
-  --background: transparent;
+.modern-input {
+  --padding-start: 44px !important;
+  --padding-end: 44px !important;
+  --background: #f4f5f7;
+  --border-radius: 12px;
+  --border-color: transparent;
   --border-width: 0;
-  --padding-start: 0 !important;
-  --padding-end: 0 !important;
-  --color: #1a1a2e;
+  --highlight-color-focused: #10b981;
+  --highlight-height: 2px;
+  --color: #0f172a;
   --placeholder-color: #94a3b8;
-  font-size: 15px;
-  min-height: 52px;
+  font-size: 16px;
+  min-height: 50px;
 }
 
 /* Forgot password */
 .forgot-row {
   display: flex;
   justify-content: flex-end;
-  margin-top: -6px;
-  margin-bottom: 20px;
+  margin-top: -4px;
+  margin-bottom: 8px;
 }
 
 .forgot-btn {
-  --color: #0d9e7e;
+  --color: #059669;
   font-size: 13px;
   font-weight: 600;
   --padding-end: 0;
 }
 
-/* Sign In button */
-.signin-btn {
-  --background: linear-gradient(135deg, #0d9e7e 0%, #0b8a6d 100%);
-  --background-activated: #0b8a6d;
-  --border-radius: 50px;
-  --box-shadow: 0 6px 20px rgba(13,158,126,0.35);
-  --color: #fff;
-  min-height: 54px;
-  font-size: 17px;
+/* Sign In button — identical to register-btn */
+.login-btn {
+  margin-top: 8px;
+  --background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  --background-activated: #047857;
+  --border-radius: 12px;
+  --box-shadow: 0 6px 20px rgba(16,185,129,0.30);
+  min-height: 52px;
   font-weight: 700;
-  letter-spacing: 0.02em;
-  margin-bottom: 24px;
+  font-size: 16px;
 }
 
-/* Register row */
-.register-row {
+.btn-spinner { width: 20px; height: 20px; margin-right: 8px; }
+
+/* Register link */
+.register-link {
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-top: 16px;
   gap: 2px;
 }
 
-.register-text {
-  font-size: 14px;
-  color: #64748b;
-}
+.register-text { font-size: 14px; color: #94a3b8; }
 
-.signup-btn {
-  --color: #0d9e7e;
+.register-link-btn {
+  font-weight: 600;
   font-size: 14px;
-  font-weight: 700;
-  --padding-start: 4px;
+  --color: #059669;
 }
