@@ -1,68 +1,67 @@
 ﻿<ion-app>
-  <!-- Sidebar Menu -->
   <ion-menu contentId="main-content" menuId="main-menu" side="start" type="overlay">
     <ion-header>
-      <ion-toolbar color="dark">
-        <ion-title style="font-size:15px; font-weight:700;">Garment Management</ion-title>
+      <ion-toolbar style="--background:linear-gradient(135deg,#10b981 0%,#059669 100%);--color:#fff;">
+        <ion-title style="font-size:15px;font-weight:700;color:#fff;">Garment Management</ion-title>
       </ion-toolbar>
     </ion-header>
-    <ion-content color="dark" style="--background:#1e293b;">
-      <ion-list lines="none" style="background:transparent; padding: 8px 0;">
+    <ion-content style="--background:#10b981;">
+      <ion-list lines="none" style="background:#10b981;padding:8px 0;">
 
-        <ion-item button (click)="navigate('/dashboard')" color="dark" style="--background:transparent;">
-          <ion-icon name="grid-outline" slot="start" style="color:#6ee7b7; font-size:20px;"></ion-icon>
-          <ion-label style="color:#cbd5e1;">Dashboard</ion-label>
+        <ion-item button (click)="navigate('/dashboard')" style="--background:transparent;--color:#122132;--min-height:48px;">
+          <span slot="start" style="width:24px;text-align:center;font-size:18px;margin-right:8px;">&#9783;</span>
+          <ion-label>Dashboard</ion-label>
         </ion-item>
 
-        <ion-item-divider style="--background:transparent; --padding-start:16px; min-height:28px;">
-          <ion-label style="font-size:0.65rem; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:#475569;">Management</ion-label>
+        <ion-item-divider style="--background:transparent;--padding-start:16px;min-height:24px;">
+          <ion-label style="font-size:0.6rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#122132;">Management</ion-label>
         </ion-item-divider>
 
-        <ion-item button (click)="navigate('/module/workers')" color="dark" style="--background:transparent;">
-          <ion-icon name="people-outline" slot="start" style="color:#6ee7b7; font-size:20px;"></ion-icon>
-          <ion-label style="color:#cbd5e1;">Workers</ion-label>
+        <ion-item button (click)="navigate('/module/workers')" style="--background:transparent;--color:#122132;--min-height:48px;">
+          <span slot="start" style="width:24px;text-align:center;font-size:18px;margin-right:8px;color:#6ee7b7;">&#128100;</span>
+          <ion-label>Workers</ion-label>
         </ion-item>
-        <ion-item button (click)="navigate('/module/suppliers')" color="dark" style="--background:transparent;">
-          <ion-icon name="business-outline" slot="start" style="color:#6ee7b7; font-size:20px;"></ion-icon>
-          <ion-label style="color:#cbd5e1;">Suppliers</ion-label>
+        <ion-item button (click)="navigate('/module/suppliers')" style="--background:transparent;--color:#122132;--min-height:48px;">
+          <span slot="start" style="width:24px;text-align:center;font-size:18px;margin-right:8px;color:#6ee7b7;">&#127970;</span>
+          <ion-label>Suppliers</ion-label>
         </ion-item>
-        <ion-item button (click)="navigate('/module/materials')" color="dark" style="--background:transparent;">
-          <ion-icon name="cube-outline" slot="start" style="color:#6ee7b7; font-size:20px;"></ion-icon>
-          <ion-label style="color:#cbd5e1;">Materials</ion-label>
+        <ion-item button (click)="navigate('/module/materials')" style="--background:transparent;--color:#122132;--min-height:48px;">
+          <span slot="start" style="width:24px;text-align:center;font-size:18px;margin-right:8px;color:#6ee7b7;">&#128230;</span>
+          <ion-label>Materials</ion-label>
         </ion-item>
 
-        <ion-item-divider style="--background:transparent; --padding-start:16px; min-height:28px;">
-          <ion-label style="font-size:0.65rem; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:#475569;">Operations</ion-label>
+        <ion-item-divider style="--background:transparent;--padding-start:16px;min-height:24px;">
+          <ion-label style="font-size:0.6rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#475569;">Operations</ion-label>
         </ion-item-divider>
 
-        <ion-item button (click)="navigate('/module/material-inward')" color="dark" style="--background:transparent;">
-          <ion-icon name="arrow-down-circle-outline" slot="start" style="color:#6ee7b7; font-size:20px;"></ion-icon>
-          <ion-label style="color:#cbd5e1;">Material Inward</ion-label>
+        <ion-item button (click)="navigate('/module/material-inward')" style="--background:transparent;--color:#122132;--min-height:48px;">
+          <span slot="start" style="width:24px;text-align:center;font-size:18px;margin-right:8px;color:#6ee7b7;">&#8595;</span>
+          <ion-label>Material Inward</ion-label>
         </ion-item>
-        <ion-item button (click)="navigate('/module/work-types')" color="dark" style="--background:transparent;">
-          <ion-icon name="document-text-outline" slot="start" style="color:#6ee7b7; font-size:20px;"></ion-icon>
-          <ion-label style="color:#cbd5e1;">Work Types</ion-label>
+        <ion-item button (click)="navigate('/module/work-types')" style="--background:transparent;--color:#122132;--min-height:48px;">
+          <span slot="start" style="width:24px;text-align:center;font-size:18px;margin-right:8px;color:#6ee7b7;">&#128196;</span>
+          <ion-label>Work Types</ion-label>
         </ion-item>
-        <ion-item button (click)="navigate('/module/distributions')" color="dark" style="--background:transparent;">
-          <ion-icon name="git-branch-outline" slot="start" style="color:#6ee7b7; font-size:20px;"></ion-icon>
-          <ion-label style="color:#cbd5e1;">Work Distribution</ion-label>
+        <ion-item button (click)="navigate('/module/distributions')" style="--background:transparent;--color:#122132;--min-height:48px;">
+          <span slot="start" style="width:24px;text-align:center;font-size:18px;margin-right:8px;color:#6ee7b7;">&#128260;</span>
+          <ion-label>Work Distribution</ion-label>
         </ion-item>
-        <ion-item button (click)="navigate('/module/work-received')" color="dark" style="--background:transparent;">
-          <ion-icon name="checkmark-circle-outline" slot="start" style="color:#6ee7b7; font-size:20px;"></ion-icon>
-          <ion-label style="color:#cbd5e1;">Work Received</ion-label>
+        <ion-item button (click)="navigate('/module/work-received')" style="--background:transparent;--color:#122132;--min-height:48px;">
+          <span slot="start" style="width:24px;text-align:center;font-size:18px;margin-right:8px;color:#6ee7b7;">&#10003;</span>
+          <ion-label>Work Received</ion-label>
         </ion-item>
-        <ion-item button (click)="navigate('/module/pending-work')" color="dark" style="--background:transparent;">
-          <ion-icon name="time-outline" slot="start" style="color:#6ee7b7; font-size:20px;"></ion-icon>
-          <ion-label style="color:#cbd5e1;">Pending Work</ion-label>
+        <ion-item button (click)="navigate('/module/pending-work')" style="--background:transparent;--color:#122132;--min-height:48px;">
+          <span slot="start" style="width:24px;text-align:center;font-size:18px;margin-right:8px;color:#6ee7b7;">&#9201;</span>
+          <ion-label>Pending Work</ion-label>
         </ion-item>
 
-        <ion-item-divider style="--background:transparent; --padding-start:16px; min-height:28px;">
-          <ion-label style="font-size:0.65rem; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:#475569;">Account</ion-label>
+        <ion-item-divider style="--background:transparent;--padding-start:16px;min-height:24px;">
+          <ion-label style="font-size:0.6rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#475569;">Account</ion-label>
         </ion-item-divider>
 
-        <ion-item button (click)="logout()" color="dark" style="--background:transparent;">
-          <ion-icon name="log-out-outline" slot="start" color="danger"></ion-icon>
-          <ion-label color="danger">Logout</ion-label>
+        <ion-item button (click)="logout()" style="--background:transparent;--min-height:48px;">
+          <span slot="start" style="width:24px;text-align:center;font-size:18px;margin-right:8px;color:#122132;">&#10148;</span>
+          <ion-label style="color:#f87171;">Logout</ion-label>
         </ion-item>
 
       </ion-list>

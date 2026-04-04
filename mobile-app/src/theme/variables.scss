@@ -18,6 +18,16 @@ $gm-text-muted: #94a3b8;
 $gm-text-light: rgba(255, 255, 255, 0.8);
 
 // === Ionic CSS Vars (override in :root or components) ===
+:root {
+  --ion-color-primary: #{$gm-primary};
+  --ion-color-primary-rgb: 16,185,129;
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-primary-contrast-rgb: 255,255,255;
+  --ion-color-primary-shade: #{$gm-primary-dark};
+  --ion-color-primary-tint: #{$gm-primary-light};
+  --ion-background-color: #{$gm-bg-light};
+}
+
 :host {
   // Backgrounds
   --ion-background-color: #{$gm-bg-light};

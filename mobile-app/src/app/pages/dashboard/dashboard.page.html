@@ -1,11 +1,11 @@
-<ion-header class="ion-no-border">
-  <ion-toolbar color="dark">
+﻿<ion-header class="ion-no-border">
+  <ion-toolbar style="--background:linear-gradient(135deg,#10b981 0%,#059669 100%);--color:#fff;">
     <ion-buttons slot="start">
-      <ion-menu-button color="light" menu="main-menu"></ion-menu-button>
+      <ion-menu-button menu="main-menu"></ion-menu-button>
     </ion-buttons>
-    <ion-title color="light">Dashboard</ion-title>
+    <ion-title>Dashboard</ion-title>
     <ion-buttons slot="end">
-      <ion-button fill="clear" color="light" (click)="loadDashboard()">
+      <ion-button fill="clear" (click)="loadDashboard()">
         <ion-icon name="refresh-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
@@ -14,27 +14,23 @@
 
 <ion-content [fullscreen]="true" class="dashboard-content">
 
-  <!-- Loading -->
   <div *ngIf="!stats && !loadError" class="center-box">
     <ion-spinner name="crescent" color="primary" style="width:40px;height:40px;"></ion-spinner>
     <p class="center-text">Loading dashboard...</p>
   </div>
 
-  <!-- Error -->
   <div *ngIf="loadError" class="center-box">
     <ion-icon name="alert-circle-outline" color="danger" style="font-size:2.5rem;"></ion-icon>
     <p class="center-text">{{ loadError }}</p>
     <ion-button size="small" fill="outline" color="primary" (click)="loadDashboard()">Retry</ion-button>
   </div>
 
-  <!-- Stats -->
   <ng-container *ngIf="stats && !loadError">
 
     <div class="welcome-row">
-      <h2 class="welcome-text">Welcome back 👋</h2>
+      <h2 class="welcome-text">Welcome back</h2>
     </div>
 
-    <!-- Overview -->
     <p class="section-title">Overview</p>
     <ion-grid class="stats-grid">
       <ion-row>
@@ -57,7 +53,6 @@
       </ion-row>
     </ion-grid>
 
-    <!-- Work Stats -->
     <p class="section-title">Work Statistics</p>
     <ion-grid class="stats-grid">
       <ion-row>
@@ -84,7 +79,6 @@
       </ion-row>
     </ion-grid>
 
-    <!-- Today & Weekly -->
     <p class="section-title">Today & Weekly</p>
     <ion-grid class="stats-grid">
       <ion-row>
@@ -118,13 +112,12 @@
       </ion-row>
     </ion-grid>
 
-    <!-- Pending by worker -->
     <ng-container *ngIf="asPendingList(stats['pending_work_by_worker']).length">
       <p class="section-title">Pending Work by Worker</p>
       <div class="section-card">
         <ion-list lines="none">
           <ion-item lines="none" *ngFor="let p of asPendingList(stats['pending_work_by_worker'])">
-            <div class="worker-avatar" slot="start">{{ p.worker__name[0]?.toUpperCase() }}</div>
+            <div class="worker-avatar" slot="start">{{ getInitial(p.worker__name) }}</div>
             <ion-label><h3>{{ p.worker__name }}</h3></ion-label>
             <ion-badge slot="end" color="warning">{{ p.total_pending }}</ion-badge>
           </ion-item>
@@ -132,7 +125,6 @@
       </div>
     </ng-container>
 
-    <!-- Low stock -->
     <ng-container *ngIf="asLowStock(stats['low_stock_materials']).length">
       <p class="section-title">Low Stock Materials</p>
       <div class="section-card">
@@ -146,18 +138,7 @@
       </div>
     </ng-container>
 
-    <!-- Quick Access -->
-    <p class="section-title">Quick Access</p>
-    <ion-grid class="module-grid ion-padding-bottom">
-      <ion-row>
-        <ion-col size="6" *ngFor="let m of modules">
-          <div class="module-card" (click)="openModule(m.key)">
-            <ion-icon [name]="m.icon" class="module-icon"></ion-icon>
-            <span class="module-label">{{ m.label }}</span>
-          </div>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-
   </ng-container>
 </ion-content>
+
+
