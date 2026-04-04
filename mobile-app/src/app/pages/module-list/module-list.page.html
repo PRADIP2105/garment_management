@@ -1,11 +1,11 @@
-<ion-header class="ion-no-border module-shell-header">
-  <ion-toolbar color="dark">
+﻿<ion-header class="ion-no-border module-shell-header">
+  <ion-toolbar style="--background: linear-gradient(135deg, #10b981 0%, #059669 100%); --color: #fff;">
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/dashboard" text="" color="light" class="shell-back"></ion-back-button>
+      <ion-back-button defaultHref="/dashboard" text="" class="shell-back"></ion-back-button>
     </ion-buttons>
-    <ion-title color="light">{{ title }}</ion-title>
+    <ion-title>{{ title }}</ion-title>
     <ion-buttons slot="end">
-      <ion-menu-button color="light" menu="main-menu"></ion-menu-button>
+      <ion-menu-button menu="main-menu"></ion-menu-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -63,7 +63,7 @@
     class="fab-add fab-electric"
   >
     <ion-fab-button class="fab-electric-btn" (click)="openAddModal()" aria-label="Add record">
-      <ion-icon name="add"></ion-icon>
+      <span style="font-size:28px;font-weight:300;line-height:1;color:#fff;">+</span>
     </ion-fab-button>
   </ion-fab>
 </ion-content>
@@ -152,7 +152,7 @@
         type="text"
         labelPlacement="floating"
         label="Unit"
-        placeholder="meter, roll, piece, kg…"
+        placeholder="meter, roll, piece, kgâ€¦"
         [(ngModel)]="materialForm.unit"
         name="munit"
       ></ion-input>
@@ -179,3 +179,4 @@
     </ng-container>
   </ng-container>
 </app-add-form-sheet>
+
