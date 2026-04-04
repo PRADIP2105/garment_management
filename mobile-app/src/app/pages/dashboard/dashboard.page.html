@@ -1,1 +1,163 @@
-﻿
+<ion-header class="ion-no-border">
+  <ion-toolbar color="dark">
+    <ion-buttons slot="start">
+      <ion-menu-button color="light" menu="main-menu"></ion-menu-button>
+    </ion-buttons>
+    <ion-title color="light">Dashboard</ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" color="light" (click)="loadDashboard()">
+        <ion-icon name="refresh-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="dashboard-content">
+
+  <!-- Loading -->
+  <div *ngIf="!stats && !loadError" class="center-box">
+    <ion-spinner name="crescent" color="primary" style="width:40px;height:40px;"></ion-spinner>
+    <p class="center-text">Loading dashboard...</p>
+  </div>
+
+  <!-- Error -->
+  <div *ngIf="loadError" class="center-box">
+    <ion-icon name="alert-circle-outline" color="danger" style="font-size:2.5rem;"></ion-icon>
+    <p class="center-text">{{ loadError }}</p>
+    <ion-button size="small" fill="outline" color="primary" (click)="loadDashboard()">Retry</ion-button>
+  </div>
+
+  <!-- Stats -->
+  <ng-container *ngIf="stats && !loadError">
+
+    <div class="welcome-row">
+      <h2 class="welcome-text">Welcome back 👋</h2>
+    </div>
+
+    <!-- Overview -->
+    <p class="section-title">Overview</p>
+    <ion-grid class="stats-grid">
+      <ion-row>
+        <ion-col size="6"><div class="stat-card indigo">
+          <div class="stat-value">{{ stats['total_workers'] ?? 0 }}</div>
+          <div class="stat-label">Total Workers</div>
+        </div></ion-col>
+        <ion-col size="6"><div class="stat-card emerald">
+          <div class="stat-value">{{ stats['total_suppliers'] ?? 0 }}</div>
+          <div class="stat-label">Total Suppliers</div>
+        </div></ion-col>
+        <ion-col size="6"><div class="stat-card amber">
+          <div class="stat-value">{{ stats['total_materials'] ?? 0 }}</div>
+          <div class="stat-label">Total Materials</div>
+        </div></ion-col>
+        <ion-col size="6"><div class="stat-card cyan">
+          <div class="stat-value">{{ stats['total_work_types'] ?? 0 }}</div>
+          <div class="stat-label">Work Types</div>
+        </div></ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <!-- Work Stats -->
+    <p class="section-title">Work Statistics</p>
+    <ion-grid class="stats-grid">
+      <ion-row>
+        <ion-col size="6"><div class="stat-card slate">
+          <div class="stat-value">{{ stats['total_distributed_work'] ?? 0 }}</div>
+          <div class="stat-label">Total Distributed</div>
+          <div class="stat-sub">all time lot size</div>
+        </div></ion-col>
+        <ion-col size="6"><div class="stat-card green">
+          <div class="stat-value">{{ stats['completed_work_quantity'] ?? 0 }}</div>
+          <div class="stat-label">Total Completed</div>
+          <div class="stat-sub">all time received qty</div>
+        </div></ion-col>
+        <ion-col size="6"><div class="stat-card orange">
+          <div class="stat-value">{{ stats['total_pending_work'] ?? 0 }}</div>
+          <div class="stat-label">Total Pending</div>
+          <div class="stat-sub">across all workers</div>
+        </div></ion-col>
+        <ion-col size="6"><div class="stat-card indigo">
+          <div class="stat-value">{{ stats['monthly_completed_work'] ?? 0 }}</div>
+          <div class="stat-label">Monthly Completed</div>
+          <div class="stat-sub">this month</div>
+        </div></ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <!-- Today & Weekly -->
+    <p class="section-title">Today & Weekly</p>
+    <ion-grid class="stats-grid">
+      <ion-row>
+        <ion-col size="6"><div class="stat-card blue">
+          <div class="stat-value">{{ stats['today_inward_quantity'] ?? 0 }}</div>
+          <div class="stat-label">Today Inward</div>
+        </div></ion-col>
+        <ion-col size="6"><div class="stat-card purple">
+          <div class="stat-value">{{ stats['today_outward_lot_size'] ?? 0 }}</div>
+          <div class="stat-label">Today Outward</div>
+        </div></ion-col>
+        <ion-col size="6"><div class="stat-card green">
+          <div class="stat-value">{{ stats['today_completed_work'] ?? 0 }}</div>
+          <div class="stat-label">Today Completed</div>
+        </div></ion-col>
+        <ion-col size="6"><div class="stat-card teal">
+          <div class="stat-value">{{ stats['weekly_completed_work'] ?? 0 }}</div>
+          <div class="stat-label">Weekly Completed</div>
+          <div class="stat-sub">last 7 days</div>
+        </div></ion-col>
+        <ion-col size="6"><div class="stat-card blue">
+          <div class="stat-value">{{ stats['weekly_inward_quantity'] ?? 0 }}</div>
+          <div class="stat-label">Weekly Inward</div>
+          <div class="stat-sub">last 7 days</div>
+        </div></ion-col>
+        <ion-col size="6"><div class="stat-card purple">
+          <div class="stat-value">{{ stats['weekly_outward_lot_size'] ?? 0 }}</div>
+          <div class="stat-label">Weekly Outward</div>
+          <div class="stat-sub">last 7 days</div>
+        </div></ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <!-- Pending by worker -->
+    <ng-container *ngIf="asPendingList(stats['pending_work_by_worker']).length">
+      <p class="section-title">Pending Work by Worker</p>
+      <div class="section-card">
+        <ion-list lines="none">
+          <ion-item lines="none" *ngFor="let p of asPendingList(stats['pending_work_by_worker'])">
+            <div class="worker-avatar" slot="start">{{ p.worker__name[0]?.toUpperCase() }}</div>
+            <ion-label><h3>{{ p.worker__name }}</h3></ion-label>
+            <ion-badge slot="end" color="warning">{{ p.total_pending }}</ion-badge>
+          </ion-item>
+        </ion-list>
+      </div>
+    </ng-container>
+
+    <!-- Low stock -->
+    <ng-container *ngIf="asLowStock(stats['low_stock_materials']).length">
+      <p class="section-title">Low Stock Materials</p>
+      <div class="section-card">
+        <ion-list lines="none">
+          <ion-item lines="none" *ngFor="let m of asLowStock(stats['low_stock_materials'])">
+            <ion-icon name="warning-outline" slot="start" color="danger"></ion-icon>
+            <ion-label><h3>{{ m.name }}</h3><p>{{ m.closing_stock }} {{ m.unit }}</p></ion-label>
+            <ion-badge slot="end" color="danger">Low</ion-badge>
+          </ion-item>
+        </ion-list>
+      </div>
+    </ng-container>
+
+    <!-- Quick Access -->
+    <p class="section-title">Quick Access</p>
+    <ion-grid class="module-grid ion-padding-bottom">
+      <ion-row>
+        <ion-col size="6" *ngFor="let m of modules">
+          <div class="module-card" (click)="openModule(m.key)">
+            <ion-icon [name]="m.icon" class="module-icon"></ion-icon>
+            <span class="module-label">{{ m.label }}</span>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+  </ng-container>
+</ion-content>

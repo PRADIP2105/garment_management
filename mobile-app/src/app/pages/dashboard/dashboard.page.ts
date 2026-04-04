@@ -73,4 +73,8 @@ export class DashboardPage implements ViewWillEnter {
   asLowStock(v: unknown): { name: string; unit: string; closing_stock: number }[] {
     return Array.isArray(v) ? (v as { name: string; unit: string; closing_stock: number }[]) : [];
   }
+
+  getInitial(name: string): string {
+    return (name || '?')[0].toUpperCase();
+  }
 }

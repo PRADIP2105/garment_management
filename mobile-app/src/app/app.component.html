@@ -1,4 +1,4 @@
-<ion-app>
+﻿<ion-app>
   <!-- Sidebar Menu -->
   <ion-menu contentId="main-content" menuId="main-menu" side="start" type="overlay">
     <ion-header>
@@ -10,7 +10,7 @@
       <ion-list lines="none" style="background:transparent; padding: 8px 0;">
 
         <ion-item button (click)="navigate('/dashboard')" color="dark" style="--background:transparent;">
-          <ion-icon name="grid-outline" slot="start" style="color:#94a3b8;"></ion-icon>
+          <ion-icon name="grid-outline" slot="start" style="color:#6ee7b7; font-size:20px;"></ion-icon>
           <ion-label style="color:#cbd5e1;">Dashboard</ion-label>
         </ion-item>
 
@@ -19,15 +19,15 @@
         </ion-item-divider>
 
         <ion-item button (click)="navigate('/module/workers')" color="dark" style="--background:transparent;">
-          <ion-icon name="people-outline" slot="start" style="color:#94a3b8;"></ion-icon>
+          <ion-icon name="people-outline" slot="start" style="color:#6ee7b7; font-size:20px;"></ion-icon>
           <ion-label style="color:#cbd5e1;">Workers</ion-label>
         </ion-item>
         <ion-item button (click)="navigate('/module/suppliers')" color="dark" style="--background:transparent;">
-          <ion-icon name="business-outline" slot="start" style="color:#94a3b8;"></ion-icon>
+          <ion-icon name="business-outline" slot="start" style="color:#6ee7b7; font-size:20px;"></ion-icon>
           <ion-label style="color:#cbd5e1;">Suppliers</ion-label>
         </ion-item>
         <ion-item button (click)="navigate('/module/materials')" color="dark" style="--background:transparent;">
-          <ion-icon name="cube-outline" slot="start" style="color:#94a3b8;"></ion-icon>
+          <ion-icon name="cube-outline" slot="start" style="color:#6ee7b7; font-size:20px;"></ion-icon>
           <ion-label style="color:#cbd5e1;">Materials</ion-label>
         </ion-item>
 
@@ -36,23 +36,23 @@
         </ion-item-divider>
 
         <ion-item button (click)="navigate('/module/material-inward')" color="dark" style="--background:transparent;">
-          <ion-icon name="arrow-down-circle-outline" slot="start" style="color:#94a3b8;"></ion-icon>
+          <ion-icon name="arrow-down-circle-outline" slot="start" style="color:#6ee7b7; font-size:20px;"></ion-icon>
           <ion-label style="color:#cbd5e1;">Material Inward</ion-label>
         </ion-item>
         <ion-item button (click)="navigate('/module/work-types')" color="dark" style="--background:transparent;">
-          <ion-icon name="document-text-outline" slot="start" style="color:#94a3b8;"></ion-icon>
+          <ion-icon name="document-text-outline" slot="start" style="color:#6ee7b7; font-size:20px;"></ion-icon>
           <ion-label style="color:#cbd5e1;">Work Types</ion-label>
         </ion-item>
         <ion-item button (click)="navigate('/module/distributions')" color="dark" style="--background:transparent;">
-          <ion-icon name="git-branch-outline" slot="start" style="color:#94a3b8;"></ion-icon>
+          <ion-icon name="git-branch-outline" slot="start" style="color:#6ee7b7; font-size:20px;"></ion-icon>
           <ion-label style="color:#cbd5e1;">Work Distribution</ion-label>
         </ion-item>
         <ion-item button (click)="navigate('/module/work-received')" color="dark" style="--background:transparent;">
-          <ion-icon name="checkmark-circle-outline" slot="start" style="color:#94a3b8;"></ion-icon>
+          <ion-icon name="checkmark-circle-outline" slot="start" style="color:#6ee7b7; font-size:20px;"></ion-icon>
           <ion-label style="color:#cbd5e1;">Work Received</ion-label>
         </ion-item>
         <ion-item button (click)="navigate('/module/pending-work')" color="dark" style="--background:transparent;">
-          <ion-icon name="time-outline" slot="start" style="color:#94a3b8;"></ion-icon>
+          <ion-icon name="time-outline" slot="start" style="color:#6ee7b7; font-size:20px;"></ion-icon>
           <ion-label style="color:#cbd5e1;">Pending Work</ion-label>
         </ion-item>
 
@@ -71,3 +71,4 @@
 
   <ion-router-outlet id="main-content"></ion-router-outlet>
 </ion-app>
+
