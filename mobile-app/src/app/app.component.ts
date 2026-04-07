@@ -35,7 +35,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   async navigate(path: string) {
     await this.menuCtrl.close('main-menu');
-    this.router.navigateByUrl(path);
+    this.router.navigateByUrl(path, { replaceUrl: true });
   }
 
   async logout() {
@@ -58,8 +58,8 @@ export class AppComponent implements OnInit, OnDestroy {
     const path = this.normalizePath(this.router.url);
     const hasToken = !!this.api.getToken();
 
-    if (path.startsWith('/module/')) { await this.router.navigateByUrl('/dashboard'); return; }
-    if (path === '/register') { await this.router.navigateByUrl('/login'); return; }
+    if (path.startsWith('/module/')) { await this.router.navigateByUrl('/dashboard', { replaceUrl: true }); return; }
+    if (path === '/register') { await this.router.navigateByUrl('/login', { replaceUrl: true }); return; }
 
     if (path === '/dashboard' && hasToken) {
       const now = Date.now();

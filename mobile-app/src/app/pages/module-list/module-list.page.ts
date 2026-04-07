@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { IonicModule, LoadingController, NavController, ToastController, ViewWillEnter } from '@ionic/angular';
+import { IonicModule, LoadingController, ToastController, ViewWillEnter } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { firstValueFrom, Observable } from 'rxjs';
@@ -57,12 +57,11 @@ export class ModuleListPage implements ViewWillEnter {
     private router: Router,
     private api: ApiService,
     private loadingCtrl: LoadingController,
-    private toastCtrl: ToastController,
-    private navCtrl: NavController
+    private toastCtrl: ToastController
   ) {}
 
   goBack(): void {
-    this.navCtrl.back();
+    this.router.navigateByUrl('/dashboard', { replaceUrl: true });
   }
 
   ionViewWillEnter(): void {
