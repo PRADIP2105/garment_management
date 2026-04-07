@@ -1,0 +1,38 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar style="--background:linear-gradient(135deg,#10b981 0%,#059669 100%);--color:#fff;--min-height:56px;">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/dashboard" text="" style="color:#fff;--color:#fff;"></ion-back-button>
+    </ion-buttons>
+    <ion-title style="font-size:20px;font-weight:700;color:#fff;">About</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="about-content">
+  <div class="about-hero">
+    <div class="about-icon-wrap">
+      <ion-icon name="shirt-outline" class="about-icon"></ion-icon>
+    </div>
+    <h1 class="about-app-name">Garment Management</h1>
+    <p class="about-tagline">Production Tracking System</p>
+    <p class="about-version">Version 1.0.0</p>
+  </div>
+
+  <div class="about-section">
+    <p class="about-description">
+      Garment Management helps garment businesses track production efficiently — manage workers, suppliers, materials, and work distribution all in one place.
+    </p>
+  </div>
+
+  <ion-list class="about-list" lines="none">
+    <ion-item button detail routerLink="/privacy-policy" class="about-item">
+      <ion-icon name="shield-checkmark-outline" slot="start" class="about-item-icon"></ion-icon>
+      <ion-label>Privacy Policy</ion-label>
+    </ion-item>
+    <ion-item button detail routerLink="/terms-of-service" class="about-item">
+      <ion-icon name="document-text-outline" slot="start" class="about-item-icon"></ion-icon>
+      <ion-label>Terms of Service</ion-label>
+    </ion-item>
+  </ion-list>
+
+  <p class="about-footer">© 2026 Garment Management. All rights reserved.</p>
+</ion-content>

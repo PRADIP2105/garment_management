@@ -11,12 +11,18 @@ import { LoginPage } from './pages/login/login.page';
 import { RegisterPage } from './pages/register/register.page';
 import { DashboardPage } from './pages/dashboard/dashboard.page';
 import { ModuleListPage } from './pages/module-list/module-list.page';
+import { PrivacyPolicyPage } from './pages/privacy-policy/privacy-policy.page';
+import { TermsOfServicePage } from './pages/terms-of-service/terms-of-service.page';
+import { AboutPage } from './pages/about/about.page';
 
 const routes: Routes = [
   { path: 'login', component: LoginPage },
   { path: 'register', component: RegisterPage },
   { path: 'dashboard', component: DashboardPage },
   { path: 'module/:key', component: ModuleListPage },
+  { path: 'privacy-policy', component: PrivacyPolicyPage },
+  { path: 'terms-of-service', component: TermsOfServicePage },
+  { path: 'about', component: AboutPage },
   { path: 'page-one', redirectTo: 'dashboard', pathMatch: 'full' },
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
   { path: '**', redirectTo: 'login' }
@@ -36,7 +42,10 @@ const routes: Routes = [
     LoginPage,
     RegisterPage,
     DashboardPage,
-    ModuleListPage
+    ModuleListPage,
+    PrivacyPolicyPage,
+    TermsOfServicePage,
+    AboutPage
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },

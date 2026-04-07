@@ -1,19 +1,16 @@
-﻿<ion-header class="ion-no-border">
-  <ion-toolbar style="--background:linear-gradient(135deg,#10b981 0%,#059669 100%);--color:#fff;">
-    <ion-buttons slot="start">
-      <ion-menu-button menu="main-menu"></ion-menu-button>
-    </ion-buttons>
-    <ion-title>Dashboard</ion-title>
-    <ion-buttons slot="end">
-      <ion-button fill="clear" (click)="loadDashboard()">
-        <ion-icon name="refresh-outline"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-header>
+﻿<!-- Pure div header — zero Ionic shadow DOM involvement -->
+<div class="custom-header">
+  <ion-menu-button menu="main-menu" class="custom-header-btn"></ion-menu-button>
+  <span class="custom-header-title">Dashboard</span>
+  <button class="custom-header-btn" (click)="loadDashboard()" aria-label="Refresh">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </button>
+</div>
 
-<ion-content [fullscreen]="true" class="dashboard-content">
-
+<ion-content [fullscreen]="false" class="dashboard-content dashboard-content--offset">
+  <!-- Content remains the same -->
   <div *ngIf="!stats && !loadError" class="center-box">
     <ion-spinner name="crescent" color="primary" style="width:40px;height:40px;"></ion-spinner>
     <p class="center-text">Loading dashboard...</p>
@@ -140,5 +137,3 @@
 
   </ng-container>
 </ion-content>
-
-

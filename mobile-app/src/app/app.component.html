@@ -1,61 +1,66 @@
 ﻿<ion-app>
   <ion-menu contentId="main-content" menuId="main-menu" side="start" type="overlay">
-    <ion-header>
-      <ion-toolbar style="--background:#1e293b;--color:#fff;--border-color:#334155;">
-        <ion-title style="font-size:15px;font-weight:700;color:#fff;padding-left:16px;">Garment Management</ion-title>
-      </ion-toolbar>
+    <ion-header class="ion-no-border">
+      <div style="background:#059669;padding-top:env(safe-area-inset-top);height:calc(64px + env(safe-area-inset-top));display:flex;align-items:flex-end;padding-bottom:12px;padding-left:20px;box-sizing:border-box;">
+        <span style="font-size:20px;font-weight:800;color:#ffffff;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;display:block;transform:none;">Garment Management</span>
+      </div>
     </ion-header>
-    <ion-content style="--background:#1e293b;--color:#cbd5e1;">
-      <div style="background:#1e293b;min-height:100%;padding:8px 0;">
+    <ion-content style="--background:#10b981;--color:#cbd5e1;">
+      <div style="background:#10b981;min-height:100%;padding:8px 0;">
 
-        <ion-item button (click)="navigate('/dashboard')" style="--background:#1e293b;--color:#cbd5e1;--min-height:48px;--border-color:transparent;">
-          <span slot="start" style="width:20px;text-align:center;font-size:16px;color:#6ee7b7;margin-right:12px;">&#9783;</span>
-          <ion-label style="color:#cbd5e1;">Dashboard</ion-label>
+        <ion-item button (click)="navigate('/dashboard')" style="--background:#10b981;--color:#646d78;--min-height:48px;--border-color:transparent;">
+          <span slot="start" style="width:20px;text-align:center;font-size:16px;color:#455b52;margin-right:12px;">&#9783;</span>
+          <ion-label style="color:#313944;">Dashboard</ion-label>
         </ion-item>
 
         <div style="padding:12px 16px 4px;font-size:0.6rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#475569;">Management</div>
 
-        <ion-item button (click)="navigate('/module/workers')" style="--background:#1e293b;--color:#cbd5e1;--min-height:48px;--border-color:transparent;">
+        <ion-item button (click)="navigate('/module/workers')" style="--background:#10b981;--color:#cbd5e1;--min-height:48px;--border-color:transparent;">
           <span slot="start" style="width:20px;text-align:center;font-size:16px;color:#6ee7b7;margin-right:12px;">&#128100;</span>
-          <ion-label style="color:#cbd5e1;">Workers</ion-label>
+          <ion-label style="color:#313944;">Workers</ion-label>
         </ion-item>
-        <ion-item button (click)="navigate('/module/suppliers')" style="--background:#1e293b;--color:#cbd5e1;--min-height:48px;--border-color:transparent;">
+        <ion-item button (click)="navigate('/module/suppliers')" style="--background:#10b981;--color:#cbd5e1;--min-height:48px;--border-color:transparent;">
           <span slot="start" style="width:20px;text-align:center;font-size:16px;color:#6ee7b7;margin-right:12px;">&#127970;</span>
-          <ion-label style="color:#cbd5e1;">Suppliers</ion-label>
+          <ion-label style="color:#313944;">Suppliers</ion-label>
         </ion-item>
-        <ion-item button (click)="navigate('/module/materials')" style="--background:#1e293b;--color:#cbd5e1;--min-height:48px;--border-color:transparent;">
+        <ion-item button (click)="navigate('/module/materials')" style="--background:#10b981;--color:#cbd5e1;--min-height:48px;--border-color:transparent;">
           <span slot="start" style="width:20px;text-align:center;font-size:16px;color:#6ee7b7;margin-right:12px;">&#128230;</span>
-          <ion-label style="color:#cbd5e1;">Materials</ion-label>
+          <ion-label style="color:#313944;">Materials</ion-label>
         </ion-item>
 
         <div style="padding:12px 16px 4px;font-size:0.6rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#475569;">Operations</div>
 
-        <ion-item button (click)="navigate('/module/material-inward')" style="--background:#1e293b;--color:#cbd5e1;--min-height:48px;--border-color:transparent;">
+        <ion-item button (click)="navigate('/module/material-inward')" style="--background:#10b981;--color:#cbd5e1;--min-height:48px;--border-color:transparent;">
           <span slot="start" style="width:20px;text-align:center;font-size:16px;color:#6ee7b7;margin-right:12px;">&#8595;</span>
-          <ion-label style="color:#cbd5e1;">Material Inward</ion-label>
+          <ion-label style="color:#313944;">Material Inward</ion-label>
         </ion-item>
-        <ion-item button (click)="navigate('/module/work-types')" style="--background:#1e293b;--color:#cbd5e1;--min-height:48px;--border-color:transparent;">
+        <ion-item button (click)="navigate('/module/work-types')" style="--background:#10b981;--color:#cbd5e1;--min-height:48px;--border-color:transparent;">
           <span slot="start" style="width:20px;text-align:center;font-size:16px;color:#6ee7b7;margin-right:12px;">&#128196;</span>
-          <ion-label style="color:#cbd5e1;">Work Types</ion-label>
+          <ion-label style="color:#313944;">Work Types</ion-label>
         </ion-item>
-        <ion-item button (click)="navigate('/module/distributions')" style="--background:#1e293b;--color:#cbd5e1;--min-height:48px;--border-color:transparent;">
+        <ion-item button (click)="navigate('/module/distributions')" style="--background:#10b981;--color:#cbd5e1;--min-height:48px;--border-color:transparent;">
           <span slot="start" style="width:20px;text-align:center;font-size:16px;color:#6ee7b7;margin-right:12px;">&#128260;</span>
-          <ion-label style="color:#cbd5e1;">Work Distribution</ion-label>
+          <ion-label style="color:#313944;">Work Distribution</ion-label>
         </ion-item>
-        <ion-item button (click)="navigate('/module/work-received')" style="--background:#1e293b;--color:#cbd5e1;--min-height:48px;--border-color:transparent;">
+        <ion-item button (click)="navigate('/module/work-received')" style="--background:#10b981;--color:#cbd5e1;--min-height:48px;--border-color:transparent;">
           <span slot="start" style="width:20px;text-align:center;font-size:16px;color:#6ee7b7;margin-right:12px;">&#10003;</span>
-          <ion-label style="color:#cbd5e1;">Work Received</ion-label>
+          <ion-label style="color:#313944;">Work Received</ion-label>
         </ion-item>
-        <ion-item button (click)="navigate('/module/pending-work')" style="--background:#1e293b;--color:#cbd5e1;--min-height:48px;--border-color:transparent;">
+        <ion-item button (click)="navigate('/module/pending-work')" style="--background:#10b981;--color:#cbd5e1;--min-height:48px;--border-color:transparent;">
           <span slot="start" style="width:20px;text-align:center;font-size:16px;color:#6ee7b7;margin-right:12px;">&#9201;</span>
-          <ion-label style="color:#cbd5e1;">Pending Work</ion-label>
+          <ion-label style="color:#313944;">Pending Work</ion-label>
         </ion-item>
 
         <div style="padding:12px 16px 4px;font-size:0.6rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#475569;">Account</div>
 
-        <ion-item button (click)="logout()" style="--background:#1e293b;--min-height:48px;--border-color:transparent;">
+        <ion-item button (click)="navigate('/about')" style="--background:#10b981;--color:#cbd5e1;--min-height:48px;--border-color:transparent;">
+          <span slot="start" style="width:20px;text-align:center;font-size:16px;color:#6ee7b7;margin-right:12px;">&#9432;</span>
+          <ion-label style="color:#313944;">About</ion-label>
+        </ion-item>
+
+        <ion-item button (click)="logout()" style="--background:#10b981;--min-height:48px;--border-color:transparent;">
           <span slot="start" style="width:20px;text-align:center;font-size:16px;color:#f87171;margin-right:12px;">&#10148;</span>
-          <ion-label style="color:#f87171;">Logout</ion-label>
+          <ion-label style="color:#313944;">Logout</ion-label>
         </ion-item>
 
       </div>

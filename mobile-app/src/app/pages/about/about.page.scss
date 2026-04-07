@@ -1,0 +1,63 @@
+.about-content { --background: #f4f5f7; }
+
+.about-hero {
+  background: linear-gradient(135deg, #10b981 0%, #059669 50%, #047857 100%);
+  padding: 48px 24px 40px;
+  text-align: center;
+  border-radius: 0 0 32px 32px;
+}
+
+.about-icon-wrap {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 16px;
+  background: rgba(255,255,255,0.2);
+  border-radius: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.about-icon { font-size: 40px; color: #fff; }
+.about-app-name { font-size: 22px; font-weight: 800; color: #fff; margin: 0 0 4px; }
+.about-tagline { font-size: 14px; color: rgba(255,255,255,0.8); margin: 0 0 8px; }
+.about-version { font-size: 12px; color: rgba(255,255,255,0.6); margin: 0; }
+
+.about-section {
+  padding: 24px 16px 8px;
+}
+
+.about-description {
+  font-size: 14px;
+  color: #374151;
+  line-height: 1.6;
+  text-align: center;
+  margin: 0;
+}
+
+.about-list {
+  margin: 16px 16px 0;
+  background: #fff;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.about-item {
+  --background: #fff;
+  --color: #0f172a;
+  --min-height: 52px;
+}
+
+.about-item-icon {
+  font-size: 20px;
+  color: #10b981;
+}
+
+.about-footer {
+  text-align: center;
+  font-size: 12px;
+  color: #94a3b8;
+  padding: 32px 16px 24px;
+  margin: 0;
+}

@@ -1,18 +1,16 @@
-﻿<ion-header class="ion-no-border module-shell-header">
-  <ion-toolbar style="--background: linear-gradient(135deg, #10b981 0%, #059669 100%); --color: #fff;">
-    <ion-buttons slot="start">
-      <ion-back-button defaultHref="/dashboard" text="" class="shell-back"></ion-back-button>
-    </ion-buttons>
-    <ion-title>{{ title }}</ion-title>
-    <ion-buttons slot="end">
-      <ion-menu-button menu="main-menu"></ion-menu-button>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-header>
+﻿<!-- Pure div header — zero Ionic shadow DOM involvement -->
+<div class="custom-header">
+  <button class="custom-header-btn" (click)="goBack()" aria-label="Back">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M20 12H4M4 12L10 6M4 12L10 18" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </button>
+  <span class="custom-header-title">{{ title }}</span>
+  <ion-menu-button menu="main-menu" class="custom-header-btn"></ion-menu-button>
+</div>
 
-<ion-content class="module-page-content" [fullscreen]="true">
+<ion-content class="module-page-content module-page-content--offset" [fullscreen]="false">
   <div class="module-hero ion-padding-horizontal">
-    <h1 class="page-title">{{ title }}</h1>
     <ion-searchbar
       [(ngModel)]="searchQuery"
       placeholder="Search"
@@ -77,106 +75,154 @@
   (save)="submitAddForm()"
 >
   <ng-container [ngSwitch]="key">
+
+    <!-- ── Workers ── -->
     <ng-container *ngSwitchCase="'workers'">
-      <ion-input
-        class="sheet-field-input"
-        type="text"
-        labelPlacement="floating"
-        label="Name"
-        placeholder="Full name"
-        [(ngModel)]="workerForm.name"
-        name="wname"
-        autocomplete="name"
-      ></ion-input>
-      <ion-input
-        class="sheet-field-input"
-        type="tel"
-        labelPlacement="floating"
-        label="Mobile number"
-        placeholder="10-digit number"
-        [(ngModel)]="workerForm.mobile_number"
-        name="wmobile"
-        inputmode="tel"
-      ></ion-input>
-      <ion-input
-        class="sheet-field-input"
-        type="text"
-        labelPlacement="floating"
-        label="City"
-        placeholder="Optional"
-        [(ngModel)]="workerForm.city"
-        name="wcity"
-      ></ion-input>
+      <ion-input class="sheet-field-input" type="text" labelPlacement="floating"
+        label="Name *" placeholder="Full name"
+        [(ngModel)]="workerForm.name" name="wname" autocomplete="name">
+      </ion-input>
+      <ion-input class="sheet-field-input" type="tel" labelPlacement="floating"
+        label="Mobile number *" placeholder="10-digit number"
+        [(ngModel)]="workerForm.mobile_number" name="wmobile" inputmode="tel">
+      </ion-input>
+      <ion-input class="sheet-field-input" type="text" labelPlacement="floating"
+        label="City" placeholder="Optional"
+        [(ngModel)]="workerForm.city" name="wcity">
+      </ion-input>
+      <ion-select class="sheet-field-input" labelPlacement="floating"
+        label="Skill type" [(ngModel)]="workerForm.skill_type" name="wskill"
+        interface="action-sheet">
+        <ion-select-option value="stitching">Stitching</ion-select-option>
+        <ion-select-option value="button">Button</ion-select-option>
+        <ion-select-option value="collar">Collar</ion-select-option>
+        <ion-select-option value="color">Color</ion-select-option>
+        <ion-select-option value="cuff">Shirt Cuff</ion-select-option>
+        <ion-select-option value="washing">Washing</ion-select-option>
+      </ion-select>
+      <ion-select class="sheet-field-input" labelPlacement="floating"
+        label="Machine type" [(ngModel)]="workerForm.machine_type" name="wmachine"
+        interface="action-sheet">
+        <ion-select-option value="simple">Simple silai machine</ion-select-option>
+        <ion-select-option value="munda">Munda machine</ion-select-option>
+        <ion-select-option value="other">Other</ion-select-option>
+      </ion-select>
     </ng-container>
 
+    <!-- ── Suppliers ── -->
     <ng-container *ngSwitchCase="'suppliers'">
-      <ion-input
-        class="sheet-field-input"
-        type="text"
-        labelPlacement="floating"
-        label="Name"
-        [(ngModel)]="supplierForm.name"
-        name="sname"
-      ></ion-input>
-      <ion-input
-        class="sheet-field-input"
-        type="tel"
-        labelPlacement="floating"
-        label="Mobile number"
-        [(ngModel)]="supplierForm.mobile_number"
-        name="smobile"
-        inputmode="tel"
-      ></ion-input>
-      <ion-input
-        class="sheet-field-input"
-        type="text"
-        labelPlacement="floating"
-        label="City"
-        placeholder="Optional"
-        [(ngModel)]="supplierForm.city"
-        name="scity"
-      ></ion-input>
+      <ion-input class="sheet-field-input" type="text" labelPlacement="floating"
+        label="Name *" [(ngModel)]="supplierForm.name" name="sname">
+      </ion-input>
+      <ion-input class="sheet-field-input" type="tel" labelPlacement="floating"
+        label="Mobile number *" [(ngModel)]="supplierForm.mobile_number" name="smobile" inputmode="tel">
+      </ion-input>
+      <ion-input class="sheet-field-input" type="text" labelPlacement="floating"
+        label="City" placeholder="Optional"
+        [(ngModel)]="supplierForm.city" name="scity">
+      </ion-input>
     </ng-container>
 
+    <!-- ── Materials ── -->
     <ng-container *ngSwitchCase="'materials'">
-      <ion-input
-        class="sheet-field-input"
-        type="text"
-        labelPlacement="floating"
-        label="Material name"
-        [(ngModel)]="materialForm.material_name"
-        name="mname"
-      ></ion-input>
-      <ion-input
-        class="sheet-field-input"
-        type="text"
-        labelPlacement="floating"
-        label="Unit"
-        placeholder="meter, roll, piece, kgâ€¦"
-        [(ngModel)]="materialForm.unit"
-        name="munit"
-      ></ion-input>
-      <ion-input
-        class="sheet-field-input"
-        type="text"
-        labelPlacement="floating"
-        label="Description"
-        placeholder="Optional"
-        [(ngModel)]="materialForm.description"
-        name="mdesc"
-      ></ion-input>
+      <ion-input class="sheet-field-input" type="text" labelPlacement="floating"
+        label="Material name *" [(ngModel)]="materialForm.material_name" name="mname">
+      </ion-input>
+      <ion-select class="sheet-field-input" labelPlacement="floating"
+        label="Unit *" [(ngModel)]="materialForm.unit" name="munit"
+        interface="action-sheet">
+        <ion-select-option value="meter">Meter</ion-select-option>
+        <ion-select-option value="roll">Roll</ion-select-option>
+        <ion-select-option value="piece">Piece</ion-select-option>
+        <ion-select-option value="kg">Kilogram</ion-select-option>
+      </ion-select>
+      <ion-input class="sheet-field-input" type="text" labelPlacement="floating"
+        label="Description" placeholder="Optional"
+        [(ngModel)]="materialForm.description" name="mdesc">
+      </ion-input>
     </ng-container>
 
+    <!-- ── Work Types ── -->
     <ng-container *ngSwitchCase="'work-types'">
-      <ion-input
-        class="sheet-field-input"
-        type="text"
-        labelPlacement="floating"
-        label="Work type name"
-        [(ngModel)]="workTypeForm.name"
-        name="wtname"
-      ></ion-input>
+      <ion-input class="sheet-field-input" type="text" labelPlacement="floating"
+        label="Work type name *" [(ngModel)]="workTypeForm.name" name="wtname">
+      </ion-input>
     </ng-container>
+
+    <!-- ── Material Inward ── -->
+    <ng-container *ngSwitchCase="'material-inward'">
+      <ion-select class="sheet-field-input" labelPlacement="floating"
+        label="Supplier *" [(ngModel)]="inwardForm.supplier" name="isupplier"
+        interface="action-sheet" placeholder="Select supplier">
+        <ion-select-option *ngFor="let s of suppliersList" [value]="s.id">{{ s.name }}</ion-select-option>
+      </ion-select>
+      <ion-select class="sheet-field-input" labelPlacement="floating"
+        label="Material *" [(ngModel)]="inwardForm.material" name="imaterial"
+        interface="action-sheet" placeholder="Select material">
+        <ion-select-option *ngFor="let m of materialsList" [value]="m.id">{{ m.material_name }} ({{ m.unit }})</ion-select-option>
+      </ion-select>
+      <ion-input class="sheet-field-input" type="number" labelPlacement="floating"
+        label="Quantity *" placeholder="e.g. 100"
+        [(ngModel)]="inwardForm.quantity" name="iqty" inputmode="decimal">
+      </ion-input>
+      <ion-input class="sheet-field-input" type="date" labelPlacement="floating"
+        label="Received date *"
+        [(ngModel)]="inwardForm.received_date" name="idate">
+      </ion-input>
+      <ion-input class="sheet-field-input" type="text" labelPlacement="floating"
+        label="Remarks" placeholder="Optional"
+        [(ngModel)]="inwardForm.remarks" name="iremarks">
+      </ion-input>
+    </ng-container>
+
+    <!-- ── Work Distribution ── -->
+    <ng-container *ngSwitchCase="'distributions'">
+      <ion-select class="sheet-field-input" labelPlacement="floating"
+        label="Worker *" [(ngModel)]="distributionForm.worker" name="dworker"
+        interface="action-sheet" placeholder="Select worker">
+        <ion-select-option *ngFor="let w of workersList" [value]="w.id">{{ w.name }}</ion-select-option>
+      </ion-select>
+      <ion-select class="sheet-field-input" labelPlacement="floating"
+        label="Work type *" [(ngModel)]="distributionForm.work_type" name="dwtype"
+        interface="action-sheet" placeholder="Select work type">
+        <ion-select-option *ngFor="let t of workTypesList" [value]="t.id">{{ t.name }}</ion-select-option>
+      </ion-select>
+      <ion-input class="sheet-field-input" type="number" labelPlacement="floating"
+        label="Lot size *" placeholder="Number of pieces"
+        [(ngModel)]="distributionForm.lot_size" name="dlot" inputmode="numeric">
+      </ion-input>
+      <ion-input class="sheet-field-input" type="date" labelPlacement="floating"
+        label="Distributed date *"
+        [(ngModel)]="distributionForm.distributed_date" name="ddate">
+      </ion-input>
+      <ion-input class="sheet-field-input" type="date" labelPlacement="floating"
+        label="Expected return date" placeholder="Optional"
+        [(ngModel)]="distributionForm.expected_return_date" name="dreturn">
+      </ion-input>
+    </ng-container>
+
+    <!-- ── Work Received ── -->
+    <ng-container *ngSwitchCase="'work-received'">
+      <ion-select class="sheet-field-input" labelPlacement="floating"
+        label="Distribution *" [(ngModel)]="workReceivedForm.distribution" name="rdist"
+        interface="action-sheet" placeholder="Select distribution">
+        <ion-select-option *ngFor="let d of distributionsList" [value]="d.id">
+          #{{ d.id }} · {{ d.worker_name }} · {{ d.work_type_name }} ({{ d.lot_size }})
+        </ion-select-option>
+      </ion-select>
+      <ion-input class="sheet-field-input" type="number" labelPlacement="floating"
+        label="Received quantity *" placeholder="Number of pieces"
+        [(ngModel)]="workReceivedForm.received_quantity" name="rqty" inputmode="numeric">
+      </ion-input>
+      <ion-input class="sheet-field-input" type="date" labelPlacement="floating"
+        label="Received date *"
+        [(ngModel)]="workReceivedForm.received_date" name="rdate">
+      </ion-input>
+      <ion-input class="sheet-field-input" type="text" labelPlacement="floating"
+        label="Remarks" placeholder="Optional"
+        [(ngModel)]="workReceivedForm.remarks" name="rremarks">
+      </ion-input>
+    </ng-container>
+
   </ng-container>
 </app-add-form-sheet>
-

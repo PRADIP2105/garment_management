@@ -8,14 +8,10 @@
   class="premium-sheet-modal"
 >
   <ng-template>
-    <ion-header class="ion-no-border sheet-header">
-      <ion-toolbar>
-        <ion-title class="sheet-toolbar-title">{{ title }}</ion-title>
-        <ion-buttons slot="end">
-          <ion-button fill="clear" color="medium" (click)="onCancel()">Cancel</ion-button>
-        </ion-buttons>
-      </ion-toolbar>
-    </ion-header>
+    <div class="sheet-header-bar">
+      <span class="sheet-header-title">{{ title }}</span>
+      <button class="sheet-cancel-btn" (click)="onCancel()">Cancel</button>
+    </div>
 
     <ion-content class="sheet-body">
       <div class="sheet-fields ion-padding-horizontal">
@@ -27,7 +23,6 @@
           expand="block"
           shape="round"
           class="sheet-save-btn"
-          style="--background:linear-gradient(135deg,#10b981 0%,#059669 100%);--background-activated:#047857;--color:#fff;"
           (click)="onSave()"
         >
           {{ saveLabel }}

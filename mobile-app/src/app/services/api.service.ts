@@ -318,4 +318,36 @@ export class ApiService {
   getWorkReceived(): Observable<unknown> {
     return this.getReq(`${this.apiUrl}/work/received/`);
   }
+
+  createMaterialInward(data: {
+    supplier: number;
+    material: number;
+    quantity: string;
+    received_date: string;
+    remarks?: string;
+  }): Observable<unknown> {
+    return this.postReq(`${this.apiUrl}/work/inwards/`, data);
+  }
+
+  createWorkDistribution(data: {
+    worker: number;
+    work_type: number;
+    lot_size: number;
+    distributed_date: string;
+    expected_return_date?: string;
+    issued_materials: { material: number; issued_quantity: string }[];
+  }): Observable<unknown> {
+    return this.postReq(`${this.apiUrl}/work/distributions/`, data);
+  }
+
+  createWorkReturn(data: {
+    distribution: number;
+    completed_quantity: number;
+    pending_quantity: number;
+    wastage_quantity?: string;
+    return_date: string;
+    returned_materials: { material: number; returned_quantity: string }[];
+  }): Observable<unknown> {
+    return this.postReq(`${this.apiUrl}/work/returns/`, data);
+  }
 }

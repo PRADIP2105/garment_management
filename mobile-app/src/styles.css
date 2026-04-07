@@ -28,7 +28,22 @@
 }
 
 body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  /* Use system fonts first to avoid loading/rendering issues on mobile */
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* Toolbar title color for green headers */
+ion-title {
+  color: inherit;
+}
+
+/* Ensure back button and menu button are white in colored toolbars */
+.dash-header ion-back-button,
+.dash-header ion-menu-button,
+.module-shell-header ion-back-button,
+.module-shell-header ion-menu-button {
+  --color: #ffffff;
+  color: #ffffff;
 }
 
 /* Premium shell: transparent toolbars unless a color is set (e.g. dashboard). */
@@ -44,34 +59,6 @@ ion-header ion-toolbar[color='primary'] {
 /* Toolbar titles when using ion-title inside colored bars */
 ion-toolbar[color] ion-title {
   color: var(--ion-color-primary-contrast, #fff);
-}
-
-/* Alert action buttons: ensure visible contrast on Android (Material) */
-ion-alert.app-alert .alert-button,
-ion-alert.app-alert .alert-button-inner {
-  color: var(--ion-color-primary) !important;
-}
-ion-alert.app-alert .alert-button[role="cancel"] .alert-button-inner,
-ion-alert.app-alert .alert-button.cancel-button .alert-button-inner {
-  color: #475569 !important;
-}
-ion-alert.app-alert .alert-button-group {
-  padding: 8px 8px 16px;
-}
-
-/* Any ion-alert: readable action labels (Material can render low-contrast text) */
-ion-alert .alert-button .alert-button-inner {
-  color: var(--ion-color-primary) !important;
-}
-ion-alert .alert-button[role="cancel"] .alert-button-inner {
-  color: #475569 !important;
-}
-
-ion-alert.alert-message-pre .alert-message {
-  text-align: start;
-  white-space: pre-wrap;
-  max-height: 60vh;
-  overflow-y: auto;
 }
 
 ion-toolbar[color] ion-buttons[slot='start'] ion-back-button {
@@ -98,23 +85,8 @@ ion-item {
   --background: white;
 }
 
-.login-container, .register-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  height: 100%;
-  max-width: 450px;
-  margin: 0 auto;
-}
-
-.form-card {
-  background: white;
-  padding: 24px;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-}
-
 h1 {
+  font-size: 1.2rem;
   font-weight: 700;
   color: #1a1a1a;
   margin-bottom: 8px;

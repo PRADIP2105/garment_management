@@ -6,6 +6,11 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { environment } from '../../../environments/environment';
 import { switchMap } from 'rxjs/operators';
+import { addIcons } from 'ionicons';
+import {
+  shirtOutline, personCircleOutline, personOutline, lockClosedOutline,
+  eyeOutline, eyeOffOutline
+} from 'ionicons/icons';
 
 @Component({
   selector: 'app-login',
@@ -27,7 +32,9 @@ export class LoginPage implements OnInit {
     private router: Router,
     private loadingController: LoadingController,
     private alertController: AlertController
-  ) {}
+  ) {
+    addIcons({ shirtOutline, personCircleOutline, personOutline, lockClosedOutline, eyeOutline, eyeOffOutline });
+  }
 
   ngOnInit() {
     if (this.apiService.getToken()) {
